@@ -1,10 +1,13 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import { ButtonLight, TextButton } from "../../components/styled/buttons";
 
 export default function Login() {
   return (
     <View>
-      <Text>Login</Text>
+      <ButtonLight style={{backgroundColor:'blue'}}>
+        <TextButton >oi</TextButton>
+      </ButtonLight>
     </View>
   );
 }
