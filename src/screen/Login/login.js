@@ -13,6 +13,10 @@ import * as AppColors from "../../assets/AppColors";
 export default function Login() {
   const input2 = useRef();
   const [loading, setLoading] = useState(false);
+  const [errorEmail, setErrorEmail] = useState("");
+  const [valueEmail, setValueEmail] = useState("");
+  const [errorPass, setErrorPass] = useState("");
+  const [valuePass, setValuePass] = useState("");
 
   return (
     <SafeAreaView
@@ -25,13 +29,28 @@ export default function Login() {
       <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
       <TextLogo>pets</TextLogo>
       <Input
+        onChangeText={setValueEmail}
+        error={errorEmail}
         keyboardType={"email-address"}
         autoCapitalize={"none"}
-        onSubmitEditing={() => input2.current.focus()}
+        onSubmitEditing={() => {
+          valueEmail == ""
+            ? setErrorEmail(!errorEmail)
+            : input2.current.focus();
+        }}
         placeholder="email"
         style={{ marginVertical: 28 * rem }}
       />
-      <Input ref={input2} placeholder="senha" secureTextEntry />
+      <Input
+        onChangeText={setValuePass}
+        onSubmitEditing={() => {
+          valuePass == "" ? setErrorPass(!errorPass) : {};
+        }}
+        error={errorPass}
+        ref={input2}
+        placeholder="senha"
+        secureTextEntry
+      />
       <TouchableOpacity>
         <Text
           style={{
@@ -45,6 +64,7 @@ export default function Login() {
         </Text>
       </TouchableOpacity>
       <ButtonLight
+        loading={loading}
         onPress={() => setLoading(!loading)}
         text={"entrar"}
         style={{ marginTop: 13 * rem }}

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, forwardRef } from "react";
+import React, { useRef, useEffect, forwardRef, useState } from "react";
 import { Dimensions } from "react-native";
 import styled from "styled-components";
 import * as AppColors from "../assets/AppColors";
@@ -37,6 +37,7 @@ const MaskInput = styled.TextInput`
   height: ${50 * rem}px;
   width: ${270 * rem}px;
 `;
+const AnimatedMaskView = Animatable.createAnimatableComponent(MaskView);
 export const Input = forwardRef(
   (
     {
@@ -46,12 +47,27 @@ export const Input = forwardRef(
       onSubmitEditing,
       autoCapitalize,
       keyboardType,
+      error,
+      animation,
+      value,
+      onChangeText,
     },
     ref
   ) => {
+    const animatedInput = useRef();
+    const [firstRender, setFirstRender] = useState(true);
+
+    useEffect(() => {
+      firstRender
+        ? setFirstRender(false)
+        : animatedInput.current.animate(animation ? animation : "bounce");
+    }, [error]);
+
     return (
-      <MaskView style={style}>
+      <AnimatedMaskView ref={animatedInput} error={error} style={style}>
         <MaskInput
+          value={value}
+          onChangeText={onChangeText}
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           ref={ref}
@@ -59,7 +75,7 @@ export const Input = forwardRef(
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
         ></MaskInput>
-      </MaskView>
+      </AnimatedMaskView>
     );
   }
 );
