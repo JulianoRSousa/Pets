@@ -1,26 +1,28 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import {
   View,
+  SafeAreaView,
   Text,
   Image,
   StatusBar,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
 
 export default function Login() {
   const input2 = useRef();
+  const [loading, setLoading] = useState(false);
+
   return (
-    <View
+    <SafeAreaView
       style={{
         backgroundColor: AppColors.OrangeBase,
         flex: 1,
         alignItems: "center",
       }}
     >
-      <StatusBar translucent={true} backgroundColor={AppColors.Transparent} />
+      <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
       <TextLogo>pets</TextLogo>
       <Input
         keyboardType={"email-address"}
@@ -42,7 +44,11 @@ export default function Login() {
           Esqueceu sua senha?
         </Text>
       </TouchableOpacity>
-      <ButtonLight text={"entrar"} style={{ marginTop: 13 * rem }} />
+      <ButtonLight
+        onPress={() => setLoading(!loading)}
+        text={"entrar"}
+        style={{ marginTop: 13 * rem }}
+      />
       <ButtonLight text={"criar conta"} style={{ marginVertical: 27 * rem }} />
       <Text
         style={{
@@ -80,6 +86,6 @@ export default function Login() {
           <Image />
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 import styled from "styled-components";
 import * as AppColors from "../assets/AppColors";
 import * as AppFonts from "../assets/AppFonts";
+import * as Animatable from "react-native-animatable";
 
 export const rem = Dimensions.get("window").width / 380;
 
@@ -74,17 +75,52 @@ const MaskButtonLight = styled.TouchableOpacity`
   shadow-color: #000;
   elevation: 3;
 `;
-const TextButtonLight = styled.Text`
-  color: white;
-  text-align: center;
-  font-size: ${23 * rem}px;
-  font-family: "Delius";
-`;
+const zoomOut = {
+  0: {
+    scale: 1,
+  },
+  0.2: {
+    scale: 0.8,
+  },
+  0.5: {
+    scale: 0.5,
+  },
+  0.8: {
+    scale: 0.8,
+  },
+  1: {
+    scale: 1,
+  },
+};
 
-export const ButtonLight = ({ text, style, onPress }) => {
+export const ButtonLight = ({ text, style, onPress, loading }) => {
+  const animationText = useRef();
+
+  useEffect(() => {
+    loading
+      ? animationText.current.animate(zoomOut)
+      : animationText.current.stopAnimation();
+  });
+
   return (
-    <MaskButtonLight onPress={onPress} style={style}>
-      <TextButtonLight>{text}</TextButtonLight>
+    <MaskButtonLight loading={loading} onPress={onPress} style={style}>
+      <Animatable.Text
+        ref={animationText}
+        animation={zoomOut}
+        easing="ease"
+        duration={1000}
+        useNativeDriver={true}
+        iterationCount={"infinite"}
+        style={{
+          color: "white",
+          textAlign: "center",
+          fontFamily: "Delius",
+          fontSize: 23 * rem,
+          textAlignVertical: "center",
+        }}
+      >
+        {text}
+      </Animatable.Text>
     </MaskButtonLight>
   );
 };
