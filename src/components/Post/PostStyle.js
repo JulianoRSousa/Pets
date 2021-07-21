@@ -1,110 +1,81 @@
 import React from "react";
-import { Dimensions, View, Image, TouchableOpacity, Text } from "react-native";
-import styled from "styled-components";
+import { View, Image, TouchableOpacity, Text } from "react-native";
 import * as AppColors from "../../assets/AppColors";
 
-const rem = Dimensions.get("window").width / 380;
-
 function PostStyle(props) {
-  const PostContainer = styled.TouchableOpacity`
-    background-color: ${AppColors.White};
-    margin: 15px;
-    width: ${350 * rem}px;
-    height: ${178 * rem}px;
-    border-top-left-radius: ${20 * rem}px;
-    border-bottom-right-radius: ${20 * rem}px;
-    align-self: center;
-  `;
-
-  const PostHeaderContainer = styled.View`
-    flex-direction: row;
-    height: ${50 * rem}px;
-    align-self: center;
-    justify-content: flex-start;
-  `;
-
-  const IconFollow = styled.Image`
-    height: ${16 * rem}px;
-    width: ${16 * rem}px;
-    margin-left: 15px;
-    margin-right: 2px;
-    align-self: center;
-  `;
-
-  const UserImage = styled.Image`
-    height: ${37 * rem}px;
-    width: ${37 * rem}px;
-    border-radius: 20px;
-    margin-left: 6px;
-    margin-right: 2px;
-    align-self: center;
-  `;
-  const UserName = styled.Text`
-    font-family: "Delius";
-    font-size: 17px;
-  `;
-
-  const UserHash = styled.Text`
-    font-family: "Delius";
-    font-size: 8px;
-  `;
-
-  const PostInternalContainer = styled.View`
-    flex-direction: row;
-    margin-left: 15px;
-    flex: 1;
-    justify-content: space-between;
-  `;
-
-  const PostImage = styled.Image`
-    height: ${116 * rem}px;
-    width: ${116 * rem}px;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-  `;
-
-  const PetName = styled.Text`
-    border-top-width: 1px;
-    border-color: ${AppColors.GrayLight};
-    font-family: "Quicksand-Bold";
-    font-size: 20px;
-    padding-left: 10px;
-    margin-bottom: 6px;
-    align-self: flex-start;
-  `;
-  const PostDescription = styled.Text`
-    height: ${65 * rem}px;
-    width: ${185 * rem}px;
-    font-family: "Quicksand";
-    font-size: 12px;
-    padding-left: 10px;
-    margin-bottom: 2px;
-  `;
-  const IconsContainer = styled.View`
-    flex-direction: row;
-    justify-content: center;
-    align-self: center;
-  `;
+  const userImage = props.userImage;
+  const fullName = props.fullName;
+  const postImage = props.postImage
+    ? props.postImage
+    : require("../../assets/images/googleIcon.png");
+  const petName = props.petName ? props.petName : "Sem nome";
 
   return (
     <View>
-      <PostContainer>
-        <PostHeaderContainer>
+      <View
+        style={{
+          backgroundColor: AppColors.White,
+          margin: 15,
+          width: 350,
+          height: 178,
+          borderTopLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          alignSelf: "center",
+        }}
+      >
+        <View
+          style={{
+            flexDirection: "row",
+            height: 50,
+            alignSelf: "center",
+            justifyContent: "flex-start",
+          }}
+        >
           <View style={{ flex: 1, flexDirection: "row" }}>
-            <IconFollow
-              source={require("../../assets/images/FollowIcon.png")}
-            />
-            <View
+            <TouchableOpacity
+              style={{ marginLeft: 15, marginRight: 2, alignSelf: "center" }}
+            >
+              <Image
+                style={{
+                  height: 16,
+                  width: 16,
+                }}
+                source={require("../../assets/images/FollowIcon.png")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{ flexDirection: "row", justifyContent: "flex-start" }}
             >
-              <UserImage
-                source={props.userImage}
+              <Image
+                style={{
+                  height: 37,
+                  width: 37,
+                  borderRadius: 20,
+                  marginLeft: 6,
+                  marginRight: 2,
+                  alignSelf: "center",
+                }}
+                source={userImage}
               />
               <View>
-                <UserName>{props.firstName}</UserName>
-                <UserHash>@{props.username}</UserHash>
+                <Text
+                  style={{
+                    fontFamily: "Delius",
+                    fontSize: 17,
+                  }}
+                >
+                  {fullName}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: "Delius",
+                    fontSize: 8,
+                  }}
+                >
+                  @{props.username}
+                </Text>
               </View>
-            </View>
+            </TouchableOpacity>
           </View>
           <View
             style={{
@@ -126,14 +97,51 @@ function PostStyle(props) {
               </Text>
             </TouchableOpacity>
           </View>
-        </PostHeaderContainer>
-        <PostInternalContainer>
-          <PostImage source={props.source} />
+        </View>
+        <TouchableOpacity
+        onLongPress={()=>console.log('longpress')}
+          style={{
+            flexDirection: "row",
+            marginLeft: 15,
+            flex: 1,
+            justifyContent: "space-between",
+          }}
+        >
+          <Image
+            style={{
+              height: 116,
+              width: 116,
+              borderTopLeftRadius: 20,
+              borderBottomRightRadius: 20,
+            }}
+            source={postImage}
+          />
           <View style={{ flex: 1 }}>
-            <PetName>{props.petName}</PetName>
-            <PostDescription>
+            <Text
+              style={{
+                borderTopWidth: 1,
+                borderColor: AppColors.GrayLight,
+                fontFamily: "Quicksand-Bold",
+                fontSize: 20,
+                paddingLeft: 10,
+                marginBottom: 6,
+                alignSelf: "flex-start",
+              }}
+            >
+              {petName}
+            </Text>
+            <Text
+              style={{
+                height: 65,
+                width: 185,
+                fontFamily: "Quicksand",
+                fontSize: 12,
+                paddingLeft: 10,
+                marginBottom: 2,
+              }}
+            >
               {props.description}
-            </PostDescription>
+            </Text>
             <View
               style={{
                 flexDirection: "row",
@@ -149,12 +157,14 @@ function PostStyle(props) {
                   textAlignVertical: "center",
                   fontFamily: "Quicksand-Bold",
                 }}
-              >{props.date}
+              >
+                {props.date}
               </Text>
               <View
                 style={{
                   heigth: 30,
-                  backgroundColor: props.state == 1 ? AppColors.RedBase : AppColors.BlueBase,
+                  backgroundColor:
+                    props.state == 1 ? AppColors.RedBase : AppColors.BlueBase,
                   borderBottomRightRadius: 20,
                   borderTopLeftRadius: 20,
                 }}
@@ -168,18 +178,20 @@ function PostStyle(props) {
                     marginHorizontal: 6,
                   }}
                 >
-                  {props.state == 1 ? 'perdido' : 'encontrado'}
+                  {props.state == 1 ? "perdido" : "encontrado"}
                 </Text>
               </View>
             </View>
           </View>
-        </PostInternalContainer>
-      </PostContainer>
-      <IconsContainer
+        </TouchableOpacity>
+      </View>
+      <View
         style={{
+          flexDirection: "row",
           height: 52,
           borderBottomWidth: 1,
-          borderColor: AppColors.TransparentWhite,
+          borderColor: AppColors.White,
+          alignSelf: "center",
         }}
       >
         <TouchableOpacity>
@@ -206,7 +218,7 @@ function PostStyle(props) {
             source={require("../../assets/images/ShareIcon.png")}
           />
         </TouchableOpacity>
-      </IconsContainer>
+      </View>
     </View>
   );
 }
