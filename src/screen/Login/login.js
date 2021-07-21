@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   SafeAreaView,
@@ -9,14 +9,20 @@ import {
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
+import { useNavigation } from "@react-navigation/native";
 
-export default function Login() {
+function Login() {
+  const input1 = useRef();
   const input2 = useRef();
+  const input3 = useRef();
+  const input4 = useRef();
+  const input5 = useRef();
   const [loading, setLoading] = useState(false);
   const [errorEmail, setErrorEmail] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [errorPass, setErrorPass] = useState("");
   const [valuePass, setValuePass] = useState("");
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView
@@ -69,8 +75,12 @@ export default function Login() {
         text={"entrar"}
         style={{ marginTop: 13 * rem }}
       />
-      <ButtonLight text={"criar conta"} style={{ marginVertical: 27 * rem }} />
-      <Text
+      <ButtonLight
+        text={"criar conta"}
+        onPress={() => navigation.navigate("CreateAccount")}
+        style={{ marginVertical: 27 * rem }}
+      />
+      {/* <Text
         style={{
           textAlign: "center",
           width: 300 * rem,
@@ -105,7 +115,9 @@ export default function Login() {
           />
           <Image />
         </TouchableOpacity>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }
+
+export default Login;
