@@ -2,33 +2,49 @@ import React, { useState, useEffect, useRef } from "react";
 import { FlatList, ActivityIndicator } from "react-native";
 import api from "../../services/api";
 import AsyncStorage from "@react-native-community/async-storage";
-import PostStyle from "./PostStyle";
+import PostItem from "./PostItem";
 import { useCallback } from "react";
 
 export default function PostView() {
+  const [userInfo, setUserInfo] = useState([]);
   const [page, setPage] = useState(0);
   const [feed, setFeed] = useState([]);
+  const [data, setData] = useState([]);
   const [lastPage, setLastPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const ref_flatlist = useRef();
+
   useEffect(() => {
-    loadPage();
-  });
+    refreshList();
+  }, []);
+
+  async function getUser() {
+    await api
+      .get("/loadUser", {
+        headers: {
+          token: await AsyncStorage.getItem("token"),
+        },
+      })
+      .then((response) => setUserInfo(response.data));
+  }
+
   async function loadPage(pageNumber = page, shouldRefresh = false) {
     if (lastPage && pageNumber == lastPage) return;
     setLoading(true);
     try {
-      const response = await api.get("/getPage", {
-        headers: {
-          token: await AsyncStorage.getItem("token"),
-          page: pageNumber,
-        },
-      });
-      response.headers.pages && setLastPage(response.headers.pages);
-      const data = response.data;
-      setFeed(data);
+      const response = await api
+        .get("/getPage", {
+          headers: {
+            token: await AsyncStorage.getItem("token"),
+            page: pageNumber,
+          },
+        })
+        .then((res) => {
+          setLastPage(res.headers.pages);
+          setFeed(shouldRefresh ? res.data : [...feed, res.data]);
+        });
       setPage(pageNumber + 1);
       setLoading(false);
     } catch (error) {
@@ -52,8 +68,8 @@ export default function PostView() {
 
   const renderItem = useCallback(
     ({ item }) => (
-      <PostStyle
-        fullName={item.user.firstName + " " + item.user.lastName}
+      <PostItem
+        fullName={item.user.firstName}
         username={item.user.username}
         postImage={{ uri: item.picture_url }}
         petName={item.pet.firstName}
@@ -78,21 +94,23 @@ export default function PostView() {
   );
   return (
     <FlatList
+      // legacyImplementation={true}
+      // windowSize={2160}
       data={feed}
       ref={ref_flatlist}
-      removeClippedSubviews={true}
+      // removeClippedSubviews={true}
       onEndReached={() => loadPage()}
       onRefresh={refreshList}
       refreshing={refreshing}
-      getItemLayout={getItemLayout}
+      // getItemLayout={getItemLayout}
       vertical
-      initialNumToRender={15}
+      // initialNumToRender={15}
       ListFooterComponent={loading && showLoad()}
-      renderItem={renderItem}
       keyExtractor={keyExtractor}
+      renderItem={renderItem}
 
       // ({ item }) => (
-      // <PostStyle
+      // <PostItem
       //   firstName={item.user.firstName}
       //   lastName={item.user.lastName}
       //   username={item.user.username}

@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
 import * as AppColors from "../../assets/AppColors";
-import FastImage from 'react-native-fast-image'
+import FastImage from "react-native-fast-image";
 
-function PostStyle(props) {
+function PostItem(props) {
   const userImage = props.userImage;
   const fullName = props.fullName;
   const postImage = props.postImage
@@ -100,7 +100,7 @@ function PostStyle(props) {
           </View>
         </View>
         <TouchableOpacity
-        onLongPress={()=>console.log('longpress')}
+          onLongPress={() => console.log("longpress")}
           style={{
             flexDirection: "row",
             marginLeft: 15,
@@ -108,12 +108,13 @@ function PostStyle(props) {
             justifyContent: "space-between",
           }}
         >
-          <Image
+          <FastImage
             style={{
-              height: 116,
               width: 116,
+              height: 116,
               borderTopLeftRadius: 20,
               borderBottomRightRadius: 20,
+              backgroundColor: "red",
             }}
             source={postImage}
           />
@@ -223,4 +224,4 @@ function PostStyle(props) {
     </View>
   );
 }
-export default PostStyle;
+export default PostItem;
