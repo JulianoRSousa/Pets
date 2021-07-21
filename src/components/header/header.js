@@ -1,11 +1,12 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React from "react";
-import { Dimensions } from "react-native";
+import { Dimensions, View } from "react-native";
 import styled from "styled-components";
 import * as AppColors from "../../assets/AppColors";
 
 function Header(props) {
   const navigation = useNavigation();
+  const route = useRoute();
   const rem = Dimensions.get("window").width / 380;
   const HeaderContainer = styled.View`
     background-color: ${AppColors.OrangeBase};
@@ -65,22 +66,24 @@ function Header(props) {
   return (
     <HeaderContainer style={props.style}>
       <HeaderItemsContainer>
-        {props.showBackButton ? (
-          <BackButtonContainer onPress={()=> navigation.canGoBack() ? navigation.goBack() : {}}>
+        {navigation.canGoBack() ? (
+          <BackButtonContainer
+            onPress={() => (navigation.canGoBack() ? navigation.goBack() : {})}
+          >
             <BackButtonImage
               source={require("../../assets/images/BackButtonIcon.png")}
             />
           </BackButtonContainer>
         ) : (
-          <></>
+          <View style={{ height: 38 * rem, width: 38 * rem }}></View>
         )}
-        <TitleContainer>{props.tittle}</TitleContainer>
+        <TitleContainer>{props.showTittle ? route.name : ""}</TitleContainer>
         {props.showMenu ? (
-          <MenuContainer>
+          <MenuContainer onPress={()=> navigation.toggleDrawer()}>
             <MenuIcon source={require("../../assets/images/MenuIcon.png")} />
           </MenuContainer>
         ) : (
-          <></>
+          <View style={{ height: 35 * rem, width: 38 * rem }}></View>
         )}
       </HeaderItemsContainer>
     </HeaderContainer>

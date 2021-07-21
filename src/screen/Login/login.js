@@ -6,23 +6,36 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
 import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../../hooks/Auth";
 
 function Login() {
-  const input1 = useRef();
   const input2 = useRef();
-  const input3 = useRef();
-  const input4 = useRef();
-  const input5 = useRef();
-  const [loading, setLoading] = useState(false);
   const [errorEmail, setErrorEmail] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [errorPass, setErrorPass] = useState("");
   const [valuePass, setValuePass] = useState("");
   const navigation = useNavigation();
+  const { signIn, loading } = useAuth();
+
+
+
+
+  async function handleSignIn() {
+    console.log('startHandlew')
+    navigation.reset;
+    const res = await signIn(valueEmail, valuePass)
+    console.log(res)
+    if ((res != null && String(res).includes('Request failed with status code 401'))) {
+      Alert.alert('Erro', 'Usuário ou senha invalidos',)
+      // modal.ShowModal('OneButton', 'Falha na autenticação', 'Usuário ou senha invalidos', 'Tentar novamente', '', () => onPressOne)
+    }
+  }
+
 
   return (
     <SafeAreaView
@@ -50,7 +63,7 @@ function Login() {
       <Input
         onChangeText={setValuePass}
         onSubmitEditing={() => {
-          valuePass == "" ? setErrorPass(!errorPass) : {};
+          valuePass == "" ? setErrorPass(!errorPass) : handleSignIn();
         }}
         error={errorPass}
         ref={input2}
@@ -71,13 +84,13 @@ function Login() {
       </TouchableOpacity>
       <ButtonLight
         loading={loading}
-        onPress={() => setLoading(!loading)}
         text={"entrar"}
+        onPress={()=> handleSignIn()}
         style={{ marginTop: 13 * rem }}
       />
       <ButtonLight
         text={"criar conta"}
-        onPress={() => navigation.navigate("CreateAccount")}
+        onPress={() => navigation.navigate("Criar Conta")}
         style={{ marginVertical: 27 * rem }}
       />
       {/* <Text

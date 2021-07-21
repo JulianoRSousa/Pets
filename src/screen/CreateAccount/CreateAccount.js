@@ -11,13 +11,13 @@ import {
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { useAuth } from "../../hooks/Auth";
 
 function CreateAccount() {
   const input2 = useRef();
   const input3 = useRef();
   const input4 = useRef();
   const input5 = useRef();
-  const [loading, setLoading] = useState(false);
   const [errorFullName, setErrorFullName] = useState("");
   const [valueFullName, setValueFullName] = useState("");
   const [errorBirthDate, setErrorBirthDate] = useState("");
@@ -28,6 +28,8 @@ function CreateAccount() {
   const [valuePass, setValuePass] = useState("");
   const [errorRepeatPass, setErrorRepeatPass] = useState("");
   const [valueRepeatPass, setValueRepeatPass] = useState("");
+  const [termsCheckBox, setTermsCheckBox] = useState(false);
+  const { signIn, loading } = useAuth();
 
   return (
     <SafeAreaView
@@ -39,7 +41,7 @@ function CreateAccount() {
     >
       <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
 
-      <TextLogo style={{ height: 120 * rem, fontSize: 80 * rem }}>
+      <TextLogo style={{ height: 100 * rem, fontSize: 70 * rem }}>
         pets
       </TextLogo>
       <View
@@ -126,32 +128,39 @@ function CreateAccount() {
         secureTextEntry
         style={{ marginVertical: 6 * rem }}
       />
-      <BouncyCheckbox
-            size={18 * rem}
-            fillColor={AppColors.BlueBase}
-            unfillColor="#fff"
-            iconStyle={{ borderColor: AppColors.baseLight }}
-            textStyle={{ fontFamily: "SomethingRegular" }}
-            onPress={() => setTermsCheckBox(!termsCheckBox)}
-            useNativeDriver={true}
-          />
-      <TouchableOpacity>
-        <Text
-          style={{
-            fontFamily: "Delius",
-            textAlign: "center",
-            width: 300 * rem,
-            fontSize: 10 * rem,
-            color: AppColors.White,
-            marginTop: 7 * rem,
-          }}
-        >
-          li e aceito os termos e condições disponiveis nesse link
-        </Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          marginTop: 7 * rem,
+        }}
+      >
+        <BouncyCheckbox
+          size={18 * rem}
+          fillColor={AppColors.BlueBase}
+          unfillColor="#fff"
+          iconStyle={{ borderColor: AppColors.White }}
+          textStyle={{ fontFamily: "SomethingRegular" }}
+          onPress={() => setTermsCheckBox(!termsCheckBox)}
+          useNativeDriver={true}
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              fontFamily: "Delius",
+              textAlign: "center",
+              fontSize: 10 * rem,
+              color: AppColors.White,
+            }}
+          >
+            li e aceito os termos e condições disponiveis nesse link
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       <ButtonLight
         text={"criar conta"}
+        onPress={() => Auth.setLogged(true)}
         style={{ marginTop: 28 * rem, marginBottom: 15 * rem }}
       />
       {/* <Text
