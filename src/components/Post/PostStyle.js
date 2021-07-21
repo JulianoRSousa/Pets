@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
 import * as AppColors from "../../assets/AppColors";
+import FastImage from 'react-native-fast-image'
 
 function PostStyle(props) {
   const userImage = props.userImage;
