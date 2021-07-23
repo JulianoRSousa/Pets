@@ -3,6 +3,8 @@ import React from "react";
 import { Dimensions, View } from "react-native";
 import styled from "styled-components";
 import * as AppColors from "../../assets/AppColors";
+import BackButtonIcon from "../../assets/images/BackButtonIcon";
+import MenuIcon from "../../assets/images/MenuIcon";
 
 function Header(props) {
   const navigation = useNavigation();
@@ -34,11 +36,6 @@ function Header(props) {
     justify-content: center;
     align-self: flex-start;
   `;
-  const BackButtonImage = styled.Image`
-    height: ${27 * rem}px;
-    width: ${30 * rem}px;
-  `;
-
   const MenuContainer = styled.TouchableOpacity`
     background-color: ${AppColors.OrangeDark};
     width: ${38 * rem}px;
@@ -47,11 +44,6 @@ function Header(props) {
     align-items: center;
     justify-content: center;
     align-self: flex-end;
-  `;
-
-  const MenuIcon = styled.Image`
-    width: ${38 * rem}px;
-    height: ${35 * rem}px;
   `;
 
   const TitleContainer = styled.Text`
@@ -67,23 +59,19 @@ function Header(props) {
     <HeaderContainer style={props.style}>
       <HeaderItemsContainer>
         {navigation.canGoBack() ? (
-          <BackButtonContainer
-            onPress={() => (navigation.canGoBack() ? navigation.goBack() : {})}
-          >
-            <BackButtonImage
-              source={require("../../assets/images/BackButtonIcon.png")}
-            />
+          <BackButtonContainer onPress={() => navigation.goBack()}>
+            <BackButtonIcon height={27} width={30} />
           </BackButtonContainer>
         ) : (
-          <View style={{ height: 38 * rem, width: 38 * rem }}></View>
+          <View style={{ height: 38 * rem, width: 38 * rem }} />
         )}
         <TitleContainer>{props.showTittle ? route.name : ""}</TitleContainer>
         {props.showMenu ? (
-          <MenuContainer onPress={()=> navigation.toggleDrawer()}>
-            <MenuIcon source={require("../../assets/images/MenuIcon.png")} />
+          <MenuContainer onPress={() => navigation.toggleDrawer()}>
+            <MenuIcon height={35} width={38} />
           </MenuContainer>
         ) : (
-          <View style={{ height: 35 * rem, width: 38 * rem }}></View>
+          <View style={{ height: 35 * rem, width: 38 * rem }} />
         )}
       </HeaderItemsContainer>
     </HeaderContainer>

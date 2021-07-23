@@ -10,6 +10,14 @@ import Adoption from "../screen/Adoption/Adoption";
 import MyProfile from "../screen/MyProfile/MyProfile";
 import * as AppColors from "../assets/AppColors";
 import { useRoute } from "@react-navigation/core";
+import TabIconNovo from "../assets/images/tabIconNovo.svg";
+import TabIconNovoFocused from "../assets/images/tabIconNovoFocused.svg";
+import TabIconMeuPerfil from "../assets/images/tabIconMeuPerfil.svg";
+import TabIconMeuPerfilFocused from "../assets/images/tabIconMeuPerfilFocused.svg";
+import TabIconAdocao from "../assets/images/tabIconAdocao.svg";
+import TabIconAdocaoFocused from "../assets/images/tabIconAdocaoFocused.svg";
+import TabIconFeed from "../assets/images/tabIconFeed.svg";
+import TabIconFeedFocused from "../assets/images/tabIconFeedFocused.svg";
 
 function App() {
   const AppStack = createStackNavigator();
@@ -86,21 +94,25 @@ function App() {
             borderRadius: 16,
             height: 57,
             width: 63,
-            marginTop: 22,
+            marginTop: 20,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></View>
+        >
+          <TabIconNovoFocused width={30} height={30} marginBottom={5} />
+        </View>
       ) : (
         <View
           style={{
-            backgroundColor: AppColors.OrangeBase,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
-            marginTop: 22,
+            marginTop: 20,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
+        >
+          <TabIconNovo width={30} height={30} marginBottom={5} />
+        </View>
       );
-    } else if (route.name == "") {
+    } else if (route.name == "Meu Perfil") {
       return props.focused ? (
         <View
           style={{
@@ -109,18 +121,22 @@ function App() {
             height: 57,
             width: 63,
             marginTop: 22,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></View>
+        >
+          <TabIconMeuPerfilFocused width={30} height={30} marginBottom={5} />
+        </View>
       ) : (
         <View
           style={{
-            backgroundColor: AppColors.OrangeBase,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
             marginTop: 22,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
+        >
+          <TabIconMeuPerfil width={30} height={30} marginBottom={5} />
+        </View>
       );
     } else if (route.name == "Adoção") {
       return props.focused ? (
@@ -131,10 +147,22 @@ function App() {
             height: 57,
             width: 63,
             marginTop: 22,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></View>
+        >
+          <TabIconAdocaoFocused width={30} height={30} marginBottom={5} />
+        </View>
       ) : (
-        <></>
+        <View
+          style={{
+            marginTop: 22,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TabIconAdocao width={30} height={30} marginBottom={5} />
+        </View>
       );
     } else {
       return props.focused ? (
@@ -145,18 +173,22 @@ function App() {
             height: 57,
             width: 63,
             marginTop: 22,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        ></View>
+        >
+          <TabIconFeedFocused width={30} height={30} marginBottom={5} />
+        </View>
       ) : (
         <View
           style={{
-            backgroundColor: AppColors.OrangeBase,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
             marginTop: 22,
+            justifyContent: "center",
+            alignItems: "center",
           }}
-        />
+        >
+          <TabIconFeed width={30} height={30} marginBottom={5} />
+        </View>
       );
     }
   }
@@ -173,7 +205,11 @@ function App() {
           activeTintColor: AppColors.OrangeBase,
           inactiveTintColor: AppColors.White,
           labelStyle: { fontFamily: "Delius", fontSize: 12 },
-          style: { backgroundColor: AppColors.OrangeBase, height: 64 },
+          style: {
+            backgroundColor: AppColors.OrangeBase,
+            height: 64,
+            justifyContent: "center",
+          },
         }}
       >
         <AppStack.Screen
