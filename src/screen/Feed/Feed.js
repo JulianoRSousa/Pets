@@ -1,13 +1,18 @@
 import React from "react";
+import { useEffect } from "react";
 import { View, StatusBar } from "react-native";
-import Post from "../../components/Post/Post";
 import * as AppColors from "../../assets/AppColors";
+import PostPage from "../../components/Post/Post";
 
 function Feed() {
+  useEffect(() => {
+    return <PostPage />;
+  });
+
   return (
-    <View style={{ backgroundColor: AppColors.OrangeBase, flex:1 }}>
+    <View style={{ backgroundColor: AppColors.OrangeBase, flex: 1 }}>
       <StatusBar backgroundColor={AppColors.OrangeBase} />
-      <Post />
+      <PostPage/>
     </View>
   );
 }

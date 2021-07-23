@@ -3,7 +3,7 @@ import { View, Image, TouchableOpacity, Text } from "react-native";
 import * as AppColors from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
 
-function PostItem(props) {
+function Post(props) {
   const userImage = props.userImage;
   const fullName = props.fullName;
   const postImage = props.postImage
@@ -224,4 +224,4 @@ function PostItem(props) {
     </View>
   );
 }
-export default PostItem;
+export default Post;

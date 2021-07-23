@@ -163,7 +163,10 @@ function CreateAccount() {
         onPress={() => Auth.setLogged(true)}
         style={{ marginTop: 28 * rem, marginBottom: 15 * rem }}
       />
-      {/* <Text
+
+      {/*
+      ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE
+      <Text
         style={{
           textAlign: "center",
           width: 300 * rem,
@@ -198,7 +201,8 @@ function CreateAccount() {
           />
           <Image />
         </TouchableOpacity>
-      </View> */}
+      </View>
+      ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE*/}
     </SafeAreaView>
   );
 }
