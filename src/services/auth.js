@@ -1,21 +1,5 @@
 import api from "./api";
-
-// interface Response {
-//   token: string;
-//   auth: boolean;
-//   user?: {
-//     id?: string;
-//     email?: string;
-//     username?: string;
-//     firstname?: string;
-//     lastname?: string;
-//     birthdate?: string;
-//     profilePictureUrl?: string;
-//     followersCount?: number;
-//     postsCount?: number;
-//     petsCount?: number;
-//   };
-// }
+import AsyncStorage from "@react-native-community/async-storage";
 
 export async function signIn(email, pass) {
   let createAuthPromise;
@@ -41,14 +25,35 @@ export async function signIn(email, pass) {
             username: Res.data.user.username,
             firstname: Res.data.user.firstName,
             lastname: Res.data.user.lastName,
-            birthdate: Res.data.user.birthdate,
+            birthdate: Res.data.user.birthDate,
             profilePictureUrl: Res.data.user.picture_url,
-            followersCount: Res.data.user.followerList.length,
-            postsCount: Res.data.user.postList.length,
-            petsCount: Res.data.user.petList.length,
+            followerCount: Res.data.user.followerList.length,
+            followerList: Res.data.user.followerList,
+            postCount: Res.data.user.postList.length,
+            postList: Res.data.user.postList,
+            petCount: Res.data.user.petList.length,
+            petList: Res.data.user.petList,
           },
         });
       });
     });
   return createAuthPromise;
+}
+
+export async function signOut() {
+  try {
+    const token = await AsyncStorage.getItem("@RNAuth:token");
+    await api
+      .delete("/deleteauth", {
+        headers: {
+          token,
+        },
+      })
+      .then(() => {
+        AsyncStorage.clear();
+      });
+  } catch (error) {
+    console.log(String(error));
+  }
+  return;
 }

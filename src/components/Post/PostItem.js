@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, Image, TouchableOpacity, Text } from "react-native";
-import * as AppColors from "../../assets/AppColors";
+import { White, GrayLight, RedBase, BlueBase} from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
+import StartIcon from '../../assets/images/StartIcon.svg';
+import StartIconClicked from '../../assets/images/StartIconClicked.svg';
+import CommentIcon from '../../assets/images/CommentIcon.svg';
+import ShareIcon from '../../assets/images/ShareIcon.svg';
+import { rem } from '../components';
 
 function Post(props) {
   const userImage = props.userImage;
@@ -10,36 +15,37 @@ function Post(props) {
     ? props.postImage
     : require("../../assets/images/googleIcon.png");
   const petName = props.petName ? props.petName : "Sem nome";
+  const [starState, setStarState] = useState(props.starStatus || false)
 
   return (
     <View>
       <View
         style={{
-          backgroundColor: AppColors.White,
-          margin: 15,
-          width: 350,
-          height: 178,
-          borderTopLeftRadius: 20,
-          borderBottomRightRadius: 20,
+          backgroundColor:White,
+          margin: 15*rem,
+          width: 350*rem,
+          height: 178*rem,
+          borderTopLeftRadius: 20*rem,
+          borderBottomRightRadius: 20*rem,
           alignSelf: "center",
         }}
       >
         <View
           style={{
             flexDirection: "row",
-            height: 50,
+            height: 50*rem,
             alignSelf: "center",
             justifyContent: "flex-start",
           }}
         >
           <View style={{ flex: 1, flexDirection: "row" }}>
             <TouchableOpacity
-              style={{ marginLeft: 15, marginRight: 2, alignSelf: "center" }}
+              style={{ marginLeft: 15*rem, marginRight: 2*rem, alignSelf: "center" }}
             >
               <Image
                 style={{
-                  height: 16,
-                  width: 16,
+                  height: 16*rem,
+                  width: 16*rem,
                 }}
                 source={require("../../assets/images/FollowIcon.png")}
               />
@@ -49,11 +55,11 @@ function Post(props) {
             >
               <Image
                 style={{
-                  height: 37,
-                  width: 37,
-                  borderRadius: 20,
-                  marginLeft: 6,
-                  marginRight: 2,
+                  height: 37*rem,
+                  width: 37*rem,
+                  borderRadius: 20*rem,
+                  marginLeft: 6*rem,
+                  marginRight: 2*rem,
                   alignSelf: "center",
                 }}
                 source={userImage}
@@ -62,7 +68,7 @@ function Post(props) {
                 <Text
                   style={{
                     fontFamily: "Delius",
-                    fontSize: 17,
+                    fontSize: 17*rem,
                   }}
                 >
                   {fullName}
@@ -70,7 +76,7 @@ function Post(props) {
                 <Text
                   style={{
                     fontFamily: "Delius",
-                    fontSize: 8,
+                    fontSize: 8*rem,
                   }}
                 >
                   @{props.username}
@@ -90,10 +96,10 @@ function Post(props) {
                 alignItems: "center",
                 justifyContent: "flex-start",
                 flex: 1,
-                marginHorizontal: 8,
+                marginHorizontal: 8*rem,
               }}
             >
-              <Text style={{ fontFamily: "Quicksand-Bold", fontSize: 18 }}>
+              <Text style={{ fontFamily: "Quicksand-Bold", fontSize: 18*rem }}>
                 ...{" "}
               </Text>
             </TouchableOpacity>
@@ -103,17 +109,17 @@ function Post(props) {
           onLongPress={() => console.log("longpress")}
           style={{
             flexDirection: "row",
-            marginLeft: 15,
+            marginLeft: 15*rem,
             flex: 1,
             justifyContent: "space-between",
           }}
         >
           <FastImage
             style={{
-              width: 116,
-              height: 116,
-              borderTopLeftRadius: 20,
-              borderBottomRightRadius: 20,
+              width: 116*rem,
+              height: 116*rem,
+              borderTopLeftRadius: 20*rem,
+              borderBottomRightRadius: 20*rem,
               backgroundColor: "red",
             }}
             source={postImage}
@@ -122,11 +128,11 @@ function Post(props) {
             <Text
               style={{
                 borderTopWidth: 1,
-                borderColor: AppColors.GrayLight,
+                borderColor: GrayLight,
                 fontFamily: "Quicksand-Bold",
-                fontSize: 20,
-                paddingLeft: 10,
-                marginBottom: 6,
+                fontSize: 20*rem,
+                paddingLeft: 10*rem,
+                marginBottom: 6*rem,
                 alignSelf: "flex-start",
               }}
             >
@@ -134,12 +140,12 @@ function Post(props) {
             </Text>
             <Text
               style={{
-                height: 65,
-                width: 185,
+                height: 65*rem,
+                width: 185*rem,
                 fontFamily: "Quicksand",
-                fontSize: 12,
-                paddingLeft: 10,
-                marginBottom: 2,
+                fontSize: 12*rem,
+                paddingLeft: 10*rem,
+                marginBottom: 2*rem,
               }}
             >
               {props.description}
@@ -148,13 +154,13 @@ function Post(props) {
               style={{
                 flexDirection: "row",
                 flex: 1,
-                borderBottomRightRadius: 20,
+                borderBottomRightRadius: 20*rem,
               }}
             >
               <Text
                 style={{
                   flex: 1,
-                  fontSize: 12,
+                  fontSize: 12*rem,
                   textAlign: "center",
                   textAlignVertical: "center",
                   fontFamily: "Quicksand-Bold",
@@ -164,20 +170,20 @@ function Post(props) {
               </Text>
               <View
                 style={{
-                  heigth: 30,
+                  heigth: 30*rem,
                   backgroundColor:
-                    props.state == 1 ? AppColors.RedBase : AppColors.BlueBase,
-                  borderBottomRightRadius: 20,
-                  borderTopLeftRadius: 20,
+                    props.state == 1 ? RedBase : BlueBase,
+                  borderBottomRightRadius: 20*rem,
+                  borderTopLeftRadius: 20*rem,
                 }}
               >
                 <Text
                   style={{
                     fontFamily: "Delius",
-                    fontSize: 21,
+                    fontSize: 21*rem,
                     textAlign: "center",
-                    color: AppColors.White,
-                    marginHorizontal: 6,
+                    color: White,
+                    marginHorizontal: 6*rem,
                   }}
                 >
                   {props.state == 1 ? "perdido" : "encontrado"}
@@ -190,35 +196,21 @@ function Post(props) {
       <View
         style={{
           flexDirection: "row",
-          height: 52,
+          height: 52*rem,
+          width: 136*rem,
           borderBottomWidth: 1,
-          borderColor: AppColors.White,
+          borderColor: White,
           alignSelf: "center",
         }}
       >
-        <TouchableOpacity>
-          <Image
-            style={{ height: 26, width: 26, marginHorizontal: 8 }}
-            resizeMethod="scale"
-            resizeMode="contain"
-            source={require("../../assets/images/StarIcon.png")}
-          />
+        <TouchableOpacity style={{flex:1}} onPress={()=> setStarState(!starState)}>
+        {starState ? <StartIconClicked height={26*rem} width={26*rem} /> : <StartIcon height={26*rem} width={26*rem}/>}
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={{ height: 26, width: 26, marginHorizontal: 8 }}
-            resizeMethod="scale"
-            resizeMode="contain"
-            source={require("../../assets/images/CommentIcon.png")}
-          />
+        <TouchableOpacity style={{flex:1}}>
+          <CommentIcon  height={26*rem} width={26*rem}/>
         </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            style={{ height: 26, width: 26, marginHorizontal: 8 }}
-            resizeMethod="scale"
-            resizeMode="contain"
-            source={require("../../assets/images/ShareIcon.png")}
-          />
+        <TouchableOpacity style={{flex:1}}>
+          <ShareIcon height={26*rem} width={26*rem}/>
         </TouchableOpacity>
       </View>
     </View>

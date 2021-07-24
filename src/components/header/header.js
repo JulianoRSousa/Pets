@@ -5,11 +5,16 @@ import styled from "styled-components";
 import * as AppColors from "../../assets/AppColors";
 import BackButtonIcon from "../../assets/images/BackButtonIcon";
 import MenuIcon from "../../assets/images/MenuIcon";
+import { rem } from "../components";
 
 function Header(props) {
   const navigation = useNavigation();
   const route = useRoute();
-  const rem = Dimensions.get("window").width / 380;
+  const showBackButton =
+    props.showBackButton == undefined ? true : props.showBackButton;
+  const showTitle = props.showTitle == undefined ? true : props.showTitle;
+  const showMenu = props.showMenu == undefined ? true : props.showMenu;
+
   const HeaderContainer = styled.View`
     background-color: ${AppColors.OrangeBase};
     height: ${70 * rem}px;
@@ -58,17 +63,23 @@ function Header(props) {
   return (
     <HeaderContainer style={props.style}>
       <HeaderItemsContainer>
-        {navigation.canGoBack() ? (
-          <BackButtonContainer onPress={() => navigation.goBack()}>
-            <BackButtonIcon height={27} width={30} />
-          </BackButtonContainer>
+        {showBackButton ? (
+          navigation.canGoBack() ? (
+            <BackButtonContainer onPress={() => navigation.goBack()}>
+              <BackButtonIcon height={27 * rem} width={30 * rem} />
+            </BackButtonContainer>
+          ) : (
+            <View style={{ height: 38 * rem, width: 38 * rem }} />
+          )
         ) : (
           <View style={{ height: 38 * rem, width: 38 * rem }} />
         )}
-        <TitleContainer>{props.showTittle ? route.name : ""}</TitleContainer>
-        {props.showMenu ? (
+        <TitleContainer>
+          {showTitle ? props.setTitle || route.name : ""}
+        </TitleContainer>
+        {showMenu ? (
           <MenuContainer onPress={() => navigation.toggleDrawer()}>
-            <MenuIcon height={35} width={38} />
+            <MenuIcon height={35 * rem} width={38 * rem} />
           </MenuContainer>
         ) : (
           <View style={{ height: 35 * rem, width: 38 * rem }} />

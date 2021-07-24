@@ -3,17 +3,18 @@ import {
   View,
   SafeAreaView,
   Text,
-  Image,
   StatusBar,
   TouchableOpacity,
-  TextInput,
+  Alert,
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useAuth } from "../../hooks/Auth";
+import api from "../../services/api";
 
 function CreateAccount() {
+  const input1 = useRef();
   const input2 = useRef();
   const input3 = useRef();
   const input4 = useRef();
@@ -28,8 +29,113 @@ function CreateAccount() {
   const [valuePass, setValuePass] = useState("");
   const [errorRepeatPass, setErrorRepeatPass] = useState("");
   const [valueRepeatPass, setValueRepeatPass] = useState("");
+  const [valueLatitude, setValueLatitude] = useState("1234");
+  const [valueLongitude, setValueLongitude] = useState("1234");
   const [termsCheckBox, setTermsCheckBox] = useState(false);
-  const { signIn, loading } = useAuth();
+  const { signIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit() {
+    if (valueFullName != "") {
+      if(valueBirthDate != '') {
+      if (valueEmail != "") {
+        if (valuePass == valueRepeatPass) {
+          if (String(valuePass).length > 5) {
+            if (!termsCheckBox) {
+              Alert.alert(
+                "Termos e Condições",
+                "Para criar uma conta precisamos que você leia e aceite nossos termos",
+                [{ text: "Ler os Termos", onPress: () => {setTermsCheckBox(false)} },
+                { text: "Entendi", onPress: () => setTermsCheckBox(false) }]
+              );
+
+              // setModalTittle('Termos e condições');
+              // setModalMessage('Para criar uma conta é necessario aceitar os termos e condições');
+              // setModalState(true);
+            } else {
+              try {
+                // await callLocation()
+                setLoading(true);
+                await api
+                  .post(
+                    "/createLogin",
+                    {},
+                    {
+                      headers: {
+                        email: valueEmail,
+                        fullname: valueFullName,
+                        birthDate: valueBirthDate,
+                        pass: valuePass,
+                        latitude: valueLatitude,
+                        longitude: valueLongitude,
+                      },
+                    }
+                  )
+                  .then(async (Res) => {
+                    setLoading(false);
+                    if (Res.status == 201) {
+                      Alert.alert("Deu tudo certo!", "Sua conta foi criada com sucesso!", [
+                        { text: "OK", onPress: () => handleSignIn() },
+                      ]);
+                      return;
+                    } else if (Res.status == 202) {
+                      Alert.alert(
+                        "Email invalido",
+                        "Este email já está cadastrado!"
+                      );
+                    }
+                  });
+              } catch (error) {
+                setLoading(false);
+                console.log(error);
+                if (error.message == "Request failed with status code 401") {
+                  Alert.alert(
+                    "Email invalido",
+                    "Este email já está cadastrado",
+                    [
+                      { text: "Recuperar senha", onPress: () => {} },
+                      { text: "Tentar Novamente", onPress: () => {} },
+                    ]
+                  );
+                }
+                // Alert.alert("Error", error.message);
+                console.log("errinho:  ", error);
+              }
+            }
+          } else {
+            Alert.alert(
+              "Senha muito curta",
+              "Informe uma senha com pelo menos 6 digitos"
+            );
+
+            // setModalMessage('Informe uma senha com pelo menos 6 digitos');
+            // setModalTittle('Senha muito curta');
+            // setModalState(true);
+          }
+        } else {
+          Alert.alert("Algo está errado!", "Confira se digitou suas senhas corretamente");
+        }
+      } else {
+        Alert.alert("hmm...", "Gostariamos de saber o seu melhor email!", [
+          { text: "Ok", onPress: input3.current.focus()},
+        ]);
+      }}else{
+        Alert.alert("hmm...", "Gostariamos de saber sua data de nascimento!", [
+          { text: "Ok", onPress: input2.current.focus() },
+        ]);
+      }
+
+    } else {
+      Alert.alert("hmm...", "Gostariamos de saber seu nome!", [
+        { text: "Ok", onPress: input1.current.focus() },
+      ]);
+    }
+  }
+
+  async function handleSignIn() {
+    await signIn(valueEmail, valuePass);
+    // Geolocation.clearWatch(watchID);
+  }
 
   return (
     <SafeAreaView
@@ -64,6 +170,7 @@ function CreateAccount() {
         </Text>
       </View>
       <Input
+        ref={input1}
         onChangeText={setValueFullName}
         error={errorFullName}
         autoCapitalize={"words"}
@@ -92,7 +199,6 @@ function CreateAccount() {
         ref={input3}
         onChangeText={setValueEmail}
         error={errorEmail}
-        keyboardType={"email-address"}
         autoCapitalize={"none"}
         onSubmitEditing={() => {
           valueEmail == ""
@@ -160,7 +266,8 @@ function CreateAccount() {
 
       <ButtonLight
         text={"criar conta"}
-        onPress={() => Auth.setLogged(true)}
+        loading={loading}
+        onPress={() => handleSubmit()}
         style={{ marginTop: 28 * rem, marginBottom: 15 * rem }}
       />
 

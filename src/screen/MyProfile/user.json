@@ -1,0 +1,45 @@
+{
+  "birthdate": "22081995",
+  "email": "juliano",
+  "firstname": "Juliano",
+  "followerCount": 0,
+  "followerList": [],
+  "id": "60fb76036d9ca30017f538d8",
+  "lastname": "Sousa",
+  "petCount": 1,
+  "petList": [
+    {
+      "__v": 0,
+      "_id": "60fc3311f0d349001741de59",
+      "birthdate": "24/07/2020",
+      "coatSize": "small",
+      "color": "black",
+      "firstName": "Gatão",
+      "id": "60fc3311f0d349001741de59",
+      "lastName": "psiuu",
+      "male": true,
+      "picture": "1f30f2cdb56969ddcd022e8e67dde02c-o-que-sao-cat-tools.jpg",
+      "picture_url": "https://pets.s3.us-south.cloud-object-storage.appdomain.cloud/1f30f2cdb56969ddcd022e8e67dde02c-o-que-sao-cat-tools.jpg",
+      "pictures": "",
+      "user": "60fb76036d9ca30017f538d8"
+    }
+  ],
+  "postCount": 1,
+  "postList": [
+    {
+      "__v": 0,
+      "_id": "60fc331cf0d349001741de5b",
+      "description": "Gatinho doido",
+      "id": "60fc331cf0d349001741de5b",
+      "pet": "60fc3311f0d349001741de59",
+      "picture": "80e63cbd14a1a481fc0457b7e3b150ab-o-que-sao-cat-tools.jpg",
+      "picture_url": "https://pets.s3.us-south.cloud-object-storage.appdomain.cloud/80e63cbd14a1a481fc0457b7e3b150ab-o-que-sao-cat-tools.jpg",
+      "postDate": "24/7/2021",
+      "postTime": "15:34",
+      "state": "1",
+      "user": "60fb76036d9ca30017f538d8"
+    }
+  ],
+  "profilePictureUrl": "https://pets.s3.us-south.cloud-object-storage.appdomain.cloud/InitialProfile.png",
+  "username": "juliano1"
+}

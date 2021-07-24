@@ -54,8 +54,6 @@ const AuthContext = createContext();
       const response = await auth.signIn(email, pass);
       setUser(response.user);
       setSigned(response.auth);
-      console.log("response: ",response)
-      console.log("response.auth: ",response.auth)
       api.defaults.headers.Authorization = `Baerer ${response.token}`;
 
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
@@ -75,6 +73,7 @@ const AuthContext = createContext();
   }
 
   async function signOut() {
+    await auth.signOut();
     await AsyncStorage.clear();
     setUser(null);
   }

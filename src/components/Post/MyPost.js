@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FlatList, ActivityIndicator } from "react-native";
+import { FlatList, ActivityIndicator, View, Text} from "react-native";
 import api from "../../services/api";
 import AsyncStorage from "@react-native-community/async-storage";
 import Post from "./PostItem";
 import { useCallback } from "react";
 import { rem } from "../components";
+import { useAuth } from "../../hooks/Auth";
 
-function PostPage() {
+function MyPost() {
   const [isMounted, setIsMounted] = useState(false);
   const [page, setPage] = useState(0);
   const [feed, setFeed] = useState([]);
   const [lastPage, setLastPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
-
   const ref_flatlist = useRef();
+
+  const { user } = useAuth();
 
   useEffect(() => {
     setIsMounted(true);
@@ -57,34 +59,26 @@ function PostPage() {
     setRefreshing(false);
   }
 
+  function PostContainer() {
+    user.postList.map((_id) => {
+      <Post
+        fullName={user.firstname}
+        username={user.username}
+        postImage={{ uri: user.postList.picture_url }}
+        petName={user.postList.firstName}
+        description={user.postList.description}
+        userImage={{ uri: user.picture_url }}
+        date={user.postList.postDate}
+        state={user.postList.state}
+        starStatus={false}
+      />;
+    });
+  }
+
   return (
-    <FlatList
-      windowSize={2160*rem}
-      data={feed}
-      ref={ref_flatlist}
-      onEndReached={() => loadPage()}
-      onRefresh={refreshList}
-      refreshing={refreshing}
-      alwaysBounceVertical={true}
-      ListFooterComponent={loading && showLoad()}
-      keyExtractor={useCallback((item) => String(item._id))}
-      renderItem={useCallback(
-        ({ item }) => (
-          <Post
-            fullName={item.user.firstName}
-            username={item.user.username}
-            postImage={{ uri: item.picture_url }}
-            petName={item.pet.firstName}
-            description={item.description}
-            userImage={{ uri: item.user.picture_url }}
-            date={item.postDate}
-            state={item.state}
-            starStatus={false}
-          />
-        ),
-        []
-      )}
-    />
-  );
+  <View style={{backgroundColor:'red', height:500, width: 400}}>
+  {PostContainer()}
+  <Text>oi</Text>
+  </View>)
 }
-export default PostPage;
+export default MyPost;

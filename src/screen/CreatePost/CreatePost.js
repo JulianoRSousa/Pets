@@ -1,10 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
+import { OrangeBase } from '../../assets/AppColors';
 
 function CreatePost(){
+  const navigation = useNavigation();
   return (
-    <View>
-      <Text>CreatePost</Text>
+    <View style={{backgroundColor: OrangeBase, flex:1}}>
+    <Button title={'go to Preview'} onPress={()=>navigation.navigate('Preview')}/>
     </View>
   )
 }

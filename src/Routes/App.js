@@ -1,37 +1,30 @@
 import React from "react";
-import { View, Image, Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { White, OrangeBase } from "../assets/AppColors";
+import { rem } from "../components/components";
+import DrawerMenu from "../components/DrawerMenu/drawerMenu";
+import CustomTabIcon from "../components/BottomTabBar/CustomTabIcons";
+
+import Preview from "../screen/Preview/Preview";
 import Feed from "../screen/Feed/Feed";
 import Header from "../components/header/header";
 import CreatePost from "../screen/CreatePost/CreatePost";
 import Adoption from "../screen/Adoption/Adoption";
 import MyProfile from "../screen/MyProfile/MyProfile";
-import * as AppColors from "../assets/AppColors";
-import { useRoute } from "@react-navigation/core";
-import TabIconNovo from "../assets/images/tabIconNovo.svg";
-import TabIconNovoFocused from "../assets/images/tabIconNovoFocused.svg";
-import TabIconMeuPerfil from "../assets/images/tabIconMeuPerfil.svg";
-import TabIconMeuPerfilFocused from "../assets/images/tabIconMeuPerfilFocused.svg";
-import TabIconAdocao from "../assets/images/tabIconAdocao.svg";
-import TabIconAdocaoFocused from "../assets/images/tabIconAdocaoFocused.svg";
-import TabIconFeed from "../assets/images/tabIconFeed.svg";
-import TabIconFeedFocused from "../assets/images/tabIconFeedFocused.svg";
 
 function App() {
   const AppStack = createStackNavigator();
-  const AppTabsNavigator = createBottomTabNavigator();
+  const AppTabs = createBottomTabNavigator();
   const AppDrawer = createDrawerNavigator();
 
   function FeedGroup() {
     return (
       <AppStack.Navigator>
         <AppStack.Screen
+          options={{ header: () => <Header showBackButton={false} /> }}
           name="Feed"
-          options={{
-            header: () => <Header showTittle={true} showMenu={true} />,
-          }}
           component={Feed}
         />
       </AppStack.Navigator>
@@ -41,23 +34,20 @@ function App() {
     return (
       <AppStack.Navigator>
         <AppStack.Screen
+          options={{ header: () => <Header showBackButton={false} /> }}
           name="Adoção"
-          options={{
-            header: () => <Header showTittle={true} showMenu={true} />,
-          }}
           component={Adoption}
         />
       </AppStack.Navigator>
     );
   }
+
   function MyProfileGroup() {
     return (
       <AppStack.Navigator>
         <AppStack.Screen
+          options={{ header: () => <Header showBackButton={false} /> }}
           name="Meu Perfil"
-          options={{
-            header: () => <Header showTittle={true} showMenu={true} />,
-          }}
           component={MyProfile}
         />
       </AppStack.Navigator>
@@ -70,204 +60,70 @@ function App() {
           name="Novo"
           options={{
             header: () => (
-              <Header
-                showBackButton={false}
-                showTittle={true}
-                showMenu={true}
-              />
+              <Header showBackButton={false} setTitle={"Criar Publicação"} />
             ),
           }}
           component={CreatePost}
+        />
+        <AppStack.Screen
+          name="Preview"
+          options={{
+            header: () => (
+              <Header
+                showBackButton={true}
+                showTittle={true}
+                showMenu={true}
+                setTitle={"Prévia"}
+              />
+            ),
+          }}
+          component={Preview}
         />
       </AppStack.Navigator>
     );
   }
 
-  function CustomTabIcon(props) {
-    const route = useRoute();
-
-    if (route.name == "Novo") {
-      return props.focused ? (
-        <View
-          style={{
-            backgroundColor: AppColors.White,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
-            marginTop: 20,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconNovoFocused width={30} height={30} marginBottom={5} />
-        </View>
-      ) : (
-        <View
-          style={{
-            marginTop: 20,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconNovo width={30} height={30} marginBottom={5} />
-        </View>
-      );
-    } else if (route.name == "Meu Perfil") {
-      return props.focused ? (
-        <View
-          style={{
-            backgroundColor: AppColors.White,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
-            marginTop: 22,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconMeuPerfilFocused width={30} height={30} marginBottom={5} />
-        </View>
-      ) : (
-        <View
-          style={{
-            marginTop: 22,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconMeuPerfil width={30} height={30} marginBottom={5} />
-        </View>
-      );
-    } else if (route.name == "Adoção") {
-      return props.focused ? (
-        <View
-          style={{
-            backgroundColor: AppColors.White,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
-            marginTop: 22,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconAdocaoFocused width={30} height={30} marginBottom={5} />
-        </View>
-      ) : (
-        <View
-          style={{
-            marginTop: 22,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconAdocao width={30} height={30} marginBottom={5} />
-        </View>
-      );
-    } else {
-      return props.focused ? (
-        <View
-          style={{
-            backgroundColor: AppColors.White,
-            borderRadius: 16,
-            height: 57,
-            width: 63,
-            marginTop: 22,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconFeedFocused width={30} height={30} marginBottom={5} />
-        </View>
-      ) : (
-        <View
-          style={{
-            marginTop: 22,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <TabIconFeed width={30} height={30} marginBottom={5} />
-        </View>
-      );
-    }
-  }
-
-  function AppTabs() {
+  const tabRoutes = () => {
     return (
-      <AppTabsNavigator.Navigator
+      <AppTabs.Navigator
         screenOptions={{
           tabBarIcon: ({ focused, color, size }) => {
             return <CustomTabIcon focused={focused} />;
           },
         }}
         tabBarOptions={{
-          activeTintColor: AppColors.OrangeBase,
-          inactiveTintColor: AppColors.White,
-          labelStyle: { fontFamily: "Delius", fontSize: 12 },
+          activeTintColor: OrangeBase,
+          inactiveTintColor: White,
+          labelStyle: { fontFamily: "Delius", fontSize: 12 * rem },
           style: {
-            backgroundColor: AppColors.OrangeBase,
-            height: 64,
+            backgroundColor: OrangeBase,
+            height: 64 * rem,
             justifyContent: "center",
           },
         }}
       >
-        <AppStack.Screen
-          name="Feed"
-          options={{
-            headerShown: false,
-            header: () => (
-              <Header showMenu={true} showTittle={true} showBackButton={true} />
-            ),
-          }}
-          component={FeedGroup}
-        />
-        <AppStack.Screen
-          name="Adoção"
-          options={{
-            headerShown: true,
-            header: () => (
-              <Header showMenu={true} showTittle={true} showBackButton={true} />
-            ),
-          }}
-          component={AdoptionGroup}
-        />
-        <AppStack.Screen
-          name="Meu Perfil"
-          options={{
-            headerShown: true,
-            header: () => (
-              <Header showMenu={true} showTittle={true} showBackButton={true} />
-            ),
-          }}
-          component={MyProfileGroup}
-        />
-        <AppStack.Screen
-          name="Novo"
-          options={{
-            headerShown: true,
-            header: () => (
-              <Header showMenu={true} showTittle={true} showBackButton={true} />
-            ),
-          }}
-          component={CreatePostGroup}
-        />
-      </AppTabsNavigator.Navigator>
+        <AppTabs.Screen name="Feed" component={FeedGroup} />
+        <AppTabs.Screen name="Adoção" component={AdoptionGroup} />
+        <AppStack.Screen name="Meu Perfil" component={MyProfileGroup} />
+        <AppStack.Screen name="Novo" component={CreatePostGroup} />
+      </AppTabs.Navigator>
     );
-  }
+  };
 
   return (
-    <AppDrawer.Navigator drawerPosition="right">
-      <AppStack.Screen
-        name="Pets"
-        options={{
-          headerShown: false,
-          header: () => (
-            <Header showMenu={true} showTittle={true} showBackButton={true} />
-          ),
-        }}
-        component={AppTabs}
-      />
+    <AppDrawer.Navigator
+      drawerPosition="right"
+      openByDefault={false}
+      drawerStyle={{
+        width: 304 * rem,
+        height: 542 * rem,
+        backgroundColor: White,
+        borderTopLeftRadius: 33 * rem,
+        borderBottomRightRadius: 33 * rem,
+      }}
+      drawerContent={() => <DrawerMenu />}
+    >
+      <AppDrawer.Screen name="TabRoutes" component={tabRoutes} />
     </AppDrawer.Navigator>
   );
 }
