@@ -3,33 +3,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 import * as auth from '../services/auth';
 import api from '../services/api';
 
-// interface User {
-//   id?: string | undefined;
-//   email?: string;
-//   username?: string;
-//   firstname?: string;
-//   lastname?: string;
-//   birthdate?: string;
-//   profilePictureUrl?: string;
-//   followersCount?: number;
-//   postsCount?: number;
-//   petsCount?: number;
-// };
-
-// interface AuthContextData {
-//   signed: boolean;
-//   user: User | null | undefined;
-//   loading: boolean;
-//   signIn(email: string, pass: string): Promise<any>;
-//   signOut(): void;
-// }
-
 const AuthContext = createContext();
 
 
   function AuthProvider({children}){
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const [user, setUser] = useState(null);
+    const [token, setToken] = useState(null);
+    const [loading, setLoading] = useState(true);
   const [signed, setSigned] = useState(false);
 
 
@@ -40,7 +20,7 @@ const AuthContext = createContext();
 
       if (storagedUser && storagedToken) {
         setUser(JSON.parse(storagedUser));
-        api.defaults.headers.Authorization = `Baerer ${storagedToken}`;
+        api.defaults.headers.Authorization = storagedToken;
       }
       setLoading(false);
     }
@@ -52,6 +32,7 @@ const AuthContext = createContext();
     setLoading(true)
     try {
       const response = await auth.signIn(email, pass);
+      setToken(response.token);
       setUser(response.user);
       setSigned(response.auth);
       api.defaults.headers.Authorization = `Baerer ${response.token}`;
@@ -81,7 +62,7 @@ const AuthContext = createContext();
 
   return (
     <AuthContext.Provider
-      value={{ signed: !!user, user, loading, signIn, signOut }}>
+      value={{ signed: !!user, user, token, loading, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

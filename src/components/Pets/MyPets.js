@@ -11,7 +11,7 @@ import Post from "./PostItem";
 import { useAuth } from "../../hooks/Auth";
 import { OrangeBase } from "../../assets/AppColors";
 
-function MyPost() {
+function MyPets() {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [postList, setPostList] = useState([]);
@@ -40,10 +40,9 @@ function MyPost() {
     }
   }
 
-  const PostContainer = postList.map((item) => (
-    <Post
+  const PostContainer = petList.map((item) => (
+    <Pets
       key={item.id}
-      myPost={true}
       fullName={item.user.firstName}
       username={item.user.username}
       userImage={{ uri: item.user.picture_url }}
@@ -58,4 +57,4 @@ function MyPost() {
 
   return <View style={{ backgroundColor: OrangeBase }}>{PostContainer}</View>;
 }
-export default MyPost;
+export default MyPets;

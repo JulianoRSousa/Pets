@@ -62,6 +62,9 @@ function Login() {
       />
       <Input
         onChangeText={setValuePass}
+        keyboardType={'default'}
+        autoCapitalize={'none'}
+        blurOnSubmit={true}
         onSubmitEditing={() => {
           valuePass == "" ? setErrorPass(!errorPass) : handleSignIn();
         }}

@@ -1,29 +1,25 @@
-import React from "react";
-import {
-  View,
-  Text,
-  Touchable,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import FastImage from "react-native-fast-image";
 import { rem } from "../../components/components";
 import { GrayDark, OrangeBase, White } from "../../assets/AppColors";
 import { useAuth } from "../../hooks/Auth";
 import EditIcon from "../../assets/images/EditIcon.svg";
+import DropDownIcon from "../../assets/images/DropDownIcon.svg";
 import { useNavigation } from "@react-navigation/core";
 import MyPost from "../../components/Post/MyPost";
-import Post from "../../components/Post/PostItem";
 
 function MyProfile() {
   const { user } = useAuth();
   const navigation = useNavigation();
 
+  const [petsVisible, setPetsVisible] = useState();
+  const [postVisible, setPostVisible] = useState();
+
   return (
-    <ScrollView style={{ backgroundColor: "red" }}>
+    <ScrollView style={{ backgroundColor: OrangeBase }}>
       <View
         style={{
-          backgroundColor: "green",
           height: 280 * rem,
           width: "100%",
           alignSelf: "center",
@@ -226,41 +222,98 @@ function MyProfile() {
           </View>
         </View>
       </View>
-      <View style={{ backgroundColor: "blue", alignItems: "center" }}>
-        <Text
+      <View
+        style={{
+          width: "100%",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          marginVertical: 10 * rem,
+        }}
+      >
+        <TouchableOpacity
           style={{
-            fontFamily: "Delius",
-            fontSize: 16 * rem,
-            color: White,
-            borderTopWidth: 1,
+            borderWidth: 1,
             borderColor: White,
-            paddingTop: 5 * rem,
-            paddingHorizontal: 10 * rem,
-            marginBottom: 15 * rem,
+            borderRadius: 20 * rem,
+            height: 40 * rem,
+            width: 128 * rem,
+            alignItems: "center",
+            justifyContent: "center",
           }}
+          onPress={() => console.log(user)}
         >
-          Pets
-        </Text>
-        <View>
-          <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: White,
-              borderRadius: 20 * rem,
-              height: 40 * rem,
-              width: 128 * rem,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onPress={() => console.log(user)}
+          <Text
+            style={{ fontFamily: "Delius", fontSize: 15 * rem, color: White }}
           >
-            <Text
-              style={{ fontFamily: "Delius", fontSize: 15 * rem, color: White }}
-            >
-              + Adicionar Pet
-            </Text>
-          </TouchableOpacity>
-        </View>
+            + Adicionar Pet
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            borderWidth: 1,
+            borderColor: White,
+            borderRadius: 20 * rem,
+            height: 40 * rem,
+            width: 128 * rem,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+          onPress={() => navigation.navigate("Novo")}
+        >
+          <Text
+            style={{
+              fontFamily: "Delius",
+              fontSize: 15 * rem,
+              color: White,
+            }}
+          >
+            + Adicionar Post
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ alignItems: "center" }}>
+        {user.petCount == 0 ? (
+          <Text
+            style={{
+              fontFamily: "Delius",
+              fontSize: 16 * rem,
+              color: White,
+              paddingTop: 5 * rem,
+              paddingHorizontal: 10 * rem,
+              marginVertical: 15 * rem,
+            }}
+          >
+            Nenhum Pet
+          </Text>
+        ) : (
+          <View
+            style={{
+              alignItems: "center",
+              paddingTop: 5 * rem,
+              marginVertical: 15 * rem,
+            }}
+          >
+            <View>
+              <TouchableOpacity
+                style={{ flexDirection: "row" }}
+                onPress={() => setPetsVisible(!petsVisible)}
+              >
+                <Text
+                  style={{
+                    fontFamily: "Delius",
+                    fontSize: 16 * rem,
+                    color: White,
+                    paddingHorizontal: 6 * rem,
+                  }}
+                >
+                  Meus Pets
+                </Text>
+                <DropDownIcon height={20} width={20} />
+              </TouchableOpacity>
+            </View>
+            {petsVisible ? <MyPost /> : <></>}
+          </View>
+        )}
         {user.postCount == 0 ? (
           <View style={{ alignItems: "center" }}>
             <Text
@@ -296,64 +349,37 @@ function MyProfile() {
                   color: White,
                 }}
               >
-                + Novo Post
+                + Adicionar Post
               </Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <View>
-            <Text
-              style={{
-                fontFamily: "Delius",
-                fontSize: 16 * rem,
-                color: White,
-                borderTopWidth: 1,
-                borderColor: White,
-                paddingTop: 5 * rem,
-                paddingHorizontal: 10 * rem,
-                marginVertical: 15 * rem,
-              }}
-            >
-              Meus Posts
-            </Text>
-            {user.postList.map((item) => {
-              return (
-                <Post
-                  myPost={true}
-                  fullName={user.firstname}
-                  username={user.username}
-                  userImage={{ uri: user.profilePictureUrl }}
-                  postImage={{ uri: item.picture_url }}
-                  petName={item.firstName + " "+ item.lastName}
-                  description={item.description}
-                  date={item.postDate}
-                  state={item.state}
-                  starStatus={false}
-                />
-              );
-            })}
-
-            <TouchableOpacity
-              style={{
-                borderWidth: 1,
-                borderColor: White,
-                borderRadius: 20 * rem,
-                height: 40 * rem,
-                width: 110 * rem,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "Delius",
-                  fontSize: 15 * rem,
-                  color: White,
-                }}
+          <View
+            style={{
+              alignItems: "center",
+              paddingTop: 5 * rem,
+              marginVertical: 15 * rem,
+            }}
+          >
+            <View>
+              <TouchableOpacity
+                style={{ flexDirection: "row" }}
+                onPress={() => setPostVisible(!postVisible)}
               >
-                + Novo Post
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    fontFamily: "Delius",
+                    fontSize: 16 * rem,
+                    color: White,
+                    paddingHorizontal: 6 * rem,
+                  }}
+                >
+                  Meus Posts
+                </Text>
+                <DropDownIcon height={20} width={20} />
+              </TouchableOpacity>
+            </View>
+            {postVisible ? <MyPost /> : <></>}
           </View>
         )}
       </View>
