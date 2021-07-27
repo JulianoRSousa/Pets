@@ -96,6 +96,8 @@ function App() {
           inactiveTintColor: White,
           labelStyle: { fontFamily: "Delius", fontSize: 12 * rem },
           style: {
+            borderTopWidth: 0,
+            elevation: 0,
             backgroundColor: OrangeBase,
             height: 64 * rem,
             justifyContent: "center",

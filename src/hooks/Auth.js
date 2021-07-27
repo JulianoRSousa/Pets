@@ -21,6 +21,7 @@ const AuthContext = createContext();
       if (storagedUser && storagedToken) {
         setUser(JSON.parse(storagedUser));
         api.defaults.headers.Authorization = storagedToken;
+        setToken(storagedToken)
       }
       setLoading(false);
     }

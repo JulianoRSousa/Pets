@@ -28,7 +28,7 @@ function MyPost() {
     try {
       const response = await api.get("/getpostbytoken", {
         headers: {
-          token,
+          token: token,
         },
       });
       const postInfo = response.data;

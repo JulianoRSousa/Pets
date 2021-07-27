@@ -1,38 +1,35 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  FlatList,
-  ActivityIndicator,
   View,
-  Text,
-  TouchableOpacity,
 } from "react-native";
 import api from "../../services/api";
-import Post from "./PostItem";
 import { useAuth } from "../../hooks/Auth";
 import { OrangeBase } from "../../assets/AppColors";
+import PetItem from "./PetItem";
 
 function MyPets() {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [postList, setPostList] = useState([]);
+  const [petList, setPetList] = useState([]);
   const { token } = useAuth();
 
   useEffect(() => {
     setIsMounted(true);
-    loadPosts();
+    loadPets();
     return () => setIsMounted(false);
   }, []);
 
-  async function loadPosts() {
+  async function loadPets() {
     setLoading(true);
     try {
-      const response = await api.get("/getpostbytoken", {
+      const response = await api.get("/getpetbytoken", {
         headers: {
           token,
         },
       });
-      const postInfo = response.data;
-      setPostList(postInfo);
+      const petsInfo = response.data;
+      console.log('Petsinfo: ',petsInfo)
+      setPetList(petsInfo);
       setLoading(false);
     } catch (error) {
       console.error(error);
@@ -40,21 +37,18 @@ function MyPets() {
     }
   }
 
-  const PostContainer = petList.map((item) => (
-    <Pets
+  const PetContainer = petList.map((item) => (
+    <PetItem
       key={item.id}
-      fullName={item.user.firstName}
-      username={item.user.username}
-      userImage={{ uri: item.user.picture_url }}
-      postImage={{ uri: item.picture_url }}
-      petName={item.pet.firstName + " " + item.pet.lastName}
-      description={item.description}
-      date={item.postDate}
-      state={item.state}
-      starStatus={false}
+      petImage={{ uri: item.picture_url }}
+      petName={item.firstName + " " + item.lastName}
+      petDescription={'item.description'}
+      petAge={item.birthdate}
+      petType={'Cat'}
+      petSex={item.male ? 'Macho' : 'Fêmea'}
     />
   ));
 
-  return <View style={{ backgroundColor: OrangeBase }}>{PostContainer}</View>;
+  return <View style={{ backgroundColor: OrangeBase }}>{PetContainer}</View>;
 }
 export default MyPets;

@@ -8,6 +8,7 @@ import EditIcon from "../../assets/images/EditIcon.svg";
 import DropDownIcon from "../../assets/images/DropDownIcon.svg";
 import { useNavigation } from "@react-navigation/core";
 import MyPost from "../../components/Post/MyPost";
+import MyPets from "../../components/Pets/MyPets";
 
 function MyProfile() {
   const { user } = useAuth();
@@ -311,7 +312,7 @@ function MyProfile() {
                 <DropDownIcon height={20} width={20} />
               </TouchableOpacity>
             </View>
-            {petsVisible ? <MyPost /> : <></>}
+            {petsVisible ? <MyPets /> : <></>}
           </View>
         )}
         {user.postCount == 0 ? (
