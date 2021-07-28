@@ -26,7 +26,7 @@ function DrawerItemProfile() {
       >
         <FastImage
           style={{ height: 140*rem, width: 140*rem, borderRadius: 85 * rem }}
-          source={require("../../assets/images/Juliano.jpeg")}
+          source={{uri: user.profilePictureUrl}}
         />
       </View>
 

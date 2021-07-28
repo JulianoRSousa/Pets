@@ -34,16 +34,23 @@ function MyProfile() {
             alignItems: "flex-end",
           }}
         >
-          <FastImage
-            style={{
-              height: 140 * rem,
-              width: 140 * rem,
-              borderRadius: 85 * rem,
-              borderWidth: 2 * rem,
-              borderColor: White,
-            }}
-            source={require("../../assets/images/Juliano.jpeg")}
-          />
+          <View style={{
+            height: 147 * rem,
+            width: 147 * rem,
+            borderRadius: 85 * rem,
+            backgroundColor: White,
+            alignItems: 'center', justifyContent: 'center',
+          }}>
+            <FastImage
+              style={{
+                height: 140 * rem,
+                width: 140 * rem,
+                borderRadius: 85 * rem,
+                elevation: 4,
+              }}
+              source={{ uri: user.profilePictureUrl }}
+            />
+          </View>
           <TouchableOpacity
             style={{
               width: 40 * rem,
@@ -84,7 +91,7 @@ function MyProfile() {
           </TouchableOpacity>
         </View>
         <Text
-          style={{ color: GrayDark, fontFamily: "Delius", fontSize: 10 * rem }}
+          style={{ color: GrayDark, fontFamily: "Delius", fontSize: 11 * rem }}
         >
           @{user.username || ""}
         </Text>
