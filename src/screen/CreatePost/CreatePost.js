@@ -12,7 +12,6 @@ import { useAuth } from '../../hooks/Auth';
 function CreatePost() {
   const navigation = useNavigation();
   const { user } = useAuth();
-  console.log('USER::::   ', user.profilePictureUrl)
   return (
     <View style={{ backgroundColor: OrangeBase, flex: 1, paddingVertical: 8 * rem }}>
       <View style={{

@@ -116,7 +116,6 @@ function Post(props) {
           </View>
         </View>
         <TouchableOpacity
-          onLongPress={() => console.log("longpress")}
           style={{
             flexDirection: "row",
             marginLeft: 15 * rem,

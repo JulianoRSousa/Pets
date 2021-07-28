@@ -26,10 +26,8 @@ function Login() {
 
 
   async function handleSignIn() {
-    console.log('startHandlew')
     navigation.reset;
     const res = await signIn(valueEmail, valuePass)
-    console.log(res)
     if ((res != null && String(res).includes('Request failed with status code 401'))) {
       Alert.alert('Erro', 'Usuário ou senha invalidos',)
       // modal.ShowModal('OneButton', 'Falha na autenticação', 'Usuário ou senha invalidos', 'Tentar novamente', '', () => onPressOne)

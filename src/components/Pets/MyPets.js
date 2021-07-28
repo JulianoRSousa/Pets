@@ -28,7 +28,6 @@ function MyPets() {
         },
       });
       const petsInfo = response.data;
-      console.log('Petsinfo: ',petsInfo)
       setPetList(petsInfo);
       setLoading(false);
     } catch (error) {
