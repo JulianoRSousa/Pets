@@ -43,6 +43,7 @@ function Login() {
         backgroundColor: AppColors.OrangeBase,
         flex: 1,
         alignItems: "center",
+        justifyContent: 'flex-start',
       }}
     >
       <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
