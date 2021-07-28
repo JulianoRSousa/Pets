@@ -20,7 +20,7 @@ function CustomTabIcon(props) {
       <View
         style={{
           backgroundColor: White,
-          borderRadius: 16 * rem,
+          borderRadius: 15 * rem,
           height: 57 * rem,
           width: 63 * rem,
           marginTop: 20 * rem,

@@ -94,13 +94,14 @@ function App() {
         tabBarOptions={{
           activeTintColor: OrangeBase,
           inactiveTintColor: White,
-          labelStyle: { fontFamily: "Delius", fontSize: 12 * rem },
+          labelStyle: { fontFamily: "Delius", fontSize: 12 * rem},
           style: {
             borderTopWidth: 0,
             elevation: 0,
             backgroundColor: OrangeBase,
-            height: 64 * rem,
+            height: 62 * rem,
             justifyContent: "center",
+            paddingBottom:8*rem
           },
         }}
       >
