@@ -124,7 +124,7 @@ function CreatePost() {
         style={{ alignSelf: 'center', elevation: 3, marginVertical: 10 * rem }}
         onPress={() => navigation.navigate('Preview')}
         text={'Pronto'} />
-    </View >
+    </View>
   )
 }
 export default CreatePost;

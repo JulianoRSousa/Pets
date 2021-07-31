@@ -129,7 +129,6 @@ function Post(props) {
               height: 116 * rem,
               borderTopLeftRadius: 20 * rem,
               borderBottomRightRadius: 20 * rem,
-              backgroundColor: "red",
             }}
             source={postImage}
           />
