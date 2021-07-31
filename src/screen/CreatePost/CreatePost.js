@@ -8,6 +8,7 @@ import LocationIcon from '../../assets/images/LocationIcon.svg';
 import DropDownBlackIcon from '../../assets/images/DropDownBlackIcon.svg';
 import FastImage from 'react-native-fast-image';
 import { useAuth } from '../../hooks/Auth';
+import { PickerState, PickerPet } from '../../components/styled/picker';
 
 function CreatePost() {
   const navigation = useNavigation();
@@ -35,32 +36,10 @@ function CreatePost() {
                 <FastImage source={{ uri: user.profilePictureUrl }} style={{ height: 67 * rem, width: 67 * rem, borderRadius: 45 * rem }} />
                 <View style={{ marginHorizontal: 8 * rem, alignSelf: 'center' }}>
                   <Text style={{ color: GrayDark, fontFamily: 'Delius', fontSize: 17 * rem }}>{user.firstname + ' ' + user.lastname}</Text>
-                  <View style={{
-                    flexDirection: 'row', borderColor: RedBase,
-                    borderWidth: 1, borderRadius: 20 * rem, height: 30 * rem,
-                    alignSelf: 'center', justifyContent: 'center'
-                  }}>
-                    <Text style={{ marginHorizontal: 8 * rem, textAlignVertical: 'center', color: RedBase, fontFamily: 'Delius', fontSize: 16 * rem }}>eu perdi meu pet</Text>
-                    <TouchableOpacity style={{ width: 30 * rem, width: 10 * rem, marginRight: 5 * rem, alignItems: 'center', justifyContent: 'center' }}>
-                      <DropDownBlackIcon />
-                    </TouchableOpacity>
-                  </View>
+                  <PickerState/>
                 </View>
               </View>
-              <View style={{
-                flexDirection: 'row',
-                borderRadius: 20 * rem, height: 30 * rem, borderWidth: 1,
-                alignItems: 'center', justifyContent: 'center'
-              }}>
-                <Text style={{ marginHorizontal: 8 * rem, color: GrayDark, fontFamily: 'Delius', fontSize: 17 * rem }}>Escolha um de seus pets</Text>
-                <TouchableOpacity style={{
-                  width: 30 * rem,
-                  width: 10 * rem,
-                  marginRight: 5 * rem, alignItems: 'center', justifyContent: 'center'
-                }}>
-                  <DropDownBlackIcon />
-                </TouchableOpacity>
-              </View>
+              <PickerPet/>
             </View>
 
           </View>
