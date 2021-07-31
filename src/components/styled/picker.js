@@ -1,5 +1,6 @@
+import { BlurView } from "@react-native-community/blur";
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View, Modal } from "react-native";
+import { Text, TouchableOpacity, View, Modal, StatusBar } from "react-native";
 import { BlueBase, OrangeBase, RedBase } from "../../assets/AppColors";
 import DropDownBlackIcon from "../../assets/images/DropDownBlackIcon.svg";
 import { rem } from "../components";
@@ -54,8 +55,22 @@ export const PickerState = (props) => {
         <DropDownBlackIcon height={7 * rem} width={13 * rem} />
       </View>
       {visible ? (
-        <Modal transparent={true} style={{position:'absolute'}} >
+        <Modal transparent={false} visible={visible}>
+          <BlurView
+            reducedTransparencyFallbackColor="gray"
+            blurType="light"
+            blurAmount={10}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}
+          />
+          <TouchableOpacity onPress={()=> setVisible(false)}>
           <Text>Mofals</Text>
+          </TouchableOpacity>
         </Modal>
       ) : (
         <></>
