@@ -8,7 +8,7 @@ import { rem } from "../components";
 function PetItem(props) {
   const petImage = props.petImage;
   const petName = props.petName ? props.petName : "Sem nome";
-  console.log(petImage);
+  const opacityON = props.opacity == false ? 1 : 0.7;
 
   return (
     <View
@@ -19,7 +19,7 @@ function PetItem(props) {
         style={{
           width: 340 * rem,
           height: 140 * rem,
-          opacity: 0.7,
+          opacity: opacityON,
           borderRadius: 23 * rem,
           position: "absolute",
           bottom: 0,

@@ -198,18 +198,25 @@ export const PickerPet = (props) => {
   }
 
   const PetContainer = petList.map((item) => (
-    // props.petName(item.firstName + " " + item.lastName),
-    // props.petPicture(item.picture_url),
     // props.petType()
-    <PetItem
+    <TouchableOpacity
       key={item.id}
-      petImage={{ uri: item.picture_url }}
-      petName={item.firstName + " " + item.lastName}
-      petDescription={"item.description"}
-      petAge={item.birthdate}
-      petType={"Cat"}
-      petSex={item.male ? "Macho" : "Fêmea"}
-    />
+      onPress={() => {
+        props.petName(item.firstName+" "+item.lastName),
+        props.petPicture(item.picture_url),
+        setVisible(false)
+      }}
+    >
+      <PetItem
+        opacity={false}
+        petImage={{ uri: item.picture_url }}
+        petName={item.firstName + " " + item.lastName}
+        petDescription={"item.description"}
+        petAge={item.birthdate}
+        petType={"Cat"}
+        petSex={item.male ? "Macho" : "Fêmea"}
+      />
+    </TouchableOpacity>
   ));
 
   return (
@@ -257,7 +264,21 @@ export const PickerPet = (props) => {
             onPress={() => setVisible(false)}
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
-            <View style={{ opacity: 0.8 }}>{PetContainer}</View>
+            {petList.length > 0 ? (
+              <View style={{ opacity: 0.8 }}>{PetContainer}</View>
+            ) : (
+              <View>
+                <Text
+                  style={{
+                    color: GrayDark,
+                    fontFamily: "Delius",
+                    fontSize: 20 * rem,
+                  }}
+                >
+                  Nenhum pet adicionado
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
         </Modal>
       ) : (

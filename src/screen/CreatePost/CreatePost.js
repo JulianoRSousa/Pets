@@ -26,10 +26,10 @@ import { PickerState, PickerPet } from "../../components/styled/picker";
 function CreatePost() {
   const navigation = useNavigation();
   const [petState, setPetState] = useState(1);
+  const [petName, setPetName] = useState("");
+  const [petPicture, setPetPicture] = useState("");
+  const [description, setDescription] = useState("");
   const { user } = useAuth();
-  function handleChange(newValue) {
-    setPetState(newValue);
-  }
 
   return (
     <View
@@ -100,7 +100,7 @@ function CreatePost() {
                 </View>
               </View>
 
-              <PickerPet />
+              <PickerPet petName={setPetName} petPicture={setPetPicture} />
             </View>
           </View>
 
@@ -141,6 +141,8 @@ function CreatePost() {
               }}
             />
             <TextInput
+              value={petName}
+              onChangeText={setPetName}
               placeholder={"Informe o nome do pet"}
               style={{
                 alignSelf: "flex-start",
@@ -171,6 +173,8 @@ function CreatePost() {
               }}
             />
             <TextInput
+            value={description}
+            onChangeText={setDescription}
               placeholder={"Adicione uma descrição"}
               style={{
                 alignSelf: "flex-start",
