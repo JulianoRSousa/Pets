@@ -7,6 +7,7 @@ import {
   GreenBase,
   RedBase,
   GrayDark,
+  GrayLight,
 } from "../../assets/AppColors";
 import { rem } from "../components";
 import { useAuth } from "../../hooks/Auth";
@@ -200,14 +201,18 @@ export const PickerPet = (props) => {
       setLoading(false);
     }
   }
+  console.log(petList);
 
   const PetContainer = petList.map((item) => (
     <TouchableOpacity
       key={item.id}
       onPress={() => {
-        props.firstName(item.firstName),
+        props.petId(item.id),
+          props.firstName(item.firstName),
           props.lastName(item.lastName),
-          props.petPicture(item.picture),
+          props.petName(item.firstName + " " + item.lastName);
+        props.petPicture(item.picture),
+          props.petPictureUrl(item.picture_url),
           props.petType(item.type),
           setVisible(false);
       }}
@@ -215,6 +220,7 @@ export const PickerPet = (props) => {
       <PetItem
         opacity={false}
         petName={item.firstName + " " + item.lastName}
+        petImage={{ uri: item.picture_url }}
         petDescription={"item.description"}
         petAge={item.birthdate}
         petType={item.type ? item.type : ""}
@@ -269,7 +275,37 @@ export const PickerPet = (props) => {
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             {petList.length > 0 ? (
-              <ScrollView style={{ opacity: 0.8 }}>{PetContainer}</ScrollView>
+              <ScrollView style={{ opacity: 0.9 }}>
+                <View style={{ alignSelf: "center" }}>
+                  <Text
+                    style={{
+                      fontFamily: "Delius",
+                      fontSize: 18 * rem,
+                      margin: 15 * rem,
+                      alignSelf: "center",
+                    }}
+                  >
+                    Escolha um de seus pets
+                  </Text>
+                  {PetContainer}
+                  <TouchableOpacity
+                    onPress={() => setVisible(false)}
+                    style={{
+                      borderWidth: 1,
+                      borderColor: GrayLight,
+                      borderRadius: 20 * rem,
+                      paddingHorizontal: 10 * rem,
+                      paddingVertical: 5 * rem,
+                      alignSelf: "center",
+                      margin: 15 * rem,
+                    }}
+                  >
+                    <Text style={{ fontFamily: "Delius", color: GrayDark }}>
+                      Cancelar
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </ScrollView>
             ) : (
               <View>
                 <Text

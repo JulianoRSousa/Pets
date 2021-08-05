@@ -10,11 +10,14 @@ import { PickerState, PickerPet } from "../../components/styled/picker";
 
 function CreatePost() {
   const navigation = useNavigation();
+  const [petId, setPetId] = useState('');
   const [petState, setPetState] = useState(1);
+  const [petType, setPetType] = useState(0);
   const [petName, setPetName] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [picture, setPicture] = useState('');
+  const [picture, setPicture] = useState("");
+  const [pictureUrl, setPictureUrl] = useState("");
   const [description, setDescription] = useState("");
   const { user } = useAuth();
 
@@ -22,24 +25,37 @@ function CreatePost() {
   const ref_picture = useRef();
 
   const showImagePicker = () => {
-    console.log('ShowImagePicker');
+    console.log("ShowImagePicker");
   };
 
   return (
     <View
-      style={{ backgroundColor: OrangeBase, flex: 1, paddingVertical: 8 * rem, justifyContent:'space-evenly' }}
+      style={{
+        backgroundColor: OrangeBase,
+        flex: 1,
+        paddingVertical: 8 * rem,
+        justifyContent: "space-evenly",
+      }}
     >
       <View
         style={{
           backgroundColor: White,
           borderRadius: 20 * rem,
           paddingHorizontal: 8 * rem,
-          marginHorizontal: 4*rem,
+          marginHorizontal: 4 * rem,
         }}
       >
         <PickerState onChange={setPetState} />
 
-        <PickerPet firstName={setFirstName} lastName={setLastName} picture={setPicture} />
+        <PickerPet
+          petId={setPetId}
+          petName={setPetName}
+          firstName={setFirstName}
+          petPicture={setPicture}
+          lastName={setLastName}
+          petType={setPetType}
+          petPictureUrl={setPictureUrl}
+        />
         <Text
           style={{
             fontFamily: "Delius",
@@ -131,7 +147,7 @@ function CreatePost() {
             width: "100%",
             alignItems: "center",
             paddingHorizontal: 10 * rem,
-            marginVertical: 4*rem,
+            marginVertical: 4 * rem,
           }}
         >
           <PictureIcon height={29 * rem} width={32 * rem} />
@@ -152,7 +168,11 @@ function CreatePost() {
       </View>
       <ButtonOrange
         style={{ alignSelf: "center", elevation: 3, marginVertical: 4 * rem }}
-        onPress={() => navigation.navigate("Preview", {postInfo: {petName, picture: picture, description}})}
+        onPress={() =>
+          {console.log(petId), navigation.navigate("Preview", {
+            postInfo: { petName, picture: picture, pictureUrl: pictureUrl, description, petState },
+          })
+        }}
         text={"Visualizar"}
       />
     </View>

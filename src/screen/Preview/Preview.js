@@ -1,33 +1,43 @@
 import React from "react";
 import { View, Text, date } from "react-native";
-import { White } from "../../assets/AppColors";
-import { useRoute} from '@react-navigation/native';
-import PostItem from '../../components/Post/PostItem';
+import { OrangeBase, White } from "../../assets/AppColors";
+import { useRoute } from "@react-navigation/native";
+import PostItem from "../../components/Post/PostItem";
 import { useAuth } from "../../hooks/Auth";
+import moment from "moment";
+import "moment/locale/pt-br";
+import { ButtonOrange } from "../../components/components";
 
 function Preview() {
-  const {user} = useAuth();
+  const { user } = useAuth();
   const route = useRoute();
+  const date = moment().format("DD MMMM YYYY");
+  console.log("date: ", user.profilePictureUrl);
+  console.log("date: ", route.params);
 
-  var date = new Date( Date.now() - 240*60*1000) //240 = 4 hours * 60 minutes - America/Manaus timezone
-
-  const dateFormat = date.toLocaleDateString()
-  let datanova = new Date();
-  const ff = datanova
-  console.log('ff ',ff)
-  
   return (
-    <View style={{backgroundColor: White, flex:1, justifyContent:'center', alignItems:'center'}}>
-      <Text>--</Text>
-      <PostItem myPost={true} 
-      userImage={{url: user.profilePictureUrl}} 
-      fullName={user.firstname + ' '+ user.lastname} 
-      username={user.username} 
-      postImage={route.params.postInfo.picture}
+    <View
+      style={{
+        backgroundColor: OrangeBase,
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <PostItem
+        myPost={true}
+        userImage={{ uri: user.profilePictureUrl }}
+        postImage={{ uri: route.params.postInfo.pictureUrl }}
+        fullName={user.firstname + " " + user.lastname}
+        username={user.username}
         petName={route.params.postInfo.petName}
         description={route.params.postInfo.description}
-        date={dateFormat}
+        state={route.params.postInfo.petState}
+        date={date}
       />
+      <View style={{padding:5}}>
+        <ButtonOrange text={"Publicar"} />
+      </View>
     </View>
   );
 }
