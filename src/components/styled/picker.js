@@ -1,7 +1,13 @@
 import { BlurView } from "@react-native-community/blur";
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View, Modal } from "react-native";
-import { BlueBase, GrayDark, GreenBase, RedBase } from "../../assets/AppColors";
+import { Text, TouchableOpacity, View, Modal, ScrollView } from "react-native";
+import {
+  BlueBase,
+  pickerColor,
+  GreenBase,
+  RedBase,
+  GrayDark,
+} from "../../assets/AppColors";
 import { rem } from "../components";
 import { useAuth } from "../../hooks/Auth";
 import api from "../../services/api";
@@ -9,53 +15,52 @@ import PetItem from "../Pets/PetItem";
 
 export function PickerState(props) {
   const [text, setText] = useState("eu perdi meu pet");
-  const [GrayDark, setGrayDark] = useState(RedBase);
+  const [pickerColor, setPickerColor] = useState(RedBase);
   const [petState, setPetState] = useState(1);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (petState == 1) {
       setText("eu perdi meu pet");
-      setGrayDark(RedBase);
+      setPickerColor(RedBase);
     } else if (petState == 2) {
       setText("eu encontrei um pet");
-      setGrayDark(BlueBase);
+      setPickerColor(BlueBase);
     } else if (petState == 3) {
       setText("esse pet está para adoção");
-      setGrayDark(GreenBase);
+      setPickerColor(GreenBase);
     }
   });
 
   return (
     <TouchableOpacity
-      onPress={() => setVisible(true)}
+      onPress={() => {setVisible(true), console.log('Date: ', Date.prototype.getVarDate())}}
       style={
         props.style
           ? props.style
           : {
-              borderColor: GrayDark,
+              borderColor: pickerColor,
               borderWidth: 1,
               paddingHorizontal: 8 * rem,
               borderRadius: 20 * rem,
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
+              alignSelf: "center",
+              padding: 8 * rem,
+              marginVertical: 10 * rem,
             }
       }
     >
       <Text
         style={{
-          color: GrayDark,
+          color: pickerColor,
           fontFamily: "Delius",
           fontSize: 17 * rem,
-          paddingVertical: 4 * rem,
         }}
       >
         {text}
       </Text>
-      {/* <View style={{ paddingLeft: 4 * rem }}>
-        <DropDownBlackIcon height={7 * rem} width={13 * rem} />
-      </View> */}
       {visible ? (
         <Modal transparent={false} visible={visible}>
           <BlurView
@@ -202,9 +207,9 @@ export const PickerPet = (props) => {
     <TouchableOpacity
       key={item.id}
       onPress={() => {
-        props.petName(item.firstName+" "+item.lastName),
-        props.petPicture(item.picture_url),
-        setVisible(false)
+        props.petName(item.firstName + " " + item.lastName),
+          props.petPicture(item.picture_url),
+          setVisible(false);
       }}
     >
       <PetItem
@@ -233,6 +238,8 @@ export const PickerPet = (props) => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
+              alignSelf:'center',
+              padding:8*rem,
             }
       }
     >
@@ -241,7 +248,6 @@ export const PickerPet = (props) => {
           color: GrayDark,
           fontFamily: "Delius",
           fontSize: 17 * rem,
-          paddingVertical: 4 * rem,
         }}
       >
         {text}
@@ -265,12 +271,12 @@ export const PickerPet = (props) => {
             style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
           >
             {petList.length > 0 ? (
-              <View style={{ opacity: 0.8 }}>{PetContainer}</View>
+              <ScrollView style={{ opacity: 0.8 }}>{PetContainer}</ScrollView>
             ) : (
               <View>
                 <Text
                   style={{
-                    color: GrayDark,
+                    color: pickerColor,
                     fontFamily: "Delius",
                     fontSize: 20 * rem,
                   }}
