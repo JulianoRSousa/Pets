@@ -34,20 +34,19 @@ export function PickerState(props) {
 
   return (
     <TouchableOpacity
-      onPress={() => {setVisible(true), console.log('Date: ', Date.prototype.getVarDate())}}
+      onPress={() => setVisible(true)}
       style={
         props.style
           ? props.style
           : {
               borderColor: pickerColor,
               borderWidth: 1,
-              paddingHorizontal: 8 * rem,
+              padding: 8 * rem,
               borderRadius: 20 * rem,
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
               alignSelf: "center",
-              padding: 8 * rem,
               marginVertical: 10 * rem,
             }
       }
@@ -203,22 +202,22 @@ export const PickerPet = (props) => {
   }
 
   const PetContainer = petList.map((item) => (
-    // props.petType()
     <TouchableOpacity
       key={item.id}
       onPress={() => {
-        props.petName(item.firstName + " " + item.lastName),
-          props.petPicture(item.picture_url),
+        props.firstName(item.firstName),
+          props.lastName(item.lastName),
+          props.petPicture(item.picture),
+          props.petType(item.type),
           setVisible(false);
       }}
     >
       <PetItem
         opacity={false}
-        petImage={{ uri: item.picture_url }}
         petName={item.firstName + " " + item.lastName}
         petDescription={"item.description"}
         petAge={item.birthdate}
-        petType={"Cat"}
+        petType={item.type ? item.type : ""}
         petSex={item.male ? "Macho" : "Fêmea"}
       />
     </TouchableOpacity>
@@ -233,13 +232,12 @@ export const PickerPet = (props) => {
           : {
               borderColor: GrayDark,
               borderWidth: 1,
-              paddingHorizontal: 8 * rem,
               borderRadius: 20 * rem,
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              alignSelf:'center',
-              padding:8*rem,
+              alignSelf: "center",
+              padding: 8 * rem,
             }
       }
     >

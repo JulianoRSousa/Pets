@@ -1,25 +1,10 @@
+import React, { useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState, useCallback } from "react";
-import {
-  View,
-  Text,
-  Button,
-  TouchableOpacity,
-  TextInput,
-  Touchable,
-} from "react-native";
-import {
-  GrayDark,
-  GrayLight,
-  OrangeBase,
-  RedBase,
-  White,
-} from "../../assets/AppColors";
-import { ButtonLight, ButtonOrange, rem } from "../../components/components";
+import { View, Text, TouchableOpacity, TextInput } from "react-native";
+import { GrayLight, OrangeBase, White } from "../../assets/AppColors";
+import { ButtonOrange, rem } from "../../components/components";
 import PictureIcon from "../../assets/images/PictureIcon.svg";
 import LocationIcon from "../../assets/images/LocationIcon.svg";
-import DropDownBlackIcon from "../../assets/images/DropDownBlackIcon.svg";
-import FastImage from "react-native-fast-image";
 import { useAuth } from "../../hooks/Auth";
 import { PickerState, PickerPet } from "../../components/styled/picker";
 
@@ -27,33 +12,40 @@ function CreatePost() {
   const navigation = useNavigation();
   const [petState, setPetState] = useState(1);
   const [petName, setPetName] = useState("");
-  const [petPicture, setPetPicture] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [picture, setPicture] = useState('');
   const [description, setDescription] = useState("");
   const { user } = useAuth();
 
+  const ref_description = useRef();
+  const ref_picture = useRef();
+
+  const showImagePicker = () => {
+    console.log('ShowImagePicker');
+  };
+
   return (
     <View
-      style={{ backgroundColor: OrangeBase, flex: 1, paddingVertical: 8 * rem }}
+      style={{ backgroundColor: OrangeBase, flex: 1, paddingVertical: 8 * rem, justifyContent:'space-evenly' }}
     >
       <View
         style={{
-          width: "100%",
-          height: 488 * rem,
           backgroundColor: White,
           borderRadius: 20 * rem,
-          justifyContent: "space-around",
           paddingHorizontal: 8 * rem,
+          marginHorizontal: 4*rem,
         }}
       >
         <PickerState onChange={setPetState} />
 
-        <PickerPet petName={setPetName} petPicture={setPetPicture} />
+        <PickerPet firstName={setFirstName} lastName={setLastName} picture={setPicture} />
         <Text
           style={{
             fontFamily: "Delius",
             fontSize: 10 * rem,
             alignSelf: "center",
-            marginBottom: 5 * rem,
+            margin: 8 * rem,
           }}
         >
           Ou adicione um abaixo
@@ -64,7 +56,7 @@ function CreatePost() {
             borderTopWidth: 1,
             borderColor: GrayLight,
             width: 50 * rem,
-            margin: 2 * rem,
+            margin: 4 * rem,
           }}
         />
         <Text
@@ -72,7 +64,7 @@ function CreatePost() {
             alignSelf: "flex-start",
             fontFamily: "Delius",
             fontSize: 18 * rem,
-            margin: 2 * rem,
+            margin: 4 * rem,
           }}
         >
           Nome do pet
@@ -82,10 +74,11 @@ function CreatePost() {
           value={petName}
           onChangeText={setPetName}
           placeholder={"Informe o nome do pet"}
+          onSubmitEditing={() => ref_description.current.focus()}
           style={{
             fontFamily: "Delius",
             fontSize: 18 * rem,
-            marginHorizontal: 2 * rem,
+            marginHorizontal: 4 * rem,
           }}
         />
         <View
@@ -94,7 +87,7 @@ function CreatePost() {
             borderTopWidth: 1,
             borderColor: GrayLight,
             width: 50 * rem,
-            margin: 2 * rem,
+            margin: 4 * rem,
           }}
         />
         <Text
@@ -102,20 +95,21 @@ function CreatePost() {
             alignSelf: "flex-start",
             fontFamily: "Delius",
             fontSize: 18 * rem,
-            margin: 2 * rem,
+            margin: 4 * rem,
           }}
         >
           Descrição
         </Text>
         <TextInput
+          ref={ref_description}
           value={description}
           onChangeText={setDescription}
           placeholder={"Adicione uma descrição"}
-          multiline={true}
+          onSubmitEditing={() => showImagePicker()}
           style={{
             fontFamily: "Delius",
             fontSize: 18 * rem,
-            margin: 2 * rem,
+            marginHorizontal: 4 * rem,
           }}
         />
 
@@ -124,23 +118,26 @@ function CreatePost() {
             width: 50 * rem,
             borderTopWidth: 1,
             borderColor: GrayLight,
-            marginBottom: 5 * rem,
+            margin: 4 * rem,
             alignSelf: "center",
           }}
         ></View>
         <TouchableOpacity
+          ref={ref_picture}
+          onPress={() => console.log("picture")}
           style={{
             flexDirection: "row",
             height: 34 * rem,
             width: "100%",
             alignItems: "center",
             paddingHorizontal: 10 * rem,
+            marginVertical: 4*rem,
           }}
         >
           <PictureIcon height={29 * rem} width={32 * rem} />
           <Text style={{ marginHorizontal: 5 * rem }}> Adicionar foto</Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             flexDirection: "row",
             height: 34 * rem,
@@ -151,12 +148,12 @@ function CreatePost() {
         >
           <LocationIcon height={24 * rem} width={29 * rem} />
           <Text style={{ marginHorizontal: 5 * rem }}> Adicionar local</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <ButtonOrange
-        style={{ alignSelf: "center", elevation: 3, marginVertical: 10 * rem }}
-        onPress={() => navigation.navigate("Preview")}
-        text={"Pronto"}
+        style={{ alignSelf: "center", elevation: 3, marginVertical: 4 * rem }}
+        onPress={() => navigation.navigate("Preview", {postInfo: {petName, picture: picture, description}})}
+        text={"Visualizar"}
       />
     </View>
   );
