@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import FastImage from "react-native-fast-image";
 import { rem } from "../../components/components";
 import { GrayDark, OrangeBase, White } from "../../assets/AppColors";
-import { useAuth } from "../../hooks/Auth";
+import { useData } from "../../hooks/Data";
 import EditIcon from "../../assets/images/EditIcon.svg";
 import DropDownIcon from "../../assets/images/DropDownIcon.svg";
 import { useNavigation } from "@react-navigation/core";
@@ -11,7 +11,7 @@ import MyPost from "../../components/Post/MyPost";
 import MyPets from "../../components/Pets/MyPets";
 
 function MyProfile() {
-  const { user } = useAuth();
+  const { user } = useData();
   const navigation = useNavigation();
 
   const [petsVisible, setPetsVisible] = useState();

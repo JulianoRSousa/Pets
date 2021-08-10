@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Auth from "./Auth";
 import App from "./App";
 import { useAuth } from "../hooks/Auth";
 
 function Routes() {
-  const { signed } = useAuth();
-
-  return signed ? <App /> : <Auth />;
+  const { auth } = useAuth();
+  return auth == false ? <Auth /> : <App />;
 }
+
 export default Routes;

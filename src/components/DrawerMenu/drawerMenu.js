@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
-import { GrayDark, OrangeBase, RedBase } from "../../assets/AppColors";
+import { GrayDark, RedBase } from "../../assets/AppColors";
 import { rem } from "../components";
 import DrawerItemProfile from "./drawerItemProfile";
 import FriendsIcon from "../../assets/images/FriendsIcon.svg";

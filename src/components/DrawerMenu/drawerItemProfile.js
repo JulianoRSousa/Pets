@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import {View, Text} from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 import { rem } from "../components";
 import { GrayDark } from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
-import { useAuth } from "../../hooks/Auth";
+import { useData } from "../../hooks/Data";
 
 function DrawerItemProfile() {
-  const { user } = useAuth();
+  const { user } = useData();
   return (
     <View
       style={{
         height: 280 * rem,
-        width: '100%',
+        width: "100%",
         alignSelf: "center",
         alignItems: "center",
       }}
@@ -19,14 +19,18 @@ function DrawerItemProfile() {
       <View
         style={{
           backgroundColor: GrayDark,
-          padding: 2*rem,
+          padding: 2 * rem,
           borderRadius: 85 * rem,
           marginTop: 9 * rem,
         }}
       >
         <FastImage
-          style={{ height: 140*rem, width: 140*rem, borderRadius: 85 * rem }}
-          source={{uri: user.profilePictureUrl}}
+          style={{
+            height: 140 * rem,
+            width: 140 * rem,
+            borderRadius: 85 * rem,
+          }}
+          source={{ uri: user.profilePictureUrl }}
         />
       </View>
 
@@ -34,24 +38,24 @@ function DrawerItemProfile() {
         style={{
           fontFamily: "Delius",
           fontSize: 20 * rem,
-          height: 40*rem,
+          height: 40 * rem,
           textAlignVertical: "center",
           color: GrayDark,
         }}
       >
-        {user.firstname+ ' '+ user.lastname || ''}
+        {user.firstname + " " + user.lastname || ""}
       </Text>
       <Text
         style={{ color: GrayDark, fontFamily: "Delius", fontSize: 10 * rem }}
       >
-        @{user.username || ''}
+        @{user.username || ""}
       </Text>
       <View style={{ flexDirection: "row" }}>
         <View
           style={{
             height: 62 * rem,
             width: 75 * rem,
-            marginVertical: 10*rem,
+            marginVertical: 10 * rem,
             alignItems: "center",
           }}
         >
@@ -94,7 +98,7 @@ function DrawerItemProfile() {
             borderRightWidth: 1,
             height: 62 * rem,
             width: 75 * rem,
-            marginVertical: 10*rem,
+            marginVertical: 10 * rem,
             alignItems: "center",
           }}
         >
@@ -107,7 +111,7 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.followerCount || '0'}
+            {user.followerCount || "0"}
           </Text>
           {user.followerCount != 1 ? (
             <Text
@@ -135,7 +139,7 @@ function DrawerItemProfile() {
           style={{
             height: 62 * rem,
             width: 75 * rem,
-            marginVertical: 10 *rem,
+            marginVertical: 10 * rem,
             alignItems: "center",
           }}
         >
@@ -148,7 +152,7 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.petCount || '0'}
+            {user.petCount || "0"}
           </Text>
           {user.petCount != 1 ? (
             <Text

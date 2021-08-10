@@ -24,7 +24,7 @@
       "user": "60fb76036d9ca30017f538d8"
     }
   ],
-  "postCount": 1,
+  "postCount": 3,
   "postList": [
     {
       "__v": 0,
@@ -37,6 +37,32 @@
       "postDate": "24/7/2021",
       "postTime": "15:34",
       "state": "1",
+      "user": "60fb76036d9ca30017f538d8"
+    },
+    {
+      "__v": 0,
+      "_id": "60fc434172ad1e0017f871b3",
+      "description": "Gatinho doido",
+      "id": "60fc434172ad1e0017f871b3",
+      "pet": "60fc3311f0d349001741de59",
+      "picture": "3a08b58989a0a31f71aa4c75afa0781b-o-que-sao-cat-tools.jpg",
+      "picture_url": "https://pets.s3.us-south.cloud-object-storage.appdomain.cloud/3a08b58989a0a31f71aa4c75afa0781b-o-que-sao-cat-tools.jpg",
+      "postDate": "24/7/2021",
+      "postTime": "16:43",
+      "state": "1",
+      "user": "60fb76036d9ca30017f538d8"
+    },
+    {
+      "__v": 0,
+      "_id": "60fc561d72ad1e0017f871b5",
+      "description": "Nena",
+      "id": "60fc561d72ad1e0017f871b5",
+      "pet": "60fc3311f0d349001741de59",
+      "picture": "a58a23f3aa9713f532bbdbcc0b7b5ffe-o-que-sao-cat-tools.jpg",
+      "picture_url": "https://pets.s3.us-south.cloud-object-storage.appdomain.cloud/a58a23f3aa9713f532bbdbcc0b7b5ffe-o-que-sao-cat-tools.jpg",
+      "postDate": "24/7/2021",
+      "postTime": "18:4",
+      "state": "2",
       "user": "60fb76036d9ca30017f538d8"
     }
   ],

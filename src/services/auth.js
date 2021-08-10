@@ -27,11 +27,8 @@ export async function signIn(email, pass) {
             lastname: Res.data.user.lastName,
             birthdate: Res.data.user.birthDate,
             profilePictureUrl: Res.data.user.picture_url,
-            followerCount: Res.data.user.followerList.length,
             followerList: Res.data.user.followerList,
-            postCount: Res.data.user.postList.length,
             postList: Res.data.user.postList,
-            petCount: Res.data.user.petList.length,
             petList: Res.data.user.petList,
           },
         });
@@ -42,7 +39,7 @@ export async function signIn(email, pass) {
 
 export async function signOut() {
   try {
-    const token = await AsyncStorage.getItem("@RNAuth:token");
+    const token = await AsyncStorage.getItem("@rn:token");
     await api
       .delete("/deleteauth", {
         headers: {
