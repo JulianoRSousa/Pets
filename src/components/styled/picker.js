@@ -13,6 +13,10 @@ import { rem } from "../components";
 import { useAuth } from "../../hooks/Auth";
 import api from "../../services/api";
 import PetItem from "../Pets/PetItem";
+import PictureIcon from "../../assets/images/PictureIcon.svg";
+import GalleryIcon from "../../assets/images/galleryIcon.svg";
+import CameraIcon from "../../assets/images/CameraIcon.svg";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 
 export function PickerState(props) {
   const [text, setText] = useState("eu perdi meu pet");
@@ -201,7 +205,6 @@ export const PickerPet = (props) => {
       setLoading(false);
     }
   }
-  console.log(petList);
 
   const PetContainer = petList.map((item) => (
     <TouchableOpacity
@@ -327,3 +330,141 @@ export const PickerPet = (props) => {
     </TouchableOpacity>
   );
 };
+
+export function PickerImage(props) {
+  const [visible, setVisible] = useState(false);
+  const [imageSource, setImageSource] = useState(null);
+  const optionsGallery = {
+    title: "Selecionar foto",
+    storageOptions: {
+      skipBackup: true,
+      path: "Pets",
+    },
+  };
+  const optionsCam = {
+    cameraType: "back",
+    selectionLimit: 1,
+    mediaType: "photo",
+    storageOptions: {
+      skipBackup: true,
+      path: "Pets",
+    },
+  };
+
+  return (
+    <TouchableOpacity
+      onPress={() => setVisible(true)}
+      style={{
+        flexDirection: "row",
+        height: 34 * rem,
+        width: "100%",
+        alignItems: "center",
+        paddingHorizontal: 10 * rem,
+        marginVertical: 8 * rem,
+      }}
+    >
+      <PictureIcon height={29 * rem} width={32 * rem} />
+      <Text style={{ marginHorizontal: 5 * rem }}> Adicionar foto</Text>
+      {visible ? (
+        <Modal transparent={false} visible={visible}>
+          <BlurView
+            reducedTransparencyFallbackColor="gray"
+            blurType="light"
+            blurAmount={10}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}
+          />
+          <TouchableOpacity
+            onPress={() => setVisible(false)}
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
+            <View style={{ opacity: 0.8 }}>
+              <TouchableOpacity
+                onPress={() => {
+                  launchImageLibrary(optionsGallery, (response) => {
+                    console.log("Response = ", response);
+
+                    if (response.didCancel) {
+                      console.log("User cancelled image picker");
+                      setImageSource(null);
+                    } else if (response.error) {
+                      console.log("ImagePicker Error: ", response.error);
+                      setImageSource(null);
+                    } else {
+                      // You can also display the image using data:
+                      // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+                      setImageSource(response.uri);
+                    }
+                    setVisible(false);
+                  });
+                }}
+                style={{
+                  borderRadius: 20 * rem,
+                  borderColor: RedBase,
+                  borderWidth: 1,
+                  paddingHorizontal: 8 * rem,
+                  alignItems: "center",
+                  padding: 5,
+                  marginVertical: 5 * rem,
+                }}
+              >
+                <GalleryIcon height={38} width={32} />
+                <Text
+                  style={{
+                    color: RedBase,
+                    fontFamily: "Delius",
+                    fontSize: 17 * rem,
+                    paddingVertical: 5,
+                  }}
+                >
+                  Escolher da galeria
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  launchCamera(optionsCam, (response) => {
+                    if (response.error) {
+                      console.log("LaunchCamera Error: ", response.error);
+                    } else {
+                      setImageSource(response);
+                      // console.log("URI: ", imageSource.assets[0].uri);
+                    }
+                  });
+                  setVisible(false);
+                }}
+                style={{
+                  borderRadius: 20 * rem,
+                  borderColor: BlueBase,
+                  borderWidth: 1,
+                  paddingHorizontal: 8 * rem,
+                  alignItems: "center",
+                  padding: 5,
+                  marginVertical: 5 * rem,
+                }}
+              >
+                <CameraIcon height={38} width={32} />
+                <Text
+                  style={{
+                    color: BlueBase,
+                    fontFamily: "Delius",
+                    fontSize: 17 * rem,
+                    paddingVertical: 5 * rem,
+                  }}
+                >
+                  Tirar uma foto
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </TouchableOpacity>
+        </Modal>
+      ) : (
+        <></>
+      )}
+    </TouchableOpacity>
+  );
+}

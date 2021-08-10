@@ -3,10 +3,10 @@ import { useNavigation } from "@react-navigation/native";
 import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { GrayLight, OrangeBase, White } from "../../assets/AppColors";
 import { ButtonOrange, rem } from "../../components/components";
-import PictureIcon from "../../assets/images/PictureIcon.svg";
-import LocationIcon from "../../assets/images/LocationIcon.svg";
+// import LocationIcon from "../../assets/images/LocationIcon.svg";
 import { useAuth } from "../../hooks/Auth";
-import { PickerState, PickerPet } from "../../components/styled/picker";
+import { PickerState, PickerPet, PickerImage } from "../../components/styled/picker";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 function CreatePost() {
   const navigation = useNavigation();
@@ -22,7 +22,6 @@ function CreatePost() {
   const { user } = useAuth();
 
   const ref_description = useRef();
-  const ref_picture = useRef();
 
   const showImagePicker = () => {
     console.log("ShowImagePicker");
@@ -138,21 +137,7 @@ function CreatePost() {
             alignSelf: "center",
           }}
         ></View>
-        <TouchableOpacity
-          ref={ref_picture}
-          onPress={() => console.log("picture")}
-          style={{
-            flexDirection: "row",
-            height: 34 * rem,
-            width: "100%",
-            alignItems: "center",
-            paddingHorizontal: 10 * rem,
-            marginVertical: 4 * rem,
-          }}
-        >
-          <PictureIcon height={29 * rem} width={32 * rem} />
-          <Text style={{ marginHorizontal: 5 * rem }}> Adicionar foto</Text>
-        </TouchableOpacity>
+        <PickerImage />
         {/* <TouchableOpacity
           style={{
             flexDirection: "row",
