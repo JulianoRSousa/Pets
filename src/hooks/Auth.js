@@ -26,12 +26,14 @@ const AuthContext = createContext();
       setLoading(false);
     }
 
+    console.log('user: ',user)
     loadStorageData();
   }, []);
 
   async function signIn(email, pass) {
     setLoading(true)
     try {
+      var start = new Date().getTime();
       const response = await auth.signIn(email, pass);
       setToken(response.token);
       setUser(response.user);
@@ -41,6 +43,9 @@ const AuthContext = createContext();
       await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.user));
       await AsyncStorage.setItem('@RNAuth:token', response.token);
       setLoading(false)
+      var end = new Date().getTime();
+      const time = end - start;
+      console.log("time: ", time)
 
       return response;
     } catch (error) {
