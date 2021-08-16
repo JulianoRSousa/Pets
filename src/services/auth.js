@@ -19,6 +19,9 @@ export async function signIn(email, pass) {
         resolve({
           token: Res.data._id,
           auth: Res.data.auth,
+          dataVersion: Res.data.dataVersion,
+          userConfig: Res.data.userConfig,
+          notification: Res.data.notification,
           user: {
             id: Res.data.user._id,
             email: Res.data.user.email,
