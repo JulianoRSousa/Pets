@@ -24,14 +24,14 @@ function DrawerItemProfile() {
           marginTop: 9 * rem,
         }}
       >
-        <FastImage
+        {/* <FastImage
           style={{
             height: 140 * rem,
             width: 140 * rem,
             borderRadius: 85 * rem,
           }}
           source={{ uri: user.profilePictureUrl }}
-        />
+        /> */}
       </View>
 
       <Text
@@ -43,12 +43,12 @@ function DrawerItemProfile() {
           color: GrayDark,
         }}
       >
-        {user.firstname + " " + user.lastname || ""}
+        {/* {user.firstname + " " + user.lastname || ""} */}
       </Text>
       <Text
         style={{ color: GrayDark, fontFamily: "Delius", fontSize: 10 * rem }}
       >
-        @{user.username || ""}
+        {/* @{user.username || ""} */}
       </Text>
       <View style={{ flexDirection: "row" }}>
         <View
@@ -68,9 +68,9 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.postCount || "0"}
+            {/* {user.postCount || "0"} */}
           </Text>
-          {user.postCount != 1 ? (
+          {/* {user.postCount != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -90,7 +90,7 @@ function DrawerItemProfile() {
             >
               Publicação
             </Text>
-          )}
+          )} */}
         </View>
         <View
           style={{
@@ -111,9 +111,9 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.followerCount || "0"}
+            {/* {user.followerCount || "0"} */}
           </Text>
-          {user.followerCount != 1 ? (
+          {/* {user.followerCount != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -133,7 +133,7 @@ function DrawerItemProfile() {
             >
               Seguidor
             </Text>
-          )}
+          )} */}
         </View>
         <View
           style={{
@@ -152,9 +152,9 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.petCount || "0"}
+            {/* {user.petCount || "0"} */}
           </Text>
-          {user.petCount != 1 ? (
+          {/* {user.petCount != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -174,7 +174,7 @@ function DrawerItemProfile() {
             >
               Pet
             </Text>
-          )}
+          )} */}
         </View>
       </View>
     </View>

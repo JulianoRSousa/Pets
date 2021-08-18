@@ -32,13 +32,20 @@ function AuthProvider({ children }) {
     try {
       const response = await auth.signIn(email, pass);
       setToken(response.token);
-      setUser(response.user);
       setSigned(response.auth);
       api.defaults.headers.Authorization = `Baerer ${response.token}`;
-
+      await AsyncStorage.setItem("@rn:auth", response.auth);
       await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
       await AsyncStorage.setItem("@rn:token", response.token);
-      await AsyncStorage.setItem("@rn:auth", response.auth);
+      await AsyncStorage.setItem(
+        "@rn:userConfig",
+        JSON.stringify(response.userConfig)
+      );
+      await AsyncStorage.setItem(
+        "@rn:dataVersion",
+        JSON.stringify(response.dataVersion)
+      );
+      await AsyncStorage.setItem("@rn:notification", response.notification);
       setLoading(false);
 
       return response;

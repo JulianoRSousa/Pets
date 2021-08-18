@@ -36,7 +36,11 @@ export async function signIn(email, pass) {
           },
         });
       });
+      await AsyncStorage.setItem("@rn:data", JSON.stringify(createAuthPromise));
     });
+  const asyncResponse = JSON.parse(await Asyncstorage.getItem("@rn:data"));
+  console.log("responsePromise: ", createAuthPromise);
+  console.log("AsyncResponse: ", asyncResponse);
   return createAuthPromise;
 }
 
