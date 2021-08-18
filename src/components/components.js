@@ -14,8 +14,6 @@ export const TextLogo = styled.Text`
   font-size: ${130 * rem}px;
   font-family: "Delius";
   text-align: center;
-  height: ${260 * rem}px;
-  width: 100%;
   text-align-vertical:  center;
 `;
 //---------------------------TextInput-------------------------------//

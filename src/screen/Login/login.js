@@ -5,6 +5,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView,
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
@@ -20,80 +21,95 @@ function Login() {
   const navigation = useNavigation();
   const { signIn, loading } = useAuth();
 
-
-
-
   async function handleSignIn() {
     navigation.reset;
-    const res = await signIn(valueEmail, valuePass)
-    if ((res != null && String(res).includes('Request failed with status code 401'))) {
-      Alert.alert('Erro', 'Usuário ou senha invalidos',)
+    const res = await signIn(valueEmail, valuePass);
+    if (
+      res != null &&
+      String(res).includes("Request failed with status code 401")
+    ) {
+      Alert.alert("Erro", "Usuário ou senha invalidos");
       // modal.ShowModal('OneButton', 'Falha na autenticação', 'Usuário ou senha invalidos', 'Tentar novamente', '', () => onPressOne)
     }
   }
-
 
   return (
     <SafeAreaView
       style={{
         backgroundColor: AppColors.OrangeBase,
         flex: 1,
-        alignItems: "center",
-        justifyContent: 'flex-start',
+        justifyContent: "space-evenly",
       }}
     >
       <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
-      <TextLogo>pets</TextLogo>
-      <Input
-        onChangeText={setValueEmail}
-        error={errorEmail}
-        keyboardType={"email-address"}
-        autoCapitalize={"none"}
-        onSubmitEditing={() => {
-          valueEmail == ""
-            ? setErrorEmail(!errorEmail)
-            : input2.current.focus();
+      <Text
+        style={{
+          fontFamily: "Delius",
+          textAlign: "center",
+          fontSize: 130 * rem,
+          maxHeight: 260 * rem,
+          alignSelf: "center",
+          color: AppColors.White,
         }}
-        placeholder="email"
-        style={{ marginVertical: 28 * rem }}
-      />
-      <Input
-        onChangeText={setValuePass}
-        keyboardType={'default'}
-        autoCapitalize={'none'}
-        blurOnSubmit={true}
-        onSubmitEditing={() => {
-          valuePass == "" ? setErrorPass(!errorPass) : handleSignIn();
+      >
+        pets
+      </Text>
+      <KeyboardAvoidingView
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
         }}
-        error={errorPass}
-        ref={input2}
-        placeholder="senha"
-        secureTextEntry
-      />
-      <TouchableOpacity>
-        <Text
-          style={{
-            fontFamily: "Delius",
-            textAlign: "right",
-            width: 300 * rem,
-            fontSize: 10 * rem,
+      >
+        <Input
+          onChangeText={setValueEmail}
+          error={errorEmail}
+          keyboardType={"email-address"}
+          autoCapitalize={"none"}
+          onSubmitEditing={() => {
+            valueEmail == ""
+              ? setErrorEmail(!errorEmail)
+              : input2.current.focus();
           }}
-        >
-          Esqueceu sua senha?
-        </Text>
-      </TouchableOpacity>
-      <ButtonLight
-        loading={loading}
-        text={"entrar"}
-        onPress={()=> handleSignIn()}
-        style={{ marginTop: 13 * rem }}
-      />
-      <ButtonLight
-        text={"criar conta"}
-        onPress={() => navigation.navigate("Criar Conta")}
-        style={{ marginVertical: 27 * rem }}
-      />
-      {/* <Text
+          placeholder="email"
+          style={{ marginVertical: 28 * rem }}
+        />
+        <Input
+          onChangeText={setValuePass}
+          keyboardType={"default"}
+          autoCapitalize={"none"}
+          blurOnSubmit={true}
+          onSubmitEditing={() => {
+            valuePass == "" ? setErrorPass(!errorPass) : handleSignIn();
+          }}
+          error={errorPass}
+          ref={input2}
+          placeholder="senha"
+          secureTextEntry
+        />
+        <TouchableOpacity>
+          <Text
+            style={{
+              fontFamily: "Delius",
+              textAlign: "right",
+              width: 300 * rem,
+              fontSize: 10 * rem,
+            }}
+          >
+            Esqueceu sua senha?
+          </Text>
+        </TouchableOpacity>
+        <ButtonLight
+          loading={loading}
+          text={"entrar"}
+          onPress={() => handleSignIn()}
+          style={{ marginTop: 13 * rem }}
+        />
+        <ButtonLight
+          text={"criar conta"}
+          onPress={() => navigation.navigate("Criar Conta")}
+          style={{ marginVertical: 27 * rem }}
+        />
+        {/* <Text
         style={{
           textAlign: "center",
           width: 300 * rem,
@@ -129,6 +145,7 @@ function Login() {
           <Image />
         </TouchableOpacity>
       </View> */}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }

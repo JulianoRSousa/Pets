@@ -14,12 +14,10 @@ function DataProvider({ children }) {
 
   useEffect(() => {
     setLoading(true);
-    loadStorageData();
     setLoading(false);
   }, []);
 
   async function loadStorageData() {
-    await appInfo.updateDataVersion();
 
     const storagedDataVersion = await AsyncStorage.getItem("@rn:dataVersion");
     const storagedUserConfig = await AsyncStorage.getItem("@rn:userConfig");
@@ -31,6 +29,8 @@ function DataProvider({ children }) {
     setUserConfig(JSON.parse(storagedUserConfig));
     setNotification(JSON.parse(storagedNotification));
   }
+
+ 
 
   async function cleanOut(email, pass) {
     setLoading(true);

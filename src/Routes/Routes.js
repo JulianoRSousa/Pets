@@ -8,10 +8,10 @@ const Routes = () => {
   const [data, setData] = useState({ auth: "null", token: "null" });
   const { signed } = useAuth();
 
-  useEffect(() => {
-    setAuth();
-    getAuth();
-  }, [data.auth]);
+  // useEffect(() => {
+  //   setAuth();
+  //   getAuth();
+  // }, [signed]);
 
   const setAuth = async () => {
     const data = JSON.stringify({ auth: true, token: false });

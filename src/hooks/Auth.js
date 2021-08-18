@@ -20,6 +20,7 @@ function AuthProvider({ children }) {
         setUser(JSON.parse(storagedUser));
         api.defaults.headers.Authorization = storagedToken;
         setToken(storagedToken);
+        setSigned(true);
       }
       setLoading(false);
     }
@@ -34,7 +35,7 @@ function AuthProvider({ children }) {
       setToken(response.token);
       setSigned(response.auth);
       api.defaults.headers.Authorization = `Baerer ${response.token}`;
-      await AsyncStorage.setItem("@rn:auth", response.auth);
+      await AsyncStorage.setItem("@rn:auth", JSON.stringify(response.auth));
       await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
       await AsyncStorage.setItem("@rn:token", response.token);
       await AsyncStorage.setItem(
@@ -47,7 +48,7 @@ function AuthProvider({ children }) {
       );
       await AsyncStorage.setItem("@rn:notification", response.notification);
       setLoading(false);
-
+        console.log('Reponse: ',response)
       return response;
     } catch (error) {
       console.log(error);
@@ -64,6 +65,7 @@ function AuthProvider({ children }) {
     await auth.signOut();
     await AsyncStorage.clear();
     setUser(null);
+    setSigned(false);
   }
 
   return (
