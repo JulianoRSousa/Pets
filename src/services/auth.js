@@ -16,10 +16,11 @@ export async function signIn(email, pass) {
     )
     .then(async (Res) => {
       createAuthPromise = new Promise((resolve) => {
+        console.log("Res: ", Res.data);
         resolve({
           token: Res.data._id,
           auth: Res.data.auth,
-          dataVersion: Res.data.dataVersion,
+          __v: Res.data.__v,
           userConfig: Res.data.userConfig,
           notification: Res.data.notification,
           user: {
@@ -45,12 +46,12 @@ export async function signIn(email, pass) {
     });
   const userSTORAGED = JSON.parse(await AsyncStorage.getItem("@rn:user"));
   console.log("Storaged User: ", userSTORAGED);
-  console.log("responsePromise: ", createAuthPromise);
+  console.log("responsePromise: ", createAuthPromise._W);
   return createAuthPromise;
 }
 export async function loadUser(token) {
   const ApiUser = await api.post(
-    "/getData",
+    "/loadUser",
     {},
     {
       headers: {
@@ -75,7 +76,7 @@ export async function signOut() {
         AsyncStorage.clear();
       });
   } catch (error) {
-    console.log(String(error));
+    console.error(error);
   }
   return;
 }

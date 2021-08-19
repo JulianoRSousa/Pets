@@ -15,9 +15,9 @@ function AuthProvider({ children }) {
     async function loadStorageData() {
       const storagedUser = await AsyncStorage.getItem("@rn:user");
       const storagedToken = await AsyncStorage.getItem("@rn:token");
-      const ApiUser = await auth.loadUser(storagedToken);
-      console.log("apiUser on AUTHHOOK: ", ApiUser);
-      if (storagedUser && storagedToken) {
+      if (storagedUser && !!storagedToken) {
+        const ApiUser = await auth.loadUser(storagedToken);
+        console.log("apiUser on AUTHHOOK: ", ApiUser);
         api.defaults.headers.Authorization = storagedToken;
         setToken(storagedToken);
         setUser(storagedUser);
@@ -53,10 +53,11 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function signIn(token) {
+  async function signInToken(token) {
     setLoading(true);
     try {
-      const response = await auth.loadUser(token)
+      const response = await auth.loadUser(token);
+      console.log("ResponseLoadUser: ", response);
       setUser(response.user);
       await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
       await AsyncStorage.setItem("@rn:token", response.token);
@@ -66,7 +67,8 @@ function AuthProvider({ children }) {
       console.log(error);
       if (error.auth) {
         setLoading(false);
-        return null;
+        console.error(error);
+        return;
       }
       setLoading(false);
       return error;
