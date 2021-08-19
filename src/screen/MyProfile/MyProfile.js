@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import FastImage from "react-native-fast-image";
 import { rem } from "../../components/components";
 import { GrayDark, OrangeBase, White } from "../../assets/AppColors";
-import { useData } from "../../hooks/Data";
+import { useAuth } from "../../hooks/Auth";
 import EditIcon from "../../assets/images/EditIcon.svg";
 import DropDownIcon from "../../assets/images/DropDownIcon.svg";
 import { useNavigation } from "@react-navigation/core";
@@ -11,7 +11,7 @@ import MyPost from "../../components/Post/MyPost";
 import MyPets from "../../components/Pets/MyPets";
 
 function MyProfile() {
-  const { user } = useData();
+  const { user } = useAuth();
   const navigation = useNavigation();
 
   const [petsVisible, setPetsVisible] = useState();
@@ -34,13 +34,16 @@ function MyProfile() {
             alignItems: "flex-end",
           }}
         >
-          <View style={{
-            height: 147 * rem,
-            width: 147 * rem,
-            borderRadius: 85 * rem,
-            backgroundColor: White,
-            alignItems: 'center', justifyContent: 'center',
-          }}>
+          <View
+            style={{
+              height: 147 * rem,
+              width: 147 * rem,
+              borderRadius: 85 * rem,
+              backgroundColor: White,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <FastImage
               style={{
                 height: 140 * rem,

@@ -15,11 +15,12 @@ function AuthProvider({ children }) {
     async function loadStorageData() {
       const storagedUser = await AsyncStorage.getItem("@rn:user");
       const storagedToken = await AsyncStorage.getItem("@rn:token");
-
+      const ApiUser = await auth.loadUser(storagedToken);
+      console.log("apiUser on AUTHHOOK: ", ApiUser);
       if (storagedUser && storagedToken) {
-        setUser(JSON.parse(storagedUser));
         api.defaults.headers.Authorization = storagedToken;
         setToken(storagedToken);
+        setUser(storagedUser);
         setSigned(true);
       }
       setLoading(false);
@@ -32,23 +33,34 @@ function AuthProvider({ children }) {
     setLoading(true);
     try {
       const response = await auth.signIn(email, pass);
+      setUser(response.user);
       setToken(response.token);
       setSigned(response.auth);
       api.defaults.headers.Authorization = `Baerer ${response.token}`;
       await AsyncStorage.setItem("@rn:auth", JSON.stringify(response.auth));
       await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
       await AsyncStorage.setItem("@rn:token", response.token);
-      await AsyncStorage.setItem(
-        "@rn:userConfig",
-        JSON.stringify(response.userConfig)
-      );
-      await AsyncStorage.setItem(
-        "@rn:dataVersion",
-        JSON.stringify(response.dataVersion)
-      );
-      await AsyncStorage.setItem("@rn:notification", response.notification);
       setLoading(false);
-        console.log('Reponse: ',response)
+      return response;
+    } catch (error) {
+      console.log(error);
+      if (error.auth) {
+        setLoading(false);
+        return null;
+      }
+      setLoading(false);
+      return error;
+    }
+  }
+
+  async function signIn(token) {
+    setLoading(true);
+    try {
+      const response = await auth.loadUser(token)
+      setUser(response.user);
+      await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
+      await AsyncStorage.setItem("@rn:token", response.token);
+      setLoading(false);
       return response;
     } catch (error) {
       console.log(error);
@@ -69,7 +81,9 @@ function AuthProvider({ children }) {
   }
 
   return (
-    <AuthContext.Provider value={{ signed, token, loading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ signed, user, token, loading, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

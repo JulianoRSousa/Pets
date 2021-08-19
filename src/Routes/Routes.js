@@ -5,7 +5,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { useAuth } from "../hooks/Auth";
 
 const Routes = () => {
-  const [data, setData] = useState({ auth: "null", token: "null" });
   const { signed } = useAuth();
 
   // useEffect(() => {
