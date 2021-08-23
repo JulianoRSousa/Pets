@@ -8,6 +8,9 @@ import { rem } from "../components";
 function PetItem(props) {
   const petImage = props.petImage;
   const petName = props.petName ? props.petName : "Sem nome";
+  const petDescription = props.petDescription
+    ? props.petDescription
+    : "Sem descrição";
   const opacityON = props.opacity == false ? 1 : 0.7;
 
   return (
@@ -67,7 +70,7 @@ function PetItem(props) {
           marginHorizontal: 10 * rem,
         }}
       >
-        Gordo, branco e encardido. Adora comer e dormir
+        {petDescription}
       </Text>
       <View
         style={{

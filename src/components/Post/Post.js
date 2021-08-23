@@ -46,7 +46,7 @@ function PostPage() {
   function showLoad() {
     return (
       <>
-        <ActivityIndicator size={"large"} color={"#999"} />
+        <ActivityIndicator size="large" color="#202020" style={{backgroundColor: 'white', alignSelf: 'center', borderRadius: 100, padding:5}} />
       </>
     );
   }

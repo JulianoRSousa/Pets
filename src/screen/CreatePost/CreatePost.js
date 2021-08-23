@@ -5,12 +5,20 @@ import { GrayLight, OrangeBase, White } from "../../assets/AppColors";
 import { ButtonOrange, rem } from "../../components/components";
 // import LocationIcon from "../../assets/images/LocationIcon.svg";
 import { useAuth } from "../../hooks/Auth";
-import { PickerState, PickerPet, PickerImage } from "../../components/styled/picker";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {
+  PickerState,
+  PickerPet,
+  PickerImage,
+} from "../../components/styled/picker";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import FormData from "form-data";
+import createPostService from "../../services/createPost.Service";
 
 function CreatePost() {
+  const { user } = useAuth();
   const navigation = useNavigation();
-  const [petId, setPetId] = useState('');
+
+  const [petId, setPetId] = useState("");
   const [petState, setPetState] = useState(1);
   const [petType, setPetType] = useState(0);
   const [petName, setPetName] = useState("");
@@ -19,13 +27,33 @@ function CreatePost() {
   const [picture, setPicture] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [description, setDescription] = useState("");
-  const { user } = useAuth();
+  const [imageFile, setImageFile] = useState(null);
 
   const ref_description = useRef();
 
-  const showImagePicker = () => {
-    console.log("ShowImagePicker");
-  };
+  async function sendPost() {
+    await createPostService(petId, imageFile, petState, description);
+  }
+
+  function alertPost() {
+    return (
+      <View>
+        {Alert.alert(
+          "Parabéns",
+          "Post criado com sucesso",
+          [
+            {
+              text: "Ok",
+              onPress: () => {
+                navigation.navigate("Feed");
+              },
+            },
+          ],
+          { cancelable: false }
+        )}
+      </View>
+    );
+  }
 
   return (
     <View
@@ -137,7 +165,7 @@ function CreatePost() {
             alignSelf: "center",
           }}
         ></View>
-        <PickerImage />
+        <PickerImage onChange={setImageFile} />
         {/* <TouchableOpacity
           style={{
             flexDirection: "row",
@@ -153,10 +181,17 @@ function CreatePost() {
       </View>
       <ButtonOrange
         style={{ alignSelf: "center", elevation: 3, marginVertical: 4 * rem }}
-        onPress={() =>
-          {console.log(petId), navigation.navigate("Preview", {
-            postInfo: { petName, picture: picture, pictureUrl: pictureUrl, description, petState },
-          })
+        onPress={() => {
+          console.log(petId),
+            navigation.navigate("Preview", {
+              postInfo: {
+                petName,
+                picture: picture,
+                pictureUrl: pictureUrl,
+                description,
+                petState,
+              },
+            });
         }}
         text={"Visualizar"}
       />

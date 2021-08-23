@@ -1,6 +1,13 @@
 import { BlurView } from "@react-native-community/blur";
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View, Modal, ScrollView } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Modal,
+  ScrollView,
+  Alert,
+} from "react-native";
 import {
   BlueBase,
   pickerColor,
@@ -16,7 +23,13 @@ import PetItem from "../Pets/PetItem";
 import PictureIcon from "../../assets/images/PictureIcon.svg";
 import GalleryIcon from "../../assets/images/galleryIcon.svg";
 import CameraIcon from "../../assets/images/CameraIcon.svg";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
+import {
+  ImagePicker,
+  launchCamera,
+  launchImageLibrary,
+} from "react-native-image-picker";
+import { useNavigation } from "@react-navigation/native";
+import createPostService from "../../services/createPost.Service";
 
 export function PickerState(props) {
   const [text, setText] = useState("eu perdi meu pet");
@@ -181,6 +194,7 @@ export const PickerPet = (props) => {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [petList, setPetList] = useState([]);
+  const [selectedPet, setSelectedPet] = useState(null);
   const { token } = useAuth();
 
   useEffect(() => {
@@ -213,8 +227,8 @@ export const PickerPet = (props) => {
         props.petId(item.id),
           props.firstName(item.firstName),
           props.lastName(item.lastName),
-          props.petName(item.firstName + " " + item.lastName);
-        props.petPicture(item.picture),
+          props.petName(item.firstName + " " + item.lastName),
+          props.petPicture(item.picture),
           props.petPictureUrl(item.picture_url),
           props.petType(item.type),
           setVisible(false);
@@ -332,24 +346,94 @@ export const PickerPet = (props) => {
 };
 
 export function PickerImage(props) {
+  const navigation = useNavigation();
+  const [imageFile, setImageFile] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [imageSource, setImageSource] = useState(null);
-  const optionsGallery = {
-    title: "Selecionar foto",
-    storageOptions: {
-      skipBackup: true,
-      path: "Pets",
-    },
-  };
-  const optionsCam = {
-    cameraType: "back",
-    selectionLimit: 1,
-    mediaType: "photo",
-    storageOptions: {
-      skipBackup: true,
-      path: "Pets",
-    },
-  };
+
+  function _launchCamera() {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: "Pets",
+        saveToPhotos: true,
+      },
+    };
+    launchCamera(options, (response) => {
+      if (response.didCancel) {
+        Alert.alert(
+          "A escolha da imagem falhou",
+          "Precisamos de uma imagem para usarmos no seu post!",
+          [
+            {
+              text: "Ok",
+              onPress: () => {},
+            },
+          ],
+          { cancelable: false }
+        );
+        setImageFile(null);
+      } else if (response.error) {
+        Alert.alert(
+          "A escolha da imagem falhou",
+          "Precisamos de uma imagem para usarmos no seu post! ",
+          [
+            {
+              text: "Ok",
+              onPress: () => console.error(error),
+            },
+          ],
+          { cancelable: false }
+        );
+        setImageFile(null);
+      } else {
+        setImageFile(response);
+        props.onChange(response);
+        setVisible(false);
+      }
+    });
+  }
+
+  function _chooseImage() {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: "Pets",
+      },
+    };
+    launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        Alert.alert(
+          "A escolha da imagem falhou",
+          "Precisamos de uma imagem para usarmos no seu post!",
+          [
+            {
+              text: "Ok",
+              onPress: () => {},
+            },
+          ],
+          { cancelable: false }
+        );
+        setImageFile(null);
+      } else if (response.error) {
+        Alert.alert(
+          "A escolha da imagem falhou",
+          "Precisamos de uma imagem para usarmos no seu post! ",
+          [
+            {
+              text: "Ok",
+              onPress: () => console.error(error),
+            },
+          ],
+          { cancelable: false }
+        );
+        setImageFile(null);
+      } else {
+        setImageFile(response);
+        props.onChange(response);
+        setVisible(false);
+      }
+    });
+  }
 
   return (
     <TouchableOpacity
@@ -385,24 +469,7 @@ export function PickerImage(props) {
           >
             <View style={{ opacity: 0.8 }}>
               <TouchableOpacity
-                onPress={() => {
-                  launchImageLibrary(optionsGallery, (response) => {
-                    console.log("Response = ", response);
-
-                    if (response.didCancel) {
-                      console.log("User cancelled image picker");
-                      setImageSource(null);
-                    } else if (response.error) {
-                      console.log("ImagePicker Error: ", response.error);
-                      setImageSource(null);
-                    } else {
-                      // You can also display the image using data:
-                      // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-                      setImageSource(response.uri);
-                    }
-                    setVisible(false);
-                  });
-                }}
+                onPress={() => _chooseImage()}
                 style={{
                   borderRadius: 20 * rem,
                   borderColor: RedBase,
@@ -426,17 +493,7 @@ export function PickerImage(props) {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => {
-                  launchCamera(optionsCam, (response) => {
-                    if (response.error) {
-                      console.log("LaunchCamera Error: ", response.error);
-                    } else {
-                      setImageSource(response);
-                      // console.log("URI: ", imageSource.assets[0].uri);
-                    }
-                  });
-                  setVisible(false);
-                }}
+                onPress={() => _launchCamera()}
                 style={{
                   borderRadius: 20 * rem,
                   borderColor: BlueBase,
