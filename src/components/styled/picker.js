@@ -23,13 +23,8 @@ import PetItem from "../Pets/PetItem";
 import PictureIcon from "../../assets/images/PictureIcon.svg";
 import GalleryIcon from "../../assets/images/galleryIcon.svg";
 import CameraIcon from "../../assets/images/CameraIcon.svg";
-import {
-  ImagePicker,
-  launchCamera,
-  launchImageLibrary,
-} from "react-native-image-picker";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { useNavigation } from "@react-navigation/native";
-import createPostService from "../../services/createPost.Service";
 
 export function PickerState(props) {
   const [text, setText] = useState("eu perdi meu pet");

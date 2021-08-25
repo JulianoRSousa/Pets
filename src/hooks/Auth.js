@@ -13,19 +13,17 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function loadStorageData() {
-      const storagedUser = await AsyncStorage.getItem("@rn:user");
+      // const storagedUser = await AsyncStorage.getItem("@rn:user");
       const storagedToken = await AsyncStorage.getItem("@rn:token");
-      if (storagedUser && !!storagedToken) {
+      if (!!storagedToken) {
         const ApiUser = await auth.loadUser(storagedToken);
-        console.log("apiUser on AUTHHOOK: ", ApiUser);
+        setUser(ApiUser.user);
         api.defaults.headers.Authorization = storagedToken;
         setToken(storagedToken);
-        setUser(storagedUser);
         setSigned(true);
       }
       setLoading(false);
     }
-
     loadStorageData();
   }, []);
 
@@ -53,27 +51,26 @@ function AuthProvider({ children }) {
     }
   }
 
-  async function signInToken(token) {
-    setLoading(true);
-    try {
-      const response = await auth.loadUser(token);
-      console.log("ResponseLoadUser: ", response);
-      setUser(response.user);
-      await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
-      await AsyncStorage.setItem("@rn:token", response.token);
-      setLoading(false);
-      return response;
-    } catch (error) {
-      console.log(error);
-      if (error.auth) {
-        setLoading(false);
-        console.error(error);
-        return;
-      }
-      setLoading(false);
-      return error;
-    }
-  }
+  // async function signInToken(token) {
+  //   setLoading(true);
+  //   try {
+  //     const response = await auth.loadUser(token);
+  //     setUser(response.user);
+  //     await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
+  //     await AsyncStorage.setItem("@rn:token", response.token);
+  //     setLoading(false);
+  //     return response;
+  //   } catch (error) {
+  //     console.log(error);
+  //     if (error.auth) {
+  //       setLoading(false);
+  //       console.error(error);
+  //       return;
+  //     }
+  //     setLoading(false);
+  //     return error;
+  //   }
+  // }
 
   async function signOut() {
     await auth.signOut();
