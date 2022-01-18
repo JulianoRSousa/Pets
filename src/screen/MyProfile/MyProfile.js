@@ -94,7 +94,7 @@ function MyProfile() {
           </TouchableOpacity>
         </View>
         <Text
-          style={{ color: GrayDark, fontFamily: "Delius", fontSize: 11 * rem }}
+          style={{ color: White, fontFamily: "Delius", fontSize: 13 * rem }}
         >
           @{user.username || ""}
         </Text>

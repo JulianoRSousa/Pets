@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { rem } from "../components";
-import { GrayDark } from "../../assets/AppColors";
+import { GrayDark, RedBase, White } from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
 import { useAuth } from "../../hooks/Auth";
 
@@ -80,6 +80,7 @@ function DrawerItemProfile() {
                 fontFamily: "Delius",
                 fontSize: 10 * rem,
                 height: 21 * rem,
+                color: GrayDark,
               }}
             >
               Publicações
@@ -90,6 +91,7 @@ function DrawerItemProfile() {
                 fontFamily: "Delius",
                 fontSize: 10 * rem,
                 height: 21 * rem,
+                color: GrayDark,
               }}
             >
               Publicação

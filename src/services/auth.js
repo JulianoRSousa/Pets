@@ -34,7 +34,9 @@ export async function signIn(email, pass) {
             notification: Res.data.user.notification,
             followerList: Res.data.user.followerList,
             postList: Res.data.user.postList,
+            postCount: Res.data.user.postList.length,
             petList: Res.data.user.petList,
+            petCount: Res.data.user.petList.length,
             location: Res.data.user.location,
             foneNumber: Res.data.user.foneNumber,
             latitude: Res.data.user.latitude,
@@ -89,14 +91,12 @@ export async function loadUser(token) {
 export async function signOut() {
   try {
     const token = await AsyncStorage.getItem("@rn:token");
-    await api
-      .delete("/deleteauth", {
-        headers: {
-          token,
-        },
-      })
-      .then(() => {})
-      .finally(AsyncStorage.clear());
+    await api.delete("/deleteauth", {
+      headers: {
+        token,
+      },
+    });
+    await AsyncStorage.clear();
   } catch (error) {
     console.error(error);
   }

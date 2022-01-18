@@ -11,6 +11,7 @@ import { useAuth } from "../../hooks/Auth";
 
 function DrawerMenu() {
   const {signOut} = useAuth();
+  const { user } = useAuth();
   return (
     <View>
       <DrawerItemProfile />

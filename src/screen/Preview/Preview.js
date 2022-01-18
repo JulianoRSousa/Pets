@@ -27,7 +27,7 @@ function Preview() {
       <PostItem
         myPost={true}
         userImage={{ uri: user.profilePictureUrl }}
-        postImage={{ uri: route.params.postInfo.pictureUrl }}
+        postImage={{ uri: route.params.postInfo.picture }}
         fullName={user.firstname + " " + user.lastname}
         username={user.username}
         petName={route.params.postInfo.petName}

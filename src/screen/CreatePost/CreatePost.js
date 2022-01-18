@@ -148,7 +148,6 @@ function CreatePost() {
           value={description}
           onChangeText={setDescription}
           placeholder={"Adicione uma descrição"}
-          onSubmitEditing={() => showImagePicker()}
           style={{
             fontFamily: "Delius",
             fontSize: 18 * rem,
@@ -183,10 +182,11 @@ function CreatePost() {
         style={{ alignSelf: "center", elevation: 3, marginVertical: 4 * rem }}
         onPress={() => {
           console.log(petId),
+          console.log('ImageFile: ', imageFile)
             navigation.navigate("Preview", {
               postInfo: {
                 petName,
-                picture: picture,
+                picture: imageFile ? imageFile : picture,
                 pictureUrl: pictureUrl,
                 description,
                 petState,

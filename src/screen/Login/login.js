@@ -63,8 +63,9 @@ function Login() {
         <Input
           onChangeText={setValueEmail}
           error={errorEmail}
-          keyboardType={"email-address"}
           autoCapitalize={"none"}
+          blurOnSubmit={true}
+          secureTextEntry={false}
           onSubmitEditing={() => {
             valueEmail == ""
               ? setErrorEmail(!errorEmail)
