@@ -1,20 +1,22 @@
 import React from "react";
-import { useAuth } from "../hooks/Auth";
 import api from "./api";
 
-const createPostService = async (petId, file, state, description) => {
-  const { token } = useAuth();
+export const CreatePost = async (petId, file, state, description, token) => {
+  console.log('inicio')
+  console.log('file: ',file)
 
-  const img = {
-    uri: "file://" + file.path,
-    type: file.type,
-    name: file.fileName || file.path.substr(file.path.lastIndexOf("/") + 1),
-  };
+  // const img = {
+  //   uri: "file://" + file.path,
+  //   type: file.type,
+  //   name: file.fileName || file.path.substr(file.path.lastIndexOf("/") + 1),
+  // };
+
   const data = new FormData();
 
-  data.append("picture", img);
+  data.append("picture", file);
   data.append("state", state);
   data.append("description", description);
+  console.log('Meio')
 
   await api
     .post("/createPost", data, {
@@ -48,6 +50,6 @@ const createPostService = async (petId, file, state, description) => {
       // });
       return Res;
     });
-};
+  console.log('Fim')
 
-export default createPostService();
+}

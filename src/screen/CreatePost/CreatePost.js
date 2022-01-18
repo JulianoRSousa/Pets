@@ -181,17 +181,21 @@ function CreatePost() {
       <ButtonOrange
         style={{ alignSelf: "center", elevation: 3, marginVertical: 4 * rem }}
         onPress={() => {
-          console.log(petId),
-          console.log('ImageFile: ', imageFile)
-            navigation.navigate("Preview", {
-              postInfo: {
-                petName,
-                picture: imageFile ? imageFile : picture,
-                pictureUrl: pictureUrl,
-                description,
-                petState,
-              },
-            });
+          console.log("PetId: ", petId), console.log("ImageFile: ", imageFile);
+          navigation.navigate("Preview", {
+            postInfo: {
+              petId,
+              petName,
+              firstName,
+              lastName,
+              petType,
+              pictureUrl,
+              petState,
+              pictureUrl,
+              description,
+              picture: imageFile ? imageFile : null,
+            },
+          });
         }}
         text={"Visualizar"}
       />
