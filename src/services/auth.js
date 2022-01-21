@@ -2,6 +2,7 @@ import api from "./api";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export async function signIn(email, pass) {
+
   let createAuthPromise;
   await api
     .post(
@@ -89,6 +90,8 @@ export async function loadUser(token) {
 }
 
 export async function signOut() {
+  const navigation = useNavigation();
+  navigation.closeDrawer();
   try {
     const token = await AsyncStorage.getItem("@rn:token");
     await api.delete("/deleteauth", {

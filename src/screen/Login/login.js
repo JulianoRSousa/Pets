@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   SafeAreaView,
   Text,
@@ -9,8 +9,9 @@ import {
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
-import { useNavigation } from "@react-navigation/native";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../hooks/Auth";
+import { DrawerItem } from '@react-navigation/drawer'
 
 function Login() {
   const input2 = useRef();

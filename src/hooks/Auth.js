@@ -5,7 +5,7 @@ import api from "../services/api";
 
 const AuthContext = createContext();
 
-function AuthProvider({ children }) {
+function AuthProvider({ children }, props) {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -13,7 +13,6 @@ function AuthProvider({ children }) {
 
   useEffect(() => {
     async function loadStorageData() {
-      // const storagedUser = await AsyncStorage.getItem("@rn:user");
       const storagedToken = await AsyncStorage.getItem("@rn:token");
       if (!!storagedToken) {
         const ApiUser = await auth.loadUser(storagedToken);
@@ -72,7 +71,7 @@ function AuthProvider({ children }) {
   //   }
   // }
 
-  async function signOut() {
+  async function signOut(props) {
     await auth.signOut();
     await AsyncStorage.clear();
     setUser(null);

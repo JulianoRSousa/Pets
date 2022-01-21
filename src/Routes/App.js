@@ -4,12 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { White, OrangeBase } from "../assets/AppColors";
 import { rem } from "../components/components";
-import DrawerMenu from "../components/DrawerMenu/drawerMenu";
 import CustomTabIcon from "../components/BottomTabBar/CustomTabIcons";
 
 import Preview from "../screen/Preview/Preview";
 import Feed from "../screen/Feed/Feed";
 import Header from "../components/header/header";
+import DrawerMenu from "../components/DrawerMenu/drawerMenu";
 import CreatePost from "../screen/CreatePost/CreatePost";
 import Adoption from "../screen/Adoption/Adoption";
 import MyProfile from "../screen/MyProfile/MyProfile";
@@ -44,13 +44,11 @@ function App() {
 
   function MyProfileGroup() {
     return (
-      <AppStack.Navigator>
-        <AppStack.Screen
-          options={{ header: () => <Header showBackButton={false} /> }}
-          name="Meu Perfil"
-          component={MyProfile}
-        />
-      </AppStack.Navigator>
+      <AppStack.Screen
+        options={{ header: () => <Header showBackButton={false} /> }}
+        name="Meu Perfil"
+        component={MyProfile}
+      />
     );
   }
   function CreatePostGroup() {
@@ -94,21 +92,21 @@ function App() {
         tabBarOptions={{
           activeTintColor: OrangeBase,
           inactiveTintColor: White,
-          labelStyle: { fontFamily: "Delius", fontSize: 12 * rem},
+          labelStyle: { fontFamily: "Delius", fontSize: 12 * rem },
           style: {
             borderTopWidth: 0,
             elevation: 0,
             backgroundColor: OrangeBase,
             height: 62 * rem,
             justifyContent: "center",
-            paddingBottom:8*rem
+            paddingBottom: 8 * rem,
           },
         }}
       >
         <AppTabs.Screen name="Feed" component={FeedGroup} />
         <AppTabs.Screen name="Adoção" component={AdoptionGroup} />
-        <AppStack.Screen name="Meu Perfil" component={MyProfileGroup} />
-        <AppStack.Screen name="Novo" component={CreatePostGroup} />
+        <AppTabs.Screen name="Meu Perfil" component={MyProfileGroup} />
+        <AppTabs.Screen name="Novo" component={CreatePostGroup} />
       </AppTabs.Navigator>
     );
   };

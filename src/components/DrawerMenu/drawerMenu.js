@@ -8,10 +8,11 @@ import NotifyIcon from "../../assets/images/NotifyIcon.svg";
 import SettingsIcon from "../../assets/images/settingsIcon.svg";
 import AboutIcon from "../../assets/images/AboutIcon.svg";
 import { useAuth } from "../../hooks/Auth";
+// import { useNavigation } from "@react-navigation/native";
 
-function DrawerMenu() {
-  const {signOut} = useAuth();
-  const { user } = useAuth();
+function DrawerMenu(props) {
+  const { signOut } = useAuth();
+  // const navigation = useNavigation();
   return (
     <View>
       <DrawerItemProfile />
@@ -20,16 +21,20 @@ function DrawerMenu() {
           height: 52 * rem,
           flexDirection: "row",
           alignItems: "center",
-          paddingHorizontal: 15* rem,
+          paddingHorizontal: 15 * rem,
         }}
       >
-        <FriendsIcon height={31* rem} width={31* rem} style={{ paddingLeft: 15* rem }} />
+        <FriendsIcon
+          height={31 * rem}
+          width={31 * rem}
+          style={{ paddingLeft: 15 * rem }}
+        />
         <Text
           style={{
             fontSize: 16 * rem,
             fontFamily: "Delius",
             color: GrayDark,
-            marginHorizontal: 16* rem,
+            marginHorizontal: 16 * rem,
           }}
         >
           Amigos
@@ -40,16 +45,20 @@ function DrawerMenu() {
           height: 52 * rem,
           flexDirection: "row",
           alignItems: "center",
-          paddingHorizontal: 15* rem,
+          paddingHorizontal: 15 * rem,
         }}
       >
-        <NotifyIcon height={31* rem} width={31* rem} style={{ paddingLeft: 15* rem }} />
+        <NotifyIcon
+          height={31 * rem}
+          width={31 * rem}
+          style={{ paddingLeft: 15 * rem }}
+        />
         <Text
           style={{
             fontSize: 16 * rem,
             fontFamily: "Delius",
             color: GrayDark,
-            marginHorizontal: 16* rem,
+            marginHorizontal: 16 * rem,
           }}
         >
           Notificações
@@ -60,16 +69,20 @@ function DrawerMenu() {
           height: 52 * rem,
           flexDirection: "row",
           alignItems: "center",
-          paddingHorizontal: 15* rem,
+          paddingHorizontal: 15 * rem,
         }}
       >
-        <SettingsIcon height={31* rem} width={31* rem} style={{ paddingLeft: 15* rem }} />
+        <SettingsIcon
+          height={31 * rem}
+          width={31 * rem}
+          style={{ paddingLeft: 15 * rem }}
+        />
         <Text
           style={{
             fontSize: 16 * rem,
             fontFamily: "Delius",
             color: GrayDark,
-            marginHorizontal: 16* rem,
+            marginHorizontal: 16 * rem,
           }}
         >
           Configurações
@@ -80,27 +93,34 @@ function DrawerMenu() {
           height: 52 * rem,
           flexDirection: "row",
           alignItems: "center",
-          paddingHorizontal: 15* rem,
+          paddingHorizontal: 15 * rem,
         }}
       >
-        <AboutIcon height={31* rem} width={31* rem} style={{ paddingLeft: 15* rem }} />
+        <AboutIcon
+          height={31 * rem}
+          width={31 * rem}
+          style={{ paddingLeft: 15 * rem }}
+        />
         <Text
           style={{
             fontSize: 16 * rem,
             fontFamily: "Delius",
             color: GrayDark,
-            marginHorizontal: 16* rem,
+            marginHorizontal: 16 * rem,
           }}
         >
           Sobre o Pets
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => signOut()}
+        onPress={() => {
+          console.log('Props: ',props)
+          signOut();
+        }}
         style={{
           height: 52 * rem,
           justifyContent: "center",
-          paddingHorizontal: 15* rem,
+          paddingHorizontal: 15 * rem,
           alignItems: "flex-end",
         }}
       >
@@ -109,7 +129,7 @@ function DrawerMenu() {
             fontSize: 16 * rem,
             fontFamily: "Delius",
             color: RedBase,
-            marginHorizontal: 16* rem,
+            marginHorizontal: 16 * rem,
           }}
         >
           Sair
