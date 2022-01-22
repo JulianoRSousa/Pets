@@ -8,9 +8,14 @@ import NotifyIcon from "../../assets/images/NotifyIcon.svg";
 import SettingsIcon from "../../assets/images/settingsIcon.svg";
 import AboutIcon from "../../assets/images/AboutIcon.svg";
 import { useAuth } from "../../hooks/Auth";
+import {
+  useNavigation,
+  DrawerActions,
+} from "@react-navigation/native";
 
 function DrawerMenu(props) {
   const { signOut } = useAuth();
+  const navigation = useNavigation();
   return (
     <View>
       <DrawerItemProfile />
@@ -111,7 +116,10 @@ function DrawerMenu(props) {
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => signOut()}
+        onPress={() => {
+          signOut();
+          navigation.dispatch(DrawerActions.closeDrawer());
+        }}
         style={{
           height: 52 * rem,
           justifyContent: "center",

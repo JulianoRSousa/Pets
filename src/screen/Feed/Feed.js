@@ -1,18 +1,11 @@
 import React from "react";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect } from "react";
 import { View, StatusBar } from "react-native";
 import * as AppColors from "../../assets/AppColors";
 import PostPage from "../../components/Post/Post";
 import {useNavigation} from "@react-navigation/native";
 
 function Feed() {
-  const navigation = useNavigation();
-  useLayoutEffect(() => {
-    navigation.closeDrawer();
-    return () => {
-    };
-  }, []);
-  
   useEffect(() => {
     return <PostPage />;
   });

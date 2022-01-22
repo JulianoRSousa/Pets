@@ -112,23 +112,31 @@ function App() {
       </AppTabs.Navigator>
     );
   };
+  const drawerRoutes = () => {
+    return (
+      <AppDrawer.Navigator
+        drawerPosition="right"
+        openByDefault={false}
+        drawerStyle={{
+          width: 304 * rem,
+          height: 542 * rem,
+          backgroundColor: White,
+          borderTopLeftRadius: 33 * rem,
+          borderBottomRightRadius: 33 * rem,
+        }}
+        drawerContent={() => <DrawerMenu />}
+      >
+        <AppDrawer.Screen name="TabRoutes" component={tabRoutes} />
+      </AppDrawer.Navigator>
+    );
+  }
 
   return (
-    <AppDrawer.Navigator
-      drawerPosition="right"
-      openByDefault={false}
-      drawerStyle={{
-        width: 304 * rem,
-        height: 542 * rem,
-        backgroundColor: White,
-        borderTopLeftRadius: 33 * rem,
-        borderBottomRightRadius: 33 * rem,
-      }}
-      drawerContent={() => <DrawerMenu />}
-    >
-      <AppDrawer.Screen name="TabRoutes" component={tabRoutes} />
-    </AppDrawer.Navigator>
-  );
+    <AppStack.Navigator>
+      <AppDrawer.Screen name='fullApp' component={drawerRoutes}
+      options={{headerShown:false}} />
+    </AppStack.Navigator>
+  )
 }
 
 export default App;
