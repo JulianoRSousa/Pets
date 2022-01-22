@@ -71,7 +71,7 @@ function AuthProvider({ children }, props) {
   //   }
   // }
 
-  async function signOut(props) {
+  async function signOut() {
     await auth.signOut();
     await AsyncStorage.clear();
     setUser(null);

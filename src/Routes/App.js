@@ -44,11 +44,13 @@ function App() {
 
   function MyProfileGroup() {
     return (
+      <AppStack.Navigator>
       <AppStack.Screen
         options={{ header: () => <Header showBackButton={false} /> }}
         name="Meu Perfil"
         component={MyProfile}
       />
+      </AppStack.Navigator>
     );
   }
   function CreatePostGroup() {

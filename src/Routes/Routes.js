@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Auth from "./Auth";
 import App from "./App";
 import { useAuth } from "../hooks/Auth";
