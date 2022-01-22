@@ -41,7 +41,7 @@ function MyPets() {
       key={item.id}
       petImage={{ uri: item.picture_url }}
       petName={item.firstName + " " + item.lastName}
-      petDescription={'item.description'}
+      petDescription={item.description}
       petAge={item.birthdate}
       petType={'Cat'}
       petSex={item.male ? 'Macho' : 'Fêmea'}

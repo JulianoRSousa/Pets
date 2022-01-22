@@ -70,7 +70,7 @@ function PetItem(props) {
           marginHorizontal: 10 * rem,
         }}
       >
-        {petDescription}
+        {/* {petDescription} */}
       </Text>
       <View
         style={{
