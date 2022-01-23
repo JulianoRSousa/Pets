@@ -12,11 +12,11 @@ Mobile Pets version - REACT NATIVE
  <p>
 <p>
  
- ##### O projeto tem como objetivo ajudar animais de estimação, estejam esses animais, perdidos, encontrados ou para adoção.
+ <h4> O projeto tem como objetivo ajudar animais de estimação,<p> estejam esses animais, perdidos, encontrados ou para adoção.</h4>
 
 [![](https://github.com/JulianoRSousa/Pets/blob/main/src/assets/petsScreens.png)](https://www.figma.com/file/fxhQycSCJgSjIRIdyXCqYc/Vis%C3%A3o-geral?node-id=202%3A189)
  
- #### Recursos usados
+ #### `#`Recursos usados
  
  ![Insomnia](https://img.shields.io/badge/-Insomnia-333333?style=flat&logo=insomnia)
  ![Git](https://img.shields.io/badge/-Git-333333?style=flat&logo=git)
