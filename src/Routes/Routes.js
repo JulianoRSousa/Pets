@@ -4,9 +4,9 @@ import App from "./App";
 import { useAuth } from "../hooks/Auth";
 
 const Routes = () => {
-  const { signed } = useAuth();
+  const { contextSigned } = useAuth();
 
-  return signed == false ? <Auth /> : <App />;
+  return contextSigned == false ? <Auth /> : <App />;
 };
 
 export default Routes;

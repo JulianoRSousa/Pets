@@ -114,6 +114,7 @@ function App() {
   };
   const drawerRoutes = () => {
     return (
+      
       <AppDrawer.Navigator
         drawerPosition="right"
         openByDefault={false}

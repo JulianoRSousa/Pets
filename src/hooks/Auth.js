@@ -6,39 +6,55 @@ import api from "../services/api";
 const AuthContext = createContext();
 
 function AuthProvider({ children }, props) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [contextUser, setContextUser] = useState(null);
+  const [contextToken, setContextToken] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [signed, setSigned] = useState(null);
+  const [contextSigned, setContextSigned] = useState(null);
 
   useEffect(() => {
     async function loadStorageData() {
       const storagedToken = await AsyncStorage.getItem("@rn:token");
-      if (!!storagedToken) {
-        const ApiUser = await auth.loadUser(storagedToken);
-        setUser(ApiUser.user);
-        api.defaults.headers.Authorization = storagedToken;
-        setToken(storagedToken);
-        setSigned(true);
+      if (storagedToken) {
+        const contextUser = await auth.loadUser(storagedToken);
+        setContextUser(contextUser);
+        api.defaults.headers.Authorization = `Bearer ${storagedToken}`;
+        setContextToken(storagedToken);
+        setContextSigned(true);
       }
       setLoading(false);
+      setContextSigned(false);
     }
     loadStorageData();
   }, []);
 
+  // useEffect(() => {
+  //   async function loadStorageData() {
+  //     const storagedToken = await AsyncStorage.getItem("@rn:token");
+  //     if (!!storagedToken) {
+  //       const ApiUser = await auth.loadUser(storagedToken);
+  //       setUser(ApiUser.user);
+  //       api.defaults.headers.Authorization = storagedToken;
+  //       setToken(storagedToken);
+  //       setSigned(true);
+  //     }
+  //     setLoading(false);
+  //   }
+  //   loadStorageData();
+  // }, []);
+
   async function signIn(email, pass) {
     setLoading(true);
     try {
-      const response = await auth.signIn(email, pass);
-      setUser(response.user);
-      setToken(response.token);
-      setSigned(response.auth);
-      api.defaults.headers.Authorization = `Baerer ${response.token}`;
-      await AsyncStorage.setItem("@rn:auth", JSON.stringify(response.auth));
-      await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
-      await AsyncStorage.setItem("@rn:token", response.token);
+      const signinResponse = await auth.signIn(email, pass);
+      setContextUser(signinResponse.user);
+      setContextToken(signinResponse.token);
+      setContextSigned(signinResponse.auth);
+      api.defaults.headers.Authorization = `Baerer ${signinResponse.token}`;
+      await AsyncStorage.setItem("@rn:auth", JSON.stringify(signinResponse.auth));
+      await AsyncStorage.setItem("@rn:user", JSON.stringify(signinResponse.user));
+      await AsyncStorage.setItem("@rn:token", signinResponse.token);
       setLoading(false);
-      return response;
+      return signinResponse;
     } catch (error) {
       console.log(error);
       if (error.auth) {
@@ -53,12 +69,12 @@ function AuthProvider({ children }, props) {
   // async function signInToken(token) {
   //   setLoading(true);
   //   try {
-  //     const response = await auth.loadUser(token);
-  //     setUser(response.user);
-  //     await AsyncStorage.setItem("@rn:user", JSON.stringify(response.user));
-  //     await AsyncStorage.setItem("@rn:token", response.token);
+  //     const signinResponse = await auth.loadUser(token);
+  //     setUser(signinResponse.user);
+  //     await AsyncStorage.setItem("@rn:user", JSON.stringify(signinResponse.user));
+  //     await AsyncStorage.setItem("@rn:token", signinResponse.token);
   //     setLoading(false);
-  //     return response;
+  //     return signinResponse;
   //   } catch (error) {
   //     console.log(error);
   //     if (error.auth) {
@@ -74,13 +90,13 @@ function AuthProvider({ children }, props) {
   async function signOut() {
     await auth.signOut();
     await AsyncStorage.clear();
-    setUser(null);
-    setSigned(false);
+    setContextUser(null);
+    setContextSigned(false);
   }
 
   return (
     <AuthContext.Provider
-      value={{ signed, user, token, loading, signIn, signOut }}
+      value={{ contextSigned, contextUser, contextToken, loading, signIn, signOut }}
     >
       {children}
     </AuthContext.Provider>

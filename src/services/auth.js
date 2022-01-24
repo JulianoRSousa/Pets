@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
 export async function signIn(email, pass) {
-
   let createAuthPromise;
   await api
     .post(
@@ -93,12 +92,13 @@ export async function loadUser(token) {
 export async function signOut() {
   try {
     const token = await AsyncStorage.getItem("@rn:token");
-    await api.delete("/deleteauth", {
-      headers: {
-        token,
-      },
-    });
-    await AsyncStorage.clear();
+    await api
+      .delete("/deleteauth", {
+        headers: {
+          token,
+        },
+      })
+      .finally(await AsyncStorage.clear());
   } catch (error) {
     console.error(error);
   }
