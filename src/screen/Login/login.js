@@ -127,6 +127,7 @@ function Login() {
         >
           <Input
             name='email'
+            label='email'
             onChangeText={setValueEmail}
             error={errorEmail}
             autoFocus={false}
@@ -152,6 +153,7 @@ function Login() {
           />
           <Input
             name='password'
+            label='password'
             onChangeText={setValuePass}
             autoFocus={false}
             keyboardType={'default'}
