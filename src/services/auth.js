@@ -1,107 +1,44 @@
 import api from "./api";
-import AsyncStorage from "@react-native-community/async-storage";
-import { useNavigation } from "@react-navigation/native";
 
-export async function signIn(email, pass) {
-  let createAuthPromise;
-  await api
-    .post(
-      "/createauth",
-      {},
-      {
-        headers: {
-          email: email,
-          pass: pass,
-        },
-      }
-    )
-    .then(async (Res) => {
-      createAuthPromise = new Promise((resolve) => {
-        resolve({
-          token: Res.data._id,
-          auth: Res.data.auth,
-          __v: Res.data.__v,
-          userConfig: Res.data.userConfig,
-          notification: Res.data.notification,
-          user: {
-            id: Res.data.user._id,
-            email: Res.data.user.email,
-            username: Res.data.user.username,
-            firstname: Res.data.user.firstName,
-            lastname: Res.data.user.lastName,
-            birthdate: Res.data.user.birthDate,
-            profilePictureUrl: Res.data.user.picture_url,
-            dataVersion: Res.data.user.dataVersion,
-            notification: Res.data.user.notification,
-            followerList: Res.data.user.followerList,
-            postList: Res.data.user.postList,
-            postCount: Res.data.user.postList.length,
-            petList: Res.data.user.petList,
-            petCount: Res.data.user.petList.length,
-            location: Res.data.user.location,
-            foneNumber: Res.data.user.foneNumber,
-            latitude: Res.data.user.latitude,
-            longitude: Res.data.user.longitude,
-          },
-        });
-      });
-    });
-  return createAuthPromise;
-}
-
-export async function loadUser(token) {
-  let createUserPromise;
-  await api
-    .get("/loaduser", {
+export async function SignInService({ email, password }) {
+  try {
+    const response = await api({
+      method:'POST',
       headers: {
-        token: token,
+        email,
+        password,
       },
     })
-    .then(async (Res) => {
-      createUserPromise = new Promise((resolve) => {
-        resolve({
-          token: Res.data._id,
-          auth: Res.data.auth,
-          __v: Res.data.__v,
-          userConfig: Res.data.userConfig,
-          notification: Res.data.notification,
-          user: {
-            id: Res.data.user._id,
-            email: Res.data.user.email,
-            username: Res.data.user.username,
-            firstname: Res.data.user.firstName,
-            lastname: Res.data.user.lastName,
-            birthdate: Res.data.user.birthDate,
-            profilePictureUrl: Res.data.user.picture_url,
-            dataVersion: Res.data.user.dataVersion,
-            notification: Res.data.user.notification,
-            followerList: Res.data.user.followerList,
-            postList: Res.data.user.postList,
-            petList: Res.data.user.petList,
-            location: Res.data.user.location,
-            foneNumber: Res.data.user.foneNumber,
-            latitude: Res.data.user.latitude,
-            longitude: Res.data.user.longitude,
-          },
-        });
-      });
-    });
-  return createUserPromise;
+
+    return response
+  } catch (err) {
+    console.log('error SignInService: ',err)
+    return err
+  }
 }
 
-export async function signOut() {
+export async function SignUpService({ name, email, phone, password, invite }) {
   try {
-    const token = await AsyncStorage.getItem("@rn:token");
-    await api
-      .delete("/deleteauth", {
-        headers: {
-          token,
-        },
-      })
-      .finally(await AsyncStorage.clear());
-  } catch (error) {
-    console.error(error);
-  }
+    console.tron(name, email, phone, password, invite, 'data')
 
-  return;
+    const response = await callApi({
+      method: 'POST',
+      url: '/user',
+      apiData: {
+        name,
+        email,
+        phone,
+        password,
+        code: {
+          invite: invite || undefined,
+        },
+      },
+    })
+
+    return response
+  } catch (err) {
+    console.tron('[Integration Error]', err)
+
+    return err
+  }
 }

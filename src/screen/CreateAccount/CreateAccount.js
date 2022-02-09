@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   Alert,
+  // Image,
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
@@ -147,7 +148,7 @@ function CreateAccount() {
     >
       <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
 
-      <TextLogo style={{ height: 100 * rem, fontSize: 70 * rem }}>
+      <TextLogo style={{ height: 100 * rem, fontSize: 70 * rem, backgroundColor:'red', textAlignVertical:'top' }}>
         pets
       </TextLogo>
       <View
@@ -271,8 +272,8 @@ function CreateAccount() {
         style={{ marginTop: 28 * rem, marginBottom: 15 * rem }}
       />
 
-      {/*
-      ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE
+      
+      {/* ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE
       <Text
         style={{
           textAlign: "center",
@@ -309,7 +310,7 @@ function CreateAccount() {
           <Image />
         </TouchableOpacity>
       </View>
-      ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE*/}
+      ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE */}
     </SafeAreaView>
   );
 }

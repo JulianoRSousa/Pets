@@ -40,6 +40,7 @@ const AnimatedMaskView = Animatable.createAnimatableComponent(MaskView);
 export const Input = forwardRef(
   (
     {
+      name,
       placeholder,
       style,
       secureTextEntry,
@@ -50,6 +51,13 @@ export const Input = forwardRef(
       animation,
       value,
       onChangeText,
+      returnKeyType,
+      blurOnSubmit,
+      autoFocus,
+      autoCorrect,
+      spellCheck,
+      autoComplete,
+      onEndEditing
     },
     ref
   ) => {
@@ -65,6 +73,7 @@ export const Input = forwardRef(
     return (
       <AnimatedMaskView ref={animatedInput} error={error} style={style}>
         <MaskInput
+          name={name}
           value={value}
           onChangeText={onChangeText}
           keyboardType={keyboardType}
@@ -73,6 +82,13 @@ export const Input = forwardRef(
           onSubmitEditing={onSubmitEditing}
           secureTextEntry={secureTextEntry}
           placeholder={placeholder}
+          returnKeyType={returnKeyType}
+          blurOnSubmit={blurOnSubmit}
+          autoFocus={autoFocus}
+          autoCorrect={autoCorrect}
+          spellCheck={spellCheck}
+          autoComplete={autoComplete}
+          onEndEditing={onEndEditing}
         ></MaskInput>
       </AnimatedMaskView>
     );

@@ -1,12 +1,15 @@
 import axios from 'axios';
 import * as env from '../../dotEnv';
 
-const api = axios.create({
+export const api = async ({ method, url, apiData, headers }) => {
+  const responseApi = axios.create({
     baseURL: env.API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-})
+    method,
+    url,
+    data: apiData,
+    headers,
+  })
+  return responseApi
+}
 
 export default api;
