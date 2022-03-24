@@ -17,7 +17,7 @@ import {
   GrayLight,
 } from "../../assets/AppColors";
 import { rem } from "../components";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import api from "../../services/api";
 import PetItem from "../Pets/PetItem";
 import PictureIcon from "../../assets/images/PictureIcon.svg";

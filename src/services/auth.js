@@ -1,43 +1,48 @@
 import api from "./api";
 
-export async function SignInService({ email, password }) {
+export async function SignInService(email, pass) {
+  const response = await api({
+    method: 'POST', url: '/createauth', apiData: {}, headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      email,
+      pass,
+    }
+  })
+  const agora = new Date()
+  console.log('Date here: ', agora+'')
+  console.log('response here: ', response)
+  return response
   try {
     const response = await api({
-      method:'POST',
-      headers: {
+      method: 'POST', url: '/createauth', apiData: {}, headers: {
         email,
-        password,
-      },
+        pass,
+      }
     })
-
     return response
   } catch (err) {
-    console.log('error SignInService: ',err)
+    console.log('error SignInService: ', err)
     return err
   }
 }
 
-export async function SignUpService({ name, email, phone, password, invite }) {
+export async function SignUpService(name, email, phone, pass, invite) {
   try {
-    console.tron(name, email, phone, password, invite, 'data')
 
-    const response = await callApi({
-      method: 'POST',
-      url: '/user',
-      apiData: {
+    const response = await api({
+      method: 'POST', url: '/createaccount', apiData: {}, headers: {
         name,
         email,
+        pass: password,
         phone,
-        password,
-        code: {
-          invite: invite || undefined,
-        },
-      },
+        pass,
+        invite
+      }
     })
-
     return response
   } catch (err) {
-    console.tron('[Integration Error]', err)
+    console.log('[Integration Error]', err)
 
     return err
   }

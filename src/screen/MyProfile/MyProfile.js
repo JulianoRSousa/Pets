@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import FastImage from "react-native-fast-image";
 import { rem } from "../../components/components";
 import { GrayDark, OrangeBase, White } from "../../assets/AppColors";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import EditIcon from "../../assets/images/EditIcon.svg";
 import DropDownIcon from "../../assets/images/DropDownIcon.svg";
 import { useNavigation } from "@react-navigation/core";

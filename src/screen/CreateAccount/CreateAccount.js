@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
   SafeAreaView,
@@ -6,13 +6,18 @@ import {
   StatusBar,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard
   // Image,
 } from "react-native";
 import { rem, ButtonLight, TextLogo, Input } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import api from "../../services/api";
+import { LoginTitleWithSubtitle } from "../../components/HeadersTitle/LoginTitleWithSubtitle";
+
 
 function CreateAccount() {
   const input1 = useRef();
@@ -36,91 +41,98 @@ function CreateAccount() {
   const { signIn } = useAuth();
   const [loading, setLoading] = useState(false);
 
+
+  useEffect(() => {
+    () => Keyboard.dismiss;
+  }, [termsCheckBox])
+
+
   async function handleSubmit() {
     if (valueFullName != "") {
-      if(valueBirthDate != '') {
-      if (valueEmail != "") {
-        if (valuePass == valueRepeatPass) {
-          if (String(valuePass).length > 5) {
-            if (!termsCheckBox) {
+      if (valueBirthDate != '') {
+        if (valueEmail != "") {
+          if (valuePass == valueRepeatPass) {
+            if (String(valuePass).length > 5) {
+              if (!termsCheckBox) {
+                Alert.alert(
+                  "Termos e Condições",
+                  "Para criar uma conta precisamos que você leia e aceite nossos termos",
+                  [{ text: "Ler os Termos", onPress: () => { setTermsCheckBox(false) } },
+                  { text: "Entendi", onPress: () => setTermsCheckBox(false) }]
+                );
+
+                // setModalTittle('Termos e condições');
+                // setModalMessage('Para criar uma conta é necessario aceitar os termos e condições');
+                // setModalState(true);
+              } else {
+                try {
+                  // await callLocation()
+                  setLoading(true);
+                  await api
+                    .post(
+                      "/createLogin",
+                      {},
+                      {
+                        headers: {
+                          email: valueEmail,
+                          fullname: valueFullName,
+                          birthDate: valueBirthDate,
+                          pass: valuePass,
+                          latitude: valueLatitude,
+                          longitude: valueLongitude,
+                        },
+                      }
+                    )
+                    .then(async (Res) => {
+                      setLoading(false);
+                      if (Res.status == 201) {
+                        Alert.alert("Deu tudo certo!", "Sua conta foi criada com sucesso!", [
+                          { text: "OK", onPress: () => handleSignIn() },
+                        ]);
+                        return;
+                      } else if (Res.status == 202) {
+                        Alert.alert(
+                          "Email invalido",
+                          "Este email já está cadastrado!"
+                        );
+                      }
+                    });
+                } catch (error) {
+                  setLoading(false);
+                  console.log(error);
+                  if (error.message == "Request failed with status code 401") {
+                    Alert.alert(
+                      "Email invalido",
+                      "Este email já está cadastrado",
+                      [
+                        { text: "Recuperar senha", onPress: () => { } },
+                        { text: "Tentar Novamente", onPress: () => { } },
+                      ]
+                    );
+                  }
+                  // Alert.alert("Error", error.message);
+                  console.log("errinho:  ", error);
+                }
+              }
+            } else {
               Alert.alert(
-                "Termos e Condições",
-                "Para criar uma conta precisamos que você leia e aceite nossos termos",
-                [{ text: "Ler os Termos", onPress: () => {setTermsCheckBox(false)} },
-                { text: "Entendi", onPress: () => setTermsCheckBox(false) }]
+                "Senha muito curta",
+                "Informe uma senha com pelo menos 6 digitos"
               );
 
-              // setModalTittle('Termos e condições');
-              // setModalMessage('Para criar uma conta é necessario aceitar os termos e condições');
+              // setModalMessage('Informe uma senha com pelo menos 6 digitos');
+              // setModalTittle('Senha muito curta');
               // setModalState(true);
-            } else {
-              try {
-                // await callLocation()
-                setLoading(true);
-                await api
-                  .post(
-                    "/createLogin",
-                    {},
-                    {
-                      headers: {
-                        email: valueEmail,
-                        fullname: valueFullName,
-                        birthDate: valueBirthDate,
-                        pass: valuePass,
-                        latitude: valueLatitude,
-                        longitude: valueLongitude,
-                      },
-                    }
-                  )
-                  .then(async (Res) => {
-                    setLoading(false);
-                    if (Res.status == 201) {
-                      Alert.alert("Deu tudo certo!", "Sua conta foi criada com sucesso!", [
-                        { text: "OK", onPress: () => handleSignIn() },
-                      ]);
-                      return;
-                    } else if (Res.status == 202) {
-                      Alert.alert(
-                        "Email invalido",
-                        "Este email já está cadastrado!"
-                      );
-                    }
-                  });
-              } catch (error) {
-                setLoading(false);
-                console.log(error);
-                if (error.message == "Request failed with status code 401") {
-                  Alert.alert(
-                    "Email invalido",
-                    "Este email já está cadastrado",
-                    [
-                      { text: "Recuperar senha", onPress: () => {} },
-                      { text: "Tentar Novamente", onPress: () => {} },
-                    ]
-                  );
-                }
-                // Alert.alert("Error", error.message);
-                console.log("errinho:  ", error);
-              }
             }
           } else {
-            Alert.alert(
-              "Senha muito curta",
-              "Informe uma senha com pelo menos 6 digitos"
-            );
-
-            // setModalMessage('Informe uma senha com pelo menos 6 digitos');
-            // setModalTittle('Senha muito curta');
-            // setModalState(true);
+            Alert.alert("Algo está errado!", "Confira se digitou suas senhas corretamente");
           }
         } else {
-          Alert.alert("Algo está errado!", "Confira se digitou suas senhas corretamente");
+          Alert.alert("hmm...", "Gostariamos de saber o seu melhor email!", [
+            { text: "Ok", onPress: input3.current.focus() },
+          ]);
         }
       } else {
-        Alert.alert("hmm...", "Gostariamos de saber o seu melhor email!", [
-          { text: "Ok", onPress: input3.current.focus()},
-        ]);
-      }}else{
         Alert.alert("hmm...", "Gostariamos de saber sua data de nascimento!", [
           { text: "Ok", onPress: input2.current.focus() },
         ]);
@@ -133,147 +145,144 @@ function CreateAccount() {
     }
   }
 
-  async function handleSignIn() {
-    await signIn(valueEmail, valuePass);
+  function handleSignIn() {
+    signIn(valueEmail, valuePass);
     // Geolocation.clearWatch(watchID);
   }
 
   return (
     <SafeAreaView
       style={{
-        backgroundColor: AppColors.OrangeBase,
         flex: 1,
         alignItems: "center",
+        backgroundColor: AppColors.OrangeBase,
       }}
     >
-      <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
-
-      <TextLogo style={{ height: 100 * rem, fontSize: 70 * rem, backgroundColor:'red', textAlignVertical:'top' }}>
-        pets
-      </TextLogo>
-      <View
+      <TouchableWithoutFeedback
         style={{
-          backgroundColor: AppColors.OrangeLight,
-          width: "100%",
-          alignItems: "center",
-          height: 40 * rem,
-          elevation: 5,
+          width: '100%',
         }}
-      >
-        <Text
+        onPress={() => {
+          Keyboard.dismiss();
+        }}>
+        <KeyboardAvoidingView
+          behavior='position'
           style={{
-            fontFamily: "Quicksand-Medium",
-            fontSize: 26 * rem,
-            color: AppColors.White,
+            justifyContent: 'center'
           }}
+
+          enabled
         >
-          CADASTRE-SE
-        </Text>
-      </View>
-      <Input
-        ref={input1}
-        onChangeText={setValueFullName}
-        error={errorFullName}
-        autoCapitalize={"words"}
-        onSubmitEditing={() => {
-          valueFullName == ""
-            ? setErrorFullName(!errorFullName)
-            : input2.current.focus();
-        }}
-        placeholder="nome completo"
-        style={{ marginBottom: 6 * rem, marginTop: 38 * rem }}
-      />
-      <Input
-        ref={input2}
-        onChangeText={setValueBirthDate}
-        error={errorBirthDate}
-        keyboardType={"number-pad"}
-        onSubmitEditing={() => {
-          valueBirthDate == ""
-            ? setErrorBirthDate(!errorBirthDate)
-            : input3.current.focus();
-        }}
-        placeholder="data de nascimento"
-        style={{ marginVertical: 6 * rem }}
-      />
-      <Input
-        ref={input3}
-        onChangeText={setValueEmail}
-        error={errorEmail}
-        autoCapitalize={"none"}
-        onSubmitEditing={() => {
-          valueEmail == ""
-            ? setErrorEmail(!errorEmail)
-            : input4.current.focus();
-        }}
-        placeholder="email"
-        style={{ marginVertical: 6 * rem }}
-      />
-      <Input
-        onChangeText={setValuePass}
-        onSubmitEditing={() => {
-          valuePass == "" ? setErrorPass(!errorPass) : {};
-        }}
-        error={errorPass}
-        ref={input4}
-        placeholder="senha"
-        secureTextEntry
-        onSubmitEditing={() => {
-          valuePass == "" ? setErrorPass(!errorPass) : input5.current.focus();
-        }}
-        style={{ marginVertical: 6 * rem }}
-      />
+          <StatusBar translucent={false} backgroundColor={AppColors.OrangeBase} />
+          <View style={{ paddingTop: 20 }}>
 
-      <Input
-        onChangeText={setValueRepeatPass}
-        onSubmitEditing={() => {
-          valueRepeatPass == "" ? setErrorRepeatPass(!errorRepeatPass) : {};
-        }}
-        error={errorRepeatPass}
-        ref={input5}
-        placeholder="repetir senha"
-        secureTextEntry
-        style={{ marginVertical: 6 * rem }}
-      />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          marginTop: 7 * rem,
-        }}
-      >
-        <BouncyCheckbox
-          size={18 * rem}
-          fillColor={AppColors.BlueBase}
-          unfillColor="#fff"
-          iconStyle={{ borderColor: AppColors.White }}
-          textStyle={{ fontFamily: "SomethingRegular" }}
-          onPress={() => setTermsCheckBox(!termsCheckBox)}
-          useNativeDriver={true}
-        />
-        <TouchableOpacity>
-          <Text
-            style={{
-              fontFamily: "Delius",
-              textAlign: "center",
-              fontSize: 10 * rem,
-              color: AppColors.White,
-            }}
-          >
-            li e aceito os termos e condições disponiveis nesse link
-          </Text>
-        </TouchableOpacity>
-      </View>
+            <LoginTitleWithSubtitle fontSize={60} />
 
-      <ButtonLight
-        text={"criar conta"}
-        loading={loading}
-        onPress={() => handleSubmit()}
-        style={{ marginTop: 28 * rem, marginBottom: 15 * rem }}
-      />
+            <Input
+              ref={input1}
+              onChangeText={setValueFullName}
+              error={errorFullName}
+              autoCapitalize={"words"}
+              onSubmitEditing={() => {
+                valueFullName == ""
+                  ? setErrorFullName(!errorFullName)
+                  : input2.current.focus();
+              }}
+              placeholder="nome completo"
+              style={{ marginBottom: 6 * rem, marginTop: 38 * rem }}
+            />
+            <Input
+              ref={input2}
+              onChangeText={setValueBirthDate}
+              error={errorBirthDate}
+              keyboardType={"number-pad"}
+              onSubmitEditing={() => {
+                valueBirthDate == ""
+                  ? setErrorBirthDate(!errorBirthDate)
+                  : input3.current.focus();
+              }}
+              placeholder="data de nascimento"
+              style={{ marginVertical: 6 * rem }}
+            />
+            <Input
+              ref={input3}
+              onChangeText={setValueEmail}
+              error={errorEmail}
+              autoCapitalize={"none"}
+              onSubmitEditing={() => {
+                valueEmail == ""
+                  ? setErrorEmail(!errorEmail)
+                  : input4.current.focus();
+              }}
+              placeholder="email"
+              style={{ marginVertical: 6 * rem }}
+            />
+            <Input
+              onChangeText={setValuePass}
+              error={errorPass}
+              ref={input4}
+              placeholder="senha"
+              secureTextEntry
+              onSubmitEditing={() => {
+                valuePass == "" ? setErrorPass(!errorPass) : input5.current.focus();
+              }}
+              style={{ marginVertical: 6 * rem }}
+            />
 
-      
-      {/* ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE
+            <Input
+              onChangeText={setValueRepeatPass}
+              onSubmitEditing={() => {
+                valueRepeatPass == "" ? setErrorRepeatPass(!errorRepeatPass) : {};
+              }}
+              error={errorRepeatPass}
+              ref={input5}
+              placeholder="repetir senha"
+              secureTextEntry
+              style={{ marginVertical: 6 * rem }}
+            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 7 * rem,
+              }}
+            >
+              <BouncyCheckbox
+                size={18 * rem}
+
+                fillColor={AppColors.BlueBase}
+                unfillColor="#fff"
+                iconStyle={{ borderColor: AppColors.White }}
+                textStyle={{ fontFamily: "SomethingRegular" }}
+                onPress={() => {
+                  setTermsCheckBox(state => !state);
+                  Keyboard.dismiss();
+                }}
+                useNativeDriver={true}
+              />
+              <TouchableOpacity>
+                <Text
+                  style={{
+                    fontFamily: "Delius",
+                    textAlign: "center",
+                    fontSize: 10 * rem,
+                    color: AppColors.White,
+                  }}
+                >
+                  li e aceito os termos e condições disponiveis nesse link
+                </Text>
+              </TouchableOpacity>
+            </View>
+
+            <ButtonLight
+              text={"criar conta"}
+              loading={loading}
+              onPress={() => handleSubmit()}
+              style={{ marginTop: 28 * rem, marginBottom: 15 * rem, alignSelf: 'center' }}
+            />
+          </View>
+
+          {/* ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE
       <Text
         style={{
           textAlign: "center",
@@ -311,6 +320,10 @@ function CreateAccount() {
         </TouchableOpacity>
       </View>
       ---------ESTILO COM ICONES PARA LOGIN COM FACEBOOK E GOOGLE */}
+
+
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }

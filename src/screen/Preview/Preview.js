@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { OrangeBase } from "../../assets/AppColors";
 import { useRoute } from "@react-navigation/native";
 import PostItem from "../../components/Post/PostItem";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import moment from "moment";
 import "moment/locale/pt-br";
 import { ButtonOrange } from "../../components/components";

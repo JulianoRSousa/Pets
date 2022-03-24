@@ -3,7 +3,7 @@ import {
   View,
 } from "react-native";
 import api from "../../services/api";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import { OrangeBase } from "../../assets/AppColors";
 import PetItem from "./PetItem";
 

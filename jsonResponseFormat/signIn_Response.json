@@ -1,0 +1,68 @@
+{
+  "signIn_Response": {
+  "__v": "NUMBER",
+  "status": "NUMBER",
+  "auth": "BOOLEAN",
+  "sessionToken": "STRING",
+  "createdAt": "DATE",
+  "user": {
+    "__v": "NUMBER",
+    "userId": "STRING",
+    "userEmail": "STRING",
+    "userUsername": "STRING",
+    "userFullname": "STRING",
+    "userBirthdate": "DATE,",
+    "userProfilePicture": "STRING,",
+    "userPictureUrl": "STRING",
+    "userLocation": {
+      "latitude": "STRING,",
+      "longitude": "STRING"
+    },
+    "userNotificationList": [
+      {
+        "notificationId": "STRING",
+        "notificationTitle": "STRING",
+        "notificationMessage": "STRING",
+        "notificationType": "PETS_NOTIFICATION_ALERT_TYPE",
+        "notificationUrl": "NOTIFICATION_URL"
+      }
+    ],
+    "userTagList": [
+      "STRING"
+    ],
+    "userFollowingsList": [
+      {
+        "userId": "STRING",
+        "userUsername": "STRING",
+        "userFullname": "STRING",
+        "userProfilePictureUrl": "STRING"
+      }
+    ],
+    "userFollowersList": [
+      {
+        "userId": "STRING",
+        "userUsername": "STRING",
+        "userFullname": "STRING",
+        "userProfilePictureUrl": "STRING"
+      }
+    ],
+    "userPetsList": [
+      {
+        "__v": "NUMBER",
+        "petId": "STRING,",
+        "petPicture": "STRING",
+        "petType": "PETS_ANIMAL_TYPE,",
+        "petFullname": "STRING",
+        "petColor": "PETS_ANIMAL_COLOR",
+        "petCoat": "PETS_ANIMAL_COAT",
+        "petBirthdate": "DATE",
+        "isMale": "BOOLEAN",
+        "user": "STRING",
+        "petPictureUrl": "STRING",
+        "petPictures": [
+          "STRING"
+        ]
+      }
+    ]
+  }
+}}

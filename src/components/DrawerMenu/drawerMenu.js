@@ -7,7 +7,7 @@ import FriendsIcon from "../../assets/images/FriendsIcon.svg";
 import NotifyIcon from "../../assets/images/NotifyIcon.svg";
 import SettingsIcon from "../../assets/images/settingsIcon.svg";
 import AboutIcon from "../../assets/images/AboutIcon.svg";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import {
   useNavigation,
   DrawerActions,

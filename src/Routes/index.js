@@ -5,17 +5,17 @@ import IntroSlider from './IntroSlider';
 import { useAuth } from "../hooks/useAuth";
 
 const Routes = () => {
-  const { signed, loading, firstAccess } = useAuth()
+  const { contextSigned, loading, firstAccess } = useAuth()
 
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#333" />
-      </View>
-    )
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size="large" color="#333" />
+  //     </View>
+  //   )
+  // }
 
-  if (!signed) {
+  if (!contextSigned) {
     return <AuthRoutes />
   } else if (signed && firstAccess) {
     return <IntroSlider />

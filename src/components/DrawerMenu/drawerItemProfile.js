@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { rem } from "../components";
 import { GrayDark, RedBase, White } from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 
 function DrawerItemProfile() {
   const { user } = useAuth();

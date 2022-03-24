@@ -8,7 +8,8 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "emulator": "taskkill /F /IM qemu-system-x86_64.exe /T && cd/ && cd Users/Juliano Sousa/AppData/Local/Android/Sdk/emulator && emulator @api32 -gpu angle_indirect"
+    "emulator": "cd/ && cd Users/Juliano Sousa/AppData/Local/Android/Sdk/emulator && emulator @api32 -gpu angle_indirect",
+    "kill-emulator":"taskkill /F /IM qemu-system-x86_64.exe /T"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",

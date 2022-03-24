@@ -16,11 +16,9 @@ export const AuthProvider = ({ children, reload }) => {
 
   useEffect(() => {
     async function loadStorageData() {
-      const storageUser = await AsyncStorage.getItem('@RNAuth:user')
-
-      const storageToken = await AsyncStorage.getItem('@RNAuth:token')
-      const storageMyTeamId = await AsyncStorage.getItem('@RNAuth:myTeamId')
-      const storageFirstAccess = await AsyncStorage.getItem(
+      const storagedUser = await AsyncStorage.getItem('@RNAuth:user')
+      const storagedToken = await AsyncStorage.getItem('@RNAuth:token')
+      const storagedFirstAccess = await AsyncStorage.getItem(
         '@RNAuth:firstAccess',
       )
       const storageEditProfileFirst = await AsyncStorage.getItem(
@@ -28,26 +26,20 @@ export const AuthProvider = ({ children, reload }) => {
       )
       const isAuthored = await AsyncStorage.getItem('@RNAuth:isAuthored')
 
-      if (storageToken) {
-        setMyToken(JSON.parse(storageToken))
+      if (storagedToken) {
+        setMyToken(JSON.parse(storagedToken))
       }
-
-      if (storageEditProfileFirst) {
-        setEditProfileFirst(JSON.parse(storageEditProfileFirst))
+      if (storagedEditProfileFirst) {
+        setEditProfileFirst(JSON.parse(storagedEditProfileFirst))
       }
       if (isAuthored) {
         setIsAuthored(JSON.parse(isAuthored))
       }
-      if (storageUser) {
+      if (storagedUser) {
         setUser(JSON.parse(storageUser))
       }
-
-      if (storageFirstAccess) {
-        setFirstAccess(JSON.parse(storageFirstAccess))
-      }
-
-      if (storageMyTeamId) {
-        setMyTeamId(JSON.parse(storageMyTeamId))
+      if (storagedFirstAccess) {
+        setFirstAccess(JSON.parse(storagedFirstAccess))
       }
 
       setLoading(false)
@@ -56,11 +48,11 @@ export const AuthProvider = ({ children, reload }) => {
     loadStorageData()
   }, [])
 
-  async function signIn({ email, password }) {
+  async function signIn({email, password}) {
     try {
-      const response = await SignInService({ email, password })
+      const response = await SignInService(email, password)
 
-      if (response?.status === 200) {
+      if (response?.status === 201) {
         await AsyncStorage.setItem(
           '@RNAuth:token',
           JSON.stringify(response?.data?.token),
@@ -68,19 +60,15 @@ export const AuthProvider = ({ children, reload }) => {
         setMyToken(response?.data?.token)
 
         setTimeout(async () => {
-
-
-          const { data, status } = api.post(
+          const { data, status } = api(
             "/createauth",
             {},
             {
-              headers: {
-                Authorization: `Bearer ${myToken}`
-              },
+                token: `Bearer ${myToken}`
             }
           )
 
-          if (status === 200) {
+          if (status === 201) {
             await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(data))
             setUser(data)
           }
@@ -92,66 +80,66 @@ export const AuthProvider = ({ children, reload }) => {
     }
   }
 
-  async function signUp(data) {
-    try {
-      return await SignUpService(data)
-    } catch (err) {
-      console.tron('[CONTEXT SignUpService]', err)
-      return err
-    }
-  }
+  // async function signUp(data) {
+  //   try {
+  //     return await SignUpService(data)
+  //   } catch (err) {
+  //     console.tron('[CONTEXT SignUpService]', err)
+  //     return err
+  //   }
+  // }
 
-  function signOut() {
-    AsyncStorage.removeItem('@RNAuth:user')
-      .then(() => {
-        setUser(null)
-      })
-      .catch((err) => console.tron('[CONTEXT]', err))
+  // function signOut() {
+  //   AsyncStorage.removeItem('@RNAuth:user')
+  //     .then(() => {
+  //       setUser(null)
+  //     })
+  //     .catch((err) => console.tron('[CONTEXT]', err))
 
-    AsyncStorage.removeItem('@RNAuth:myTeamId')
-      .then(() => {
-        setMyTeamId(null)
-      })
-      .catch((err) => console.tron('[CONTEXT]', err))
-  }
+  //   AsyncStorage.removeItem('@RNAuth:myTeamId')
+  //     .then(() => {
+  //       setMyTeamId(null)
+  //     })
+  //     .catch((err) => console.tron('[CONTEXT]', err))
+  // }
 
-  async function accessFirst() {
-    setFirstAccess(false)
+  // async function accessFirst() {
+  //   setFirstAccess(false)
 
-    await AsyncStorage.setItem('@RNAuth:firstAccess', JSON.stringify(false))
-  }
+  //   await AsyncStorage.setItem('@RNAuth:firstAccess', JSON.stringify(false))
+  // }
 
-  async function profileFirstEdit() {
-    setEditProfileFirst(true)
-    await AsyncStorage.setItem(
-      '@RNAuth:storageEditProfileFirst',
-      JSON.stringify(true),
-    )
-  }
+  // async function profileFirstEdit() {
+  //   setEditProfileFirst(true)
+  //   await AsyncStorage.setItem(
+  //     '@RNAuth:storageEditProfileFirst',
+  //     JSON.stringify(true),
+  //   )
+  // }
 
-  async function isAuthoredFinger(value = true) {
-    setIsAuthored(value)
-    await AsyncStorage.setItem('@RNAuth:isAuthored', JSON.stringify(value))
-  }
+  // async function isAuthoredFinger(value = true) {
+  //   setIsAuthored(value)
+  //   await AsyncStorage.setItem('@RNAuth:isAuthored', JSON.stringify(value))
+  // }
 
-  async function setTeamId(teamId) {
-    await AsyncStorage.setItem(
-      '@RNAuth:myTeamId',
-      JSON.stringify({ team_id: teamId }),
-    )
+  // async function setTeamId(teamId) {
+  //   await AsyncStorage.setItem(
+  //     '@RNAuth:myTeamId',
+  //     JSON.stringify({ team_id: teamId }),
+  //   )
 
-    setMyTeamId({ team_id: teamId })
-  }
+  //   setMyTeamId({ team_id: teamId })
+  // }
 
-  async function reload() {
-    const storageUser = await AsyncStorage.getItem('@RNAuth:user')
+  // async function reload() {
+  //   const storageUser = await AsyncStorage.getItem('@RNAuth:user')
 
-    if (storageUser) {
-      setUser(JSON.parse(storageUser))
-    }
+  //   if (storageUser) {
+  //     setUser(JSON.parse(storageUser))
+  //   }
 
-    await loadStorageData()
-  }
+  //   await loadStorageData()
+  // }
 
   return (
     <AuthContext.Provider
@@ -161,17 +149,17 @@ export const AuthProvider = ({ children, reload }) => {
         showMyToken: myToken,
         showMyTeamId: myTeamId,
         signIn,
-        signUp,
-        signOut,
-        loading,
-        firstAccess,
-        accessFirst,
-        editProfileFirst,
-        profileFirstEdit,
-        isAuthoredFinger,
-        isAuthored,
-        setTeamId,
-        reload,
+        // signUp,
+        // signOut,
+        // loading,[]
+        // firstAccess,
+        // accessFirst,
+        // editProfileFirst,
+        // profileFirstEdit,
+        // isAuthoredFinger,
+        // isAuthored,
+        // setTeamId,
+        // reload,
       }}
     >
       {children}

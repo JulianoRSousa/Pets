@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-function Adoption(){
+function Adoption() {
   return (
     <View>
       <Text>Adoption</Text>

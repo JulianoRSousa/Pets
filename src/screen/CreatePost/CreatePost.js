@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { GrayLight, OrangeBase, White } from "../../assets/AppColors";
 import { ButtonOrange, rem } from "../../components/components";
 // import LocationIcon from "../../assets/images/LocationIcon.svg";
-import { useAuth } from "../../hooks/Auth";
+import { useAuth } from "../../hooks/useAuth";
 import {
   PickerState,
   PickerPet,

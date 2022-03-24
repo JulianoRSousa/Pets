@@ -24,8 +24,6 @@ const MaskView = styled.View`
   width: ${300 * rem}px;
   align-items: center;
   border-radius: ${15 * rem}px;
-  shadow-color: #000;
-  elevation: 2;
 `;
 const MaskInput = styled.TextInput`
   text-align: start;
@@ -47,7 +45,6 @@ export const Input = forwardRef(
       onSubmitEditing,
       autoCapitalize,
       keyboardType,
-      error,
       animation,
       value,
       onChangeText,
@@ -57,12 +54,15 @@ export const Input = forwardRef(
       autoCorrect,
       spellCheck,
       autoComplete,
-      onEndEditing
+      onEndEditing,
+      error
     },
     ref
   ) => {
     const animatedInput = useRef();
     const [firstRender, setFirstRender] = useState(true);
+
+
 
     useEffect(() => {
       firstRender
