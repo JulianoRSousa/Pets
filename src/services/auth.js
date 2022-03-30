@@ -1,4 +1,5 @@
 import api from "./api";
+import { store } from "../redux/Store";
 
 export async function SignInService(email, pass) {
   const response = await api({
@@ -9,27 +10,16 @@ export async function SignInService(email, pass) {
       pass,
     }
   })
-  const agora = new Date()
-  console.log('Date here: ', agora+'')
-  console.log('response here: ', response)
-  return response
-  try {
-    const response = await api({
-      method: 'POST', url: '/createauth', apiData: {}, headers: {
-        email,
-        pass,
-      }
-    })
-    return response
-  } catch (err) {
-    console.log('error SignInService: ', err)
-    return err
+  if (response.status == 201) {
+    store.dispatch({ type: 'SET_SIGNIN_INFO', payload: { response } })
+  } else {
+    console.log('Error on auth, line 16')
   }
+  return response
 }
 
 export async function SignUpService(name, email, phone, pass, invite) {
   try {
-
     const response = await api({
       method: 'POST', url: '/createaccount', apiData: {}, headers: {
         name,
@@ -37,7 +27,6 @@ export async function SignUpService(name, email, phone, pass, invite) {
         pass: password,
         phone,
         pass,
-        invite
       }
     })
     return response
@@ -46,4 +35,17 @@ export async function SignUpService(name, email, phone, pass, invite) {
 
     return err
   }
+}
+
+export async function SignOutService(token) {
+  console.log('token::: ', token)
+  const response = await api({
+    method: 'DELETE', url: '/deleteauth', apiData: {}, headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      token
+    }
+  })
+  store.dispatch({ type: 'SET_SIGNOUT_INFO', payload: {} })
+  return response
 }

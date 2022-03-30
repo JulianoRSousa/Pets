@@ -11,12 +11,13 @@
     "userEmail": "STRING",
     "userUsername": "STRING",
     "userFullname": "STRING",
-    "userBirthdate": "DATE,",
-    "userProfilePicture": "STRING,",
+    "userBirthdate": "DATE",
+    "userProfilePicture": "STRING",
     "userPictureUrl": "STRING",
     "userLocation": {
       "latitude": "STRING,",
-      "longitude": "STRING"
+      "longitude": "STRING",
+      "cityCode": "STRING"
     },
     "userNotificationList": [
       {

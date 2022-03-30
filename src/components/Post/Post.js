@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
 import { FlatList, ActivityIndicator } from "react-native";
 import api from "../../services/api";
-import AsyncStorage from "@react-native-community/async-storage";
 import Post from "./PostItem";
 import { useCallback } from "react";
 import { rem } from "../components";
 
-function PostPage() {
+function PostPage(props) {
   const [isMounted, setIsMounted] = useState(false);
   const [page, setPage] = useState(0);
   const [feed, setFeed] = useState([]);
@@ -24,11 +24,10 @@ function PostPage() {
 
   async function loadPage(pageNumber = page, shouldRefresh = false) {
     if (lastPage && pageNumber == lastPage) return;
-    setLoading(true);
     try {
       const response = await api.get("/getPage", {
         headers: {
-          token: await AsyncStorage.getItem("token"),
+          token: props.sessionToken,
           page: pageNumber,
         },
       });
@@ -36,17 +35,15 @@ function PostPage() {
       setLastPage(response.headers.pages);
       setFeed(shouldRefresh ? dataInfo : [...feed, ...dataInfo]);
       setPage(pageNumber + 1);
-      setLoading(false);
     } catch (error) {
       console.error(error);
-      setLoading(false);
     }
   }
 
   function showLoad() {
     return (
       <>
-        <ActivityIndicator size="large" color="#202020" style={{backgroundColor: 'white', alignSelf: 'center', borderRadius: 100, padding:5}} />
+        <ActivityIndicator size="large" color="#202020" style={{ backgroundColor: 'white', alignSelf: 'center', borderRadius: 100, padding: 5 }} />
       </>
     );
   }
@@ -59,7 +56,7 @@ function PostPage() {
 
   return (
     <FlatList
-      windowSize={2160*rem}
+      windowSize={2160 * rem}
       data={feed}
       ref={ref_flatlist}
       onEndReached={() => loadPage()}
@@ -87,4 +84,12 @@ function PostPage() {
     />
   );
 }
-export default PostPage;
+
+const mapStateToProps = (state) => {
+  return {
+    sessionToken: state.userReducer.sessionToken
+  }
+
+}
+
+export default connect(mapStateToProps, null)(PostPage)

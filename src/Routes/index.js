@@ -3,23 +3,22 @@ import AuthRoutes from "./Auth.routes";
 import AppRoutes from "./App.routes";
 import IntroSlider from './IntroSlider';
 import { useAuth } from "../hooks/useAuth";
+import { connect } from "react-redux";
 
-const Routes = () => {
-  const { contextSigned, loading, firstAccess } = useAuth()
+const Routes = (props) => {
 
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <ActivityIndicator size="large" color="#333" />
-  //     </View>
-  //   )
-  // }
-
-  if (!contextSigned) {
+  if (!props.auth) {
     return <AuthRoutes />
-  } else if (signed && firstAccess) {
+  } else if (props.auth && props.firstAccess) {
     return <IntroSlider />
   }
   return <AppRoutes />
 }
-export default Routes;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.userReducer.auth,
+    firstAccess: state.userReducer.firstAccess
+  }
+}
+
+export default connect(mapStateToProps, null)(Routes)

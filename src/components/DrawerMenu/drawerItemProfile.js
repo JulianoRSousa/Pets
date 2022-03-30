@@ -1,13 +1,12 @@
 import React from "react";
 import { View, Text } from "react-native";
+import { connect } from "react-redux";
 import { rem } from "../components";
 import { GrayDark, RedBase, White } from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
-import { useAuth } from "../../hooks/useAuth";
 
-function DrawerItemProfile() {
-  const { user } = useAuth();
-  return user ? (
+const DrawerItemProfile = (props) => {
+  return props.userPictureUrl ? (
     <View
       style={{
         height: 280 * rem,
@@ -24,14 +23,14 @@ function DrawerItemProfile() {
           marginTop: 9 * rem,
         }}
       >
-        {user ? (
+        {props.userPictureUrl ? (
           <FastImage
             style={{
               height: 140 * rem,
               width: 140 * rem,
               borderRadius: 85 * rem,
             }}
-            source={{ uri: user.profilePictureUrl }}
+            source={{ uri: props.userPictureUrl }}
           />
         ) : (
           <></>
@@ -47,12 +46,12 @@ function DrawerItemProfile() {
           color: GrayDark,
         }}
       >
-        {user.firstname + " " + user.lastname || ""}
+        {props.userFullname ?? ""}
       </Text>
       <Text
         style={{ color: GrayDark, fontFamily: "Delius", fontSize: 10 * rem }}
       >
-        @{user.username || ""}
+        @{props.userUsername || ""}
       </Text>
       <View style={{ flexDirection: "row" }}>
         <View
@@ -72,9 +71,9 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.postCount || "0"}
+            {props.user?.postCount || "0"}
           </Text>
-          {user.postCount != 1 ? (
+          {props.user?.postCount != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -117,9 +116,9 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.followerCount || "0"}
+            {props.user?.followerCount || "0"}
           </Text>
-          {user.followerCount != 1 ? (
+          {props.user?.followerCount != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -158,9 +157,9 @@ function DrawerItemProfile() {
               textAlignVertical: "center",
             }}
           >
-            {user.petCount || "0"}
+            {props.user?.petCount || "0"}
           </Text>
-          {user.petCount != 1 ? (
+          {props.user?.petCount != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -189,4 +188,30 @@ function DrawerItemProfile() {
   );
 }
 
-export default DrawerItemProfile;
+const mapStateToProps = (state) => {
+  return {
+    loading: state.userReducer.loading,
+    firstAccess: state.userReducer.firstAccess,
+    auth: state.userReducer.auth,
+    user: '',
+    sessionToken: state.userReducer.sessionToken,
+    userId: state.userReducer.userId,
+    userEmail: state.userReducer.userEmail,
+    userUsername: state.userReducer.userUsername,
+    userFullname: state.userReducer.userFullname,
+    userBirthdate: state.userReducer.userBirthdate,
+    userProfilePicture: state.userReducer.userProfilePicture,
+    userPictureUrl: state.userReducer.userPictureUrl,
+    userLocation: {
+      latitude: state.userReducer.userLocation.latitude,
+      longitude: state.userReducer.userLocation.longitude
+    }
+  }
+
+}
+
+
+
+export default connect(mapStateToProps, null)(DrawerItemProfile)
+
+

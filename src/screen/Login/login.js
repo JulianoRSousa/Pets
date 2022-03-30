@@ -9,41 +9,42 @@ import {
   Keyboard,
   View
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+
+import { connect } from "react-redux";
+
 import { rem, ButtonLight, Input, } from "../../components/components";
 import * as AppColors from "../../assets/AppColors";
 import { useAuth } from "../../hooks/useAuth";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { LoginTitle } from "../../components/HeadersTitle/LoginTitle";
 
-const Login = ({ navigation }) => {
+const Login = (props) => {
+  const navigation = useNavigation();
   const input1 = useRef();
   const input2 = useRef();
   const [errorEmail, setErrorEmail] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [errorPass, setErrorPass] = useState("");
   const [valuePass, setValuePass] = useState("");
-  const [e, setE] = useState({})
-  const [isLoadingPage, setIsLoadingPage] = useState(false)
-  const { loading, signIn } = useAuth();
+  const { signIn } = useAuth();
 
 
   async function handleSubmit() {
+    props.setLoading(true)
     try {
-
       const apiResponse = await signIn(valueEmail, valuePass)
-      console.log('apiResponse here: ', apiResponse)
 
-      console.log('Response here: ', apiResponse)
       if (apiResponse.name == 'Error') {
         setIsLoadingPage(false)
         Alert.alert('Usuário ou senha invalidos')
       } else if (apiResponse.status == 201) {
-        console.log('entrar')
       }
     } catch (err) {
       console.log('Erro no login: ', err.message)
 
     }
+    props.setLoading(false)
   }
 
   return (
@@ -122,7 +123,7 @@ const Login = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
             <ButtonLight
-              loading={loading}
+              loading={props.loading}
               text={"entrar"}
               onPress={() => handleSubmit()}
               style={{ marginTop: 13 * rem }}
@@ -175,5 +176,15 @@ const Login = ({ navigation }) => {
 
   );
 }
+const mapStateToProps = (state) => {
+  return {
+    loading: state.userReducer.loading
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setLoading: (loading) => dispatch({ type: 'SET_LOADING', payload: { loading } })
+  }
+}
 
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

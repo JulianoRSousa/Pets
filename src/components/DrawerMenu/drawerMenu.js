@@ -12,8 +12,9 @@ import {
   useNavigation,
   DrawerActions,
 } from "@react-navigation/native";
+import { connect } from "react-redux";
 
-function DrawerMenu(props) {
+const DrawerMenu = (props) => {
   const { signOut } = useAuth();
   const navigation = useNavigation();
   return (
@@ -117,8 +118,8 @@ function DrawerMenu(props) {
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
-          signOut();
           navigation.dispatch(DrawerActions.closeDrawer());
+          signOut(props.sessionToken);
         }}
         style={{
           height: 52 * rem,
@@ -142,5 +143,12 @@ function DrawerMenu(props) {
   );
 }
 
-export default DrawerMenu;
+const mapStateToProps = (state) => {
+  return {
+    sessionToken: state.userReducer.sessionToken
+  }
+
+}
+
+export default connect(mapStateToProps, null)(DrawerMenu)
 7;
