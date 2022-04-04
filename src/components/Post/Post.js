@@ -31,6 +31,7 @@ function PostPage(props) {
           page: pageNumber,
         },
       });
+      console.log('response getpage: ', response)
       const dataInfo = response.data;
       setLastPage(response.headers.pages);
       setFeed(shouldRefresh ? dataInfo : [...feed, ...dataInfo]);
@@ -68,15 +69,16 @@ function PostPage(props) {
       renderItem={useCallback(
         ({ item }) => (
           <Post
-            fullName={item.user.firstName}
-            username={item.user.username}
-            postImage={{ uri: item.picture_url }}
-            petName={item.pet.firstName}
+            item={item}
+            status={item.status}
             description={item.description}
-            userImage={{ uri: item.user.picture_url }}
-            date={item.postDate}
-            state={item.state}
+            date={item.createdAt}
+            postImage={{ uri: item.pictureUrl }}
             starStatus={false}
+            username={item.user.username}
+            fullname={item.user.fullname}
+            userImage={{ uri: item.user.pictureUrl }}
+            petName={item.pet.fullname}
           />
         ),
         []

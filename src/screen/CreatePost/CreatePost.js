@@ -4,26 +4,22 @@ import { View, Text, TouchableOpacity, TextInput } from "react-native";
 import { GrayLight, OrangeBase, White } from "../../assets/AppColors";
 import { ButtonOrange, rem } from "../../components/components";
 // import LocationIcon from "../../assets/images/LocationIcon.svg";
-import { useAuth } from "../../hooks/useAuth";
 import {
   PickerState,
-  PickerPet,
   PickerImage,
 } from "../../components/styled/picker";
+import PickerPet from "../../components/Picker/PickerPet";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import FormData from "form-data";
-import createPostService from "../../services/createPost.Service";
+import { connect } from "react-redux";
 
-function CreatePost() {
-  const { user } = useAuth();
+function CreatePost(props) {
   const navigation = useNavigation();
 
   const [petId, setPetId] = useState("");
   const [petState, setPetState] = useState(1);
   const [petType, setPetType] = useState(0);
   const [petName, setPetName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [petFullname, setPetFullname] = useState('')
   const [picture, setPicture] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [description, setDescription] = useState("");
@@ -31,29 +27,29 @@ function CreatePost() {
 
   const ref_description = useRef();
 
-  async function sendPost() {
-    await createPostService(petId, imageFile, petState, description);
-  }
+  // async function sendPost() {
+  //   await createPostService(petId, imageFile, petState, description);
+  // }
 
-  function alertPost() {
-    return (
-      <View>
-        {Alert.alert(
-          "Parabéns",
-          "Post criado com sucesso",
-          [
-            {
-              text: "Ok",
-              onPress: () => {
-                navigation.navigate("Feed");
-              },
-            },
-          ],
-          { cancelable: false }
-        )}
-      </View>
-    );
-  }
+  // function alertPost() {
+  //   return (
+  //     <View>
+  //       {Alert.alert(
+  //         "Parabéns",
+  //         "Post criado com sucesso",
+  //         [
+  //           {
+  //             text: "Ok",
+  //             onPress: () => {
+  //               navigation.navigate("Feed");
+  //             },
+  //           },
+  //         ],
+  //         { cancelable: false }
+  //       )}
+  //     </View>
+  //   );
+  // }
 
   return (
     <View
@@ -76,10 +72,8 @@ function CreatePost() {
 
         <PickerPet
           petId={setPetId}
-          petName={setPetName}
-          firstName={setFirstName}
+          petFullname={setPetFullname}
           petPicture={setPicture}
-          lastName={setLastName}
           petType={setPetType}
           petPictureUrl={setPictureUrl}
         />
@@ -114,8 +108,8 @@ function CreatePost() {
         </Text>
 
         <TextInput
-          value={petName}
-          onChangeText={setPetName}
+          value={petFullname}
+          onChangeText={setPetFullname}
           placeholder={"Informe o nome do pet"}
           onSubmitEditing={() => ref_description.current.focus()}
           style={{
@@ -181,25 +175,27 @@ function CreatePost() {
       <ButtonOrange
         style={{ alignSelf: "center", elevation: 3, marginVertical: 4 * rem }}
         onPress={() => {
-          console.log("PetId: ", petId), console.log("ImageFile: ", imageFile);
-          navigation.navigate("Preview", {
-            postInfo: {
-              petId,
-              petName,
-              firstName,
-              lastName,
-              petType,
-              pictureUrl,
-              petState,
-              pictureUrl,
-              description,
-              picture: imageFile ? imageFile : null,
-            },
-          });
+          const postInfo = {
+            petId,
+            petName,
+            petFullname,
+            petType,
+            petState,
+            pictureUrl,
+            description,
+            picture: imageFile ? imageFile : null,
+          }
+          props.setCreatePostInfo(postInfo)
+          navigation.navigate("Preview");
         }}
         text={"Visualizar"}
       />
     </View>
   );
 }
-export default CreatePost;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setCreatePostInfo: (createPostInfo) => dispatch({ type: 'SET_CREATE_POST_INFO', payload: { createPostInfo } })
+  }
+}
+export default connect(null, mapDispatchToProps)(CreatePost)

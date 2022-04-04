@@ -193,21 +193,22 @@ const mapStateToProps = (state) => {
     loading: state.userReducer.loading,
     firstAccess: state.userReducer.firstAccess,
     auth: state.userReducer.auth,
-    user: '',
     sessionToken: state.userReducer.sessionToken,
-    userId: state.userReducer.userId,
-    userEmail: state.userReducer.userEmail,
-    userUsername: state.userReducer.userUsername,
-    userFullname: state.userReducer.userFullname,
-    userBirthdate: state.userReducer.userBirthdate,
-    userProfilePicture: state.userReducer.userProfilePicture,
-    userPictureUrl: state.userReducer.userPictureUrl,
-    userLocation: {
-      latitude: state.userReducer.userLocation.latitude,
-      longitude: state.userReducer.userLocation.longitude
+    user: {
+      _id: state.userReducer.user._id,
+      email: state.userReducer.user.email,
+      username: state.userReducer.user.username,
+      fullname: state.userReducer.user.fullname,
+      birthdate: state.userReducer.user.birthdate,
+      picture: state.userReducer.user.picture,
+      pictureUrl: state.userReducer.user.pictureUrl,
+      location: {
+        latitude: state.userReducer.user.location.latitude,
+        longitude: state.userReducer.user.location.longitude,
+        cityCode: state.userReducer.user.location.cityCode
+      }
     }
   }
-
 }
 
 

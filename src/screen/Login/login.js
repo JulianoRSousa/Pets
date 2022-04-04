@@ -34,15 +34,13 @@ const Login = (props) => {
     props.setLoading(true)
     try {
       const apiResponse = await signIn(valueEmail, valuePass)
-
-      if (apiResponse.name == 'Error') {
-        setIsLoadingPage(false)
+      if (apiResponse.status == 401) {
+        props.setLoading(false)
         Alert.alert('Usuário ou senha invalidos')
       } else if (apiResponse.status == 201) {
       }
     } catch (err) {
       console.log('Erro no login: ', err.message)
-
     }
     props.setLoading(false)
   }

@@ -27,8 +27,9 @@ function CreateAccount() {
   const input5 = useRef();
   const [errorFullName, setErrorFullName] = useState("");
   const [valueFullName, setValueFullName] = useState("");
-  const [errorBirthDate, setErrorBirthDate] = useState("");
-  const [valueBirthDate, setValueBirthDate] = useState("");
+  const [valueGender, setValueGender] = useState("");
+  const [errorBirthdate, setErrorBirthdate] = useState("");
+  const [valueBirthdate, setValueBirthdate] = useState("");
   const [errorEmail, setErrorEmail] = useState("");
   const [valueEmail, setValueEmail] = useState("");
   const [errorPass, setErrorPass] = useState("");
@@ -38,7 +39,7 @@ function CreateAccount() {
   const [valueLatitude, setValueLatitude] = useState("1234");
   const [valueLongitude, setValueLongitude] = useState("1234");
   const [termsCheckBox, setTermsCheckBox] = useState(false);
-  const { signIn } = useAuth();
+  const { signUp } = useAuth();
   const [loading, setLoading] = useState(false);
 
 
@@ -49,7 +50,7 @@ function CreateAccount() {
 
   async function handleSubmit() {
     if (valueFullName != "") {
-      if (valueBirthDate != '') {
+      if (valueBirthdate != '') {
         if (valueEmail != "") {
           if (valuePass == valueRepeatPass) {
             if (String(valuePass).length > 5) {
@@ -61,57 +62,28 @@ function CreateAccount() {
                   { text: "Entendi", onPress: () => setTermsCheckBox(false) }]
                 );
 
-                // setModalTittle('Termos e condições');
-                // setModalMessage('Para criar uma conta é necessario aceitar os termos e condições');
-                // setModalState(true);
               } else {
                 try {
-                  // await callLocation()
-                  setLoading(true);
-                  await api
-                    .post(
-                      "/createLogin",
-                      {},
-                      {
-                        headers: {
-                          email: valueEmail,
-                          fullname: valueFullName,
-                          birthDate: valueBirthDate,
-                          pass: valuePass,
-                          latitude: valueLatitude,
-                          longitude: valueLongitude,
-                        },
-                      }
-                    )
-                    .then(async (Res) => {
-                      setLoading(false);
+                 await signUp(valueEmail, valuePass, valueFullName, valueBirthdate)
+                    .then((Res) => {
                       if (Res.status == 201) {
                         Alert.alert("Deu tudo certo!", "Sua conta foi criada com sucesso!", [
-                          { text: "OK", onPress: () => handleSignIn() },
+                          { text: "OK", onPress: () => { } },
                         ]);
                         return;
                       } else if (Res.status == 202) {
                         Alert.alert(
                           "Email invalido",
-                          "Este email já está cadastrado!"
+                          "Este email já está cadastrado",
+                          [
+                            { text: "Recuperar senha", onPress: () => { } },
+                            { text: "Tentar Novamente", onPress: () => { } },
+                          ]
                         );
                       }
                     });
                 } catch (error) {
-                  setLoading(false);
-                  console.log(error);
-                  if (error.message == "Request failed with status code 401") {
-                    Alert.alert(
-                      "Email invalido",
-                      "Este email já está cadastrado",
-                      [
-                        { text: "Recuperar senha", onPress: () => { } },
-                        { text: "Tentar Novamente", onPress: () => { } },
-                      ]
-                    );
-                  }
-                  // Alert.alert("Error", error.message);
-                  console.log("errinho:  ", error);
+                  console.log({ Error: error.message });
                 }
               }
             } else {
@@ -119,10 +91,6 @@ function CreateAccount() {
                 "Senha muito curta",
                 "Informe uma senha com pelo menos 6 digitos"
               );
-
-              // setModalMessage('Informe uma senha com pelo menos 6 digitos');
-              // setModalTittle('Senha muito curta');
-              // setModalState(true);
             }
           } else {
             Alert.alert("Algo está errado!", "Confira se digitou suas senhas corretamente");
@@ -145,10 +113,6 @@ function CreateAccount() {
     }
   }
 
-  function handleSignIn() {
-    signIn(valueEmail, valuePass);
-    // Geolocation.clearWatch(watchID);
-  }
 
   return (
     <SafeAreaView
@@ -193,12 +157,12 @@ function CreateAccount() {
             />
             <Input
               ref={input2}
-              onChangeText={setValueBirthDate}
-              error={errorBirthDate}
+              onChangeText={setValueBirthdate}
+              error={errorBirthdate}
               keyboardType={"number-pad"}
               onSubmitEditing={() => {
-                valueBirthDate == ""
-                  ? setErrorBirthDate(!errorBirthDate)
+                valueBirthdate == ""
+                  ? setErrorBirthdate(!errorBirthdate)
                   : input3.current.focus();
               }}
               placeholder="data de nascimento"

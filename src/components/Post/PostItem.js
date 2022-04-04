@@ -8,17 +8,20 @@ import CommentIcon from "../../assets/images/CommentIcon.svg";
 import ShareIcon from "../../assets/images/ShareIcon.svg";
 import FollowIcon from "../../assets/images/FollowIcon.svg";
 import { rem } from "../components";
+import moment from "moment";
 
 function Post(props) {
   const myPost = props.myPost == false ? true : false;
   const userImage = props.userImage;
-  const fullName = props.fullName;
+  const fullname = props.fullname;
   const postImage = props.postImage
     ? props.postImage
     : require("../../assets/images/googleIcon.png");
-  const petName = props.petName ? props.petName : "Sem nome";
+  const petName = props.petName ?? "Sem nome";
+  const username = props.username ?? "Sem nome";
+  const dateNew = moment(props.date).utc().format("DD MMMM YYYY");
   const [starState, setStarState] = useState(props.starStatus || false);
-
+  console.log('item => ', props.item)
   return (
     <View>
       <View
@@ -50,8 +53,8 @@ function Post(props) {
                 }}
               >
                 <FollowIcon
-                  height={16*rem}
-                  width={16*rem}
+                  height={16 * rem}
+                  width={16 * rem}
                 />
               </TouchableOpacity>
             ) : (
@@ -79,15 +82,16 @@ function Post(props) {
                     fontSize: 17 * rem,
                   }}
                 >
-                  {fullName}
+                  {fullname}
                 </Text>
                 <Text
                   style={{
                     fontFamily: "Delius",
                     fontSize: 8 * rem,
+                    color: 'red'
                   }}
                 >
-                  @{props.username}
+                  @{username}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -174,7 +178,7 @@ function Post(props) {
                   fontFamily: "Quicksand-Bold",
                 }}
               >
-                {props.date}
+                {dateNew}
               </Text>
               <View
                 style={{
@@ -193,7 +197,7 @@ function Post(props) {
                     marginHorizontal: 6 * rem,
                   }}
                 >
-                  {props.state == 1 ? "perdido" : "encontrado"}
+                  {props.status == 1 ? "perdido" : "encontrado"}
                 </Text>
               </View>
             </View>

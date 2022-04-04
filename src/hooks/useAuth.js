@@ -13,30 +13,28 @@ function AuthProvider({ children }, props) {
   const [contextSigned, setContextSigned] = useState(null);
 
 
-  async function signIn(email, pass) {
-    setLoading(true);
-    try {
-      const signinResponse = await auth.SignInService(email, pass);
-      return signinResponse;
-    } catch (error) {
-      console.log(error);
-      if (error.auth) {
-        setLoading(false);
-        return null;
-      }
-      setLoading(false);
-      return error;
-    }
+  async function signIn(email, password) {
+    const signinResponse = await auth.SignInService(email, password);
+    return signinResponse;
+  }
+  async function signUp(email, password, fullname, birthdate) {
+    const signupResponse = await auth.SignUpService(email, password, fullname, birthdate);
+    return signupResponse;
+  }
+  async function createPost(petId, file, status, description, token) {
+    const createPostResponse = await auth.CreatePost(petId, file, status, description, token);
+    return createPostResponse
   }
 
 
   async function signOut(token) {
-    await auth.SignOutService(token);
+    const signoutResponse = await auth.SignOutService(token);
+    return signoutResponse;
   }
 
   return (
     <AuthContext.Provider
-      value={{ contextSigned, contextUser, contextToken, loading, signIn, signOut }}
+      value={{ contextSigned, contextUser, contextToken, loading, signIn, signOut, signUp, createPost }}
     >
       {children}
     </AuthContext.Provider>
