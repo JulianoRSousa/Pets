@@ -13,6 +13,8 @@ const initialState = {
         birthdate: '',
         picture: '',
         pictureUrl: '',
+        postList: [],
+        petList: [],
         location: {
             latitude: '',
             longitude: ''
@@ -46,6 +48,8 @@ export default (state = initialState, action) => {
                     birthdate: '',
                     picture: '',
                     pictureUrl: '',
+                    postList: [],
+                    petList: [],
                     location: {
                         latitude: '',
                         longitude: '',
@@ -70,6 +74,8 @@ export default (state = initialState, action) => {
                     birthdate: action.payload.response.data.user?.birthdate,
                     picture: action.payload.response.data.user?.picture,
                     pictureUrl: action.payload.response.data.user?.pictureUrl,
+                    postList: action.payload.response.data.user?.postList,
+                    petList: action.payload.response.data.user?.petList,
                     location: {
                         latitude: action.payload.response.data.user?.location?.latitude,
                         longitude: action.payload.response.data.user?.location?.longitude,
@@ -90,6 +96,8 @@ export default (state = initialState, action) => {
                     birthdate: action.payload.user.birthdate,
                     picture: action.payload.user.picture,
                     pictureUrl: action.payload.user.pictureUrl,
+                    postList: action.payload.user.postList,
+                    petList: action.payload.user.petList,
                     location: {
                         latitude: action.payload.user.location.latitude,
                         longitude: action.payload.user.location.longitude,

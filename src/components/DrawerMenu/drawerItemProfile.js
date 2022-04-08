@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text } from "react-native";
 import { connect } from "react-redux";
 import { rem } from "../components";
@@ -6,7 +6,8 @@ import { GrayDark, RedBase, White } from "../../assets/AppColors";
 import FastImage from "react-native-fast-image";
 
 const DrawerItemProfile = (props) => {
-  return props.userPictureUrl ? (
+  const [postcount, setPostCount] = useState(props.user.postList?.length)
+  return props.user.pictureUrl ? (
     <View
       style={{
         height: 280 * rem,
@@ -23,14 +24,14 @@ const DrawerItemProfile = (props) => {
           marginTop: 9 * rem,
         }}
       >
-        {props.userPictureUrl ? (
+        {props.user.pictureUrl ? (
           <FastImage
             style={{
               height: 140 * rem,
               width: 140 * rem,
               borderRadius: 85 * rem,
             }}
-            source={{ uri: props.userPictureUrl }}
+            source={{ uri: props.user.pictureUrl }}
           />
         ) : (
           <></>
@@ -46,12 +47,12 @@ const DrawerItemProfile = (props) => {
           color: GrayDark,
         }}
       >
-        {props.userFullname ?? ""}
+        {props.user.fullname ?? ""}
       </Text>
       <Text
         style={{ color: GrayDark, fontFamily: "Delius", fontSize: 10 * rem }}
       >
-        @{props.userUsername || ""}
+        @{props.user.username || ""}
       </Text>
       <View style={{ flexDirection: "row" }}>
         <View
@@ -71,9 +72,9 @@ const DrawerItemProfile = (props) => {
               textAlignVertical: "center",
             }}
           >
-            {props.user?.postCount || "0"}
+            {props.user.postList.length || "0"}
           </Text>
-          {props.user?.postCount != 1 ? (
+          {props.user.postList.length != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -157,9 +158,9 @@ const DrawerItemProfile = (props) => {
               textAlignVertical: "center",
             }}
           >
-            {props.user?.petCount || "0"}
+            {props.user.petList.length || "0"}
           </Text>
-          {props.user?.petCount != 1 ? (
+          {props.user.petList.length != 1 ? (
             <Text
               style={{
                 fontFamily: "Delius",
@@ -202,6 +203,8 @@ const mapStateToProps = (state) => {
       birthdate: state.userReducer.user.birthdate,
       picture: state.userReducer.user.picture,
       pictureUrl: state.userReducer.user.pictureUrl,
+      postList: state.userReducer.user.postList,
+      petList: state.userReducer.user.petList,
       location: {
         latitude: state.userReducer.user.location.latitude,
         longitude: state.userReducer.user.location.longitude,
